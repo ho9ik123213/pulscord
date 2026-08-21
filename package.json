@@ -1,0 +1,41 @@
+{
+  "name": "pulscord",
+  "version": "2.0.0",
+  "description": "Реальный мессенджер Pulscord с Node.js сервером",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "client": "http-server . -p 8000",
+    "cap:prepare": "node scripts/prepare-capacitor.js",
+    "cap:sync": "npm run cap:prepare && cap sync",
+    "cap:android": "npm run cap:sync && cap run android",
+    "cap:ios": "npm run cap:sync && cap run ios",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build"
+  },
+  "keywords": [
+    "messenger",
+    "discord",
+    "pulscord",
+    "chat",
+    "real-time"
+  ],
+  "author": "Pulscord Team",
+  "license": "MIT",
+  "dependencies": {
+    "@capacitor/core": "^7.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "selfsigned": "^2.4.1",
+    "socket.io": "^4.5.4"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.4.3",
+    "@capacitor/android": "^7.4.3",
+    "@capacitor/ios": "^7.4.3",
+    "@tauri-apps/cli": "^2.8.2",
+    "nodemon": "^3.0.1",
+    "typescript": "^5.8.3"
+  }
+}

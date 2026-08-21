@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulscord - Реальный Мессенджер</title>
+    <link rel="stylesheet" href="styles.css?v=20260821-17">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+</head>
+<body>
+    <!-- Экран входа/регистрации -->
+    <div id="auth-screen" class="auth-container active">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>🎯 Pulscord</h1>
+                <p>Реальный мессенджер</p>
+            </div>
+
+            <div class="auth-tabs">
+                <button class="tab-btn active" data-tab="login">Вход</button>
+                <button class="tab-btn" data-tab="register">Регистрация</button>
+            </div>
+
+            <!-- Вход -->
+            <div id="login-tab" class="auth-tab active">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label>Имя пользователя:</label>
+                        <input type="text" id="login-username" placeholder="Введите имя..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Пароль:</label>
+                        <input type="password" id="login-password" placeholder="Введите пароль..." required>
+                    </div>
+                    <button type="submit" class="btn-primary">Войти</button>
+                    <div id="login-error" class="error-message"></div>
+                </form>
+            </div>
+
+            <!-- Регистрация -->
+            <div id="register-tab" class="auth-tab">
+                <form id="register-form">
+                    <div class="form-group">
+                        <label>Имя пользователя:</label>
+                        <input type="text" id="register-username" placeholder="Выберите имя..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Пароль:</label>
+                        <input type="password" id="register-password" placeholder="Придумайте пароль..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Подтвердите пароль:</label>
+                        <input type="password" id="register-password2" placeholder="Повторите пароль..." required>
+                    </div>
+                    <button type="submit" class="btn-primary">Зарегистрироваться</button>
+                    <div id="register-error" class="error-message"></div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Основное приложение -->
+    <div id="app-screen" class="app-container hidden">
+        <!-- Боковая панель серверов -->
+        <div class="servers-sidebar">
+            <div class="server-icon active" data-server="home" title="Главная">
+                <i class="fas fa-home"></i>
+            </div>
+            <div class="server-channels-list" id="server-channels-list"></div>
+            <button class="server-create-button" id="server-create-channel-btn" title="Создать канал" type="button">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+
+        <!-- Главная контент область -->
+        <div class="main-container">
+            <!-- Боковая панель с каналами -->
+            <div class="channels-sidebar">
+                <div class="server-header">
+                    <h2 id="server-name">Главная</h2>
+                    <button class="menu-button"><i class="fas fa-chevron-down"></i></button>
+                </div>
+
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Найти или начать разговор...">
+                </div>
+
+                <div class="channels-section">
+                    <div class="section-header">
+                        <span>ГРУППЫ</span>
+                        <button id="add-group-btn" title="Создать группу"><i class="fas fa-user-group"></i></button>
+                    </div>
+                    <div class="channels-list" id="groups-list"></div>
+                </div>
+
+                <div class="channels-section">
+                    <div class="section-header">
+                        <span>ЧАТЫ (<span id="contacts-count">0</span>)</span>
+                        <span class="section-actions"><button id="create-bot-btn" title="Создать бота"><i class="fas fa-robot"></i></button><button id="add-contact-btn" title="Добавить контакт"><i class="fas fa-plus"></i></button></span>
+                    </div>
+                    <div class="contacts-list" id="contacts-list">
+                        <p style="padding: 8px; color: var(--text-muted); font-size: 12px;">Нет контактов</p>
+                    </div>
+                </div>
+
+                <div class="channels-section requests-section">
+                    <div class="section-header">
+                        <span>ЗАЯВКИ <span class="request-badge hidden" id="requests-count">0</span></span>
+                    </div>
+                    <div class="requests-list" id="requests-list">
+                        <p class="sidebar-empty">Нет новых заявок</p>
+                    </div>
+                </div>
+
+                <div class="left-profile-card">
+                    <div class="avatar small" id="left-user-avatar">П</div>
+                    <div class="left-profile-name" id="left-user-username">Пользователь</div>
+                    <button id="left-edit-profile-btn" title="Редактировать профиль"><i class="fas fa-gear"></i></button>
+                </div>
+
+            </div>
+
+            <!-- Основная область чата -->
+            <div class="chat-container">
+                <!-- Заголовок чата -->
+                <div class="chat-header">
+                    <button class="mobile-menu-button" type="button" title="Открыть меню"><i class="fas fa-bars"></i></button>
+                    <div class="header-left">
+                        <i class="fas fa-hashtag chat-icon" id="channel-avatar"></i>
+                        <h1 id="channel-name">общее</h1>
+                        <p id="channel-desc">Основной канал</p>
+                    </div>
+                    <div class="header-right">
+                        <button title="Поиск"><i class="fas fa-search"></i></button>
+                        <button title="Уведомления"><i class="fas fa-bell"></i></button>
+                        <button title="NFT Monkey" id="monkey-nft-btn"><i class="fas fa-paw"></i></button>
+                        <button title="Онлайн пользователи"><i class="fas fa-users"></i></button>
+                        <button title="Пригласить по username" id="invite-channel-btn"><i class="fas fa-user-plus"></i></button>
+                        <button title="Заблокировать пользователя" id="block-user-btn" class="hidden"><i class="fas fa-user-slash"></i></button>
+                        <button title="Настройки группы или канала" id="channel-settings-btn"><i class="fas fa-gear"></i></button>
+                        <button title="Удалить группу или канал" id="channel-delete-btn" class="hidden"><i class="fas fa-trash"></i></button>
+                        <button title="Начать групповой голосовой звонок" id="voice-call-btn"><i class="fas fa-phone"></i></button>
+                        <button title="Начать видеозвонок" id="video-call-btn"><i class="fas fa-video"></i></button>
+                        <button title="Выйти из голосового звонка" id="voice-leave-btn" class="hidden"><i class="fas fa-phone-slash"></i></button>
+                        <button title="Выход" id="logout-btn"><i class="fas fa-sign-out-alt"></i></button>
+                    </div>
+                </div>
+
+                <!-- Область сообщений -->
+                <div class="stories-strip" id="stories-strip">
+                    <button class="story-add-button" id="add-story-btn" type="button" title="Добавить сторис">
+                        <span class="story-add-icon"><i class="fas fa-plus"></i></span><small>Моя сторис</small>
+                    </button>
+                    <input type="file" id="story-upload" accept="image/*" hidden>
+                </div>
+                <div class="messages-area" id="messages-area">
+                    <div style="padding: 40px 20px; text-align: center; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+                        <i style="font-size: 48px; opacity: 0.3; margin-bottom: 16px;" class="fas fa-comments"></i>
+                        <p style="font-size: 16px;">Добро пожаловать в Pulscord!</p>
+                        <p style="font-size: 13px; margin-top: 8px;">Начните разговор. Напишите первое сообщение ниже.</p>
+                    </div>
+                </div>
+
+                <!-- Область ввода сообщения -->
+                <div class="message-input-area hidden">
+                    <div class="recording-indicator hidden" id="recording-indicator">
+                        <span class="recording-dot"></span>
+                        <strong id="recording-label">Запись голосового</strong>
+                        <span id="recording-timer">00:00</span>
+                        <button id="stop-recording-btn" type="button">Отправить</button>
+                    </div>
+                    <div class="recording-video-preview hidden" id="recording-video-preview">
+                        <video id="recording-video" autoplay muted playsinline></video>
+                        <span>Вы видите себя</span>
+                    </div>
+                    <div class="sticker-panel hidden" id="sticker-panel" aria-label="Стикеры">
+                        <button type="button" data-sticker="😀">😀</button>
+                        <button type="button" data-sticker="😂">😂</button>
+                        <button type="button" data-sticker="😍">😍</button>
+                        <button type="button" data-sticker="🔥">🔥</button>
+                        <button type="button" data-sticker="❤️">❤️</button>
+                        <button type="button" data-sticker="👍">👍</button>
+                        <button type="button" data-sticker="🎉">🎉</button>
+                        <button type="button" data-sticker="😎">😎</button>
+                        <button type="button" data-sticker="🤝">🤝</button>
+                        <button type="button" data-sticker="⭐">⭐</button>
+                    </div>
+                    <div class="image-preview hidden" id="image-preview">
+                        <img id="image-preview-image" alt="Предпросмотр фото">
+                        <div class="image-preview-info">
+                            <strong id="image-preview-name">Фото</strong>
+                            <span>Готово к отправке</span>
+                        </div>
+                        <button id="remove-image-btn" type="button" title="Удалить фото"><i class="fas fa-xmark"></i></button>
+                    </div>
+                    <div class="image-preview file-preview hidden" id="file-preview">
+                        <div class="file-preview-icon"><i class="fas fa-file"></i></div>
+                        <div class="image-preview-info">
+                            <strong id="file-preview-name">Файл</strong>
+                            <span id="file-preview-details">Готово к отправке</span>
+                        </div>
+                        <button id="remove-file-btn" type="button" title="Удалить файл"><i class="fas fa-xmark"></i></button>
+                    </div>
+                    <div class="image-preview reply-preview hidden" id="reply-preview">
+                        <div class="file-preview-icon"><i class="fas fa-reply"></i></div>
+                        <div class="image-preview-info">
+                            <strong id="reply-preview-author">Ответ</strong>
+                            <span id="reply-preview-text"></span>
+                        </div>
+                        <button id="remove-reply-btn" type="button" title="Отменить ответ"><i class="fas fa-xmark"></i></button>
+                    </div>
+                    <div class="input-wrapper">
+                        <input type="file" id="image-upload" accept="image/*" hidden>
+                        <input type="file" id="file-upload" hidden>
+                        <button class="input-button" id="voice-message-btn" type="button" title="Записать голосовое"><i class="fas fa-microphone"></i></button>
+                        <button class="input-button" id="video-note-btn" type="button" title="Записать видеокружок"><i class="fas fa-circle-dot"></i></button>
+                        <button class="input-button" id="attach-image-btn" type="button" title="Прикрепить фото"><i class="fas fa-image"></i></button>
+                        <button class="input-button" id="sticker-btn" type="button" title="Стикеры"><i class="fas fa-face-smile"></i></button>
+                        <button class="input-button" id="attach-file-btn" type="button" title="Прикрепить файл"><i class="fas fa-paperclip"></i></button>
+                        <button class="input-button premium-feature-button" id="schedule-message-btn" type="button" title="Отправить позже"><i class="fas fa-clock"></i></button>
+                        <input 
+                            type="text" 
+                            id="message-input" 
+                            class="message-input" 
+                            placeholder="Напишите сообщение или /school help"
+                            disabled
+                            autocomplete="off"
+                        >
+                        <button class="input-button" type="button" title="Отправить"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Боковая панель пользователя -->
+            <div class="user-sidebar">
+                <div class="user-profile">
+                    <div class="large-avatar" id="user-avatar">Т</div>
+                    <h3 id="user-username">Пользователь</h3>
+                    <p class="status-text">🟢 Активен</p>
+                    <div class="user-actions">
+                        <button title="Изменить профиль" id="edit-profile-btn"><i class="fas fa-user-edit"></i></button>
+                    </div>
+                </div>
+
+                <div class="stats-section">
+                    <h4>Статистика</h4>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <span>📨 Сообщений:</span>
+                            <strong id="msg-count">0</strong>
+                        </div>
+                        <div class="stat-item">
+                            <span>👥 Онлайн:</span>
+                            <strong id="online-stat">0</strong>
+                        </div>
+                        <div class="stat-item">
+                            <span>⏰ Время:</span>
+                            <strong id="time-stat">00:00</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="premium-panel">
+                    <div class="premium-title"><i class="fas fa-star"></i><span>Pulscord Premium</span></div>
+                    <div class="money-line"><span>Баланс</span><strong id="money-count">0 ★</strong></div>
+                    <button class="premium-buy-btn" id="buy-premium-btn">Купить за 1000 ★</button>
+                    <button class="admin-panel-btn hidden" id="admin-panel-btn"><i class="fas fa-shield-halved"></i> Админ-панель</button>
+                    <button class="admin-panel-btn hidden" id="content-panel-btn"><i class="fas fa-database"></i> Управление чатами</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-backdrop hidden" id="app-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="app-modal">
+            <div class="modal-icon" id="modal-icon"><i class="fas fa-user-plus"></i></div>
+            <div class="modal-copy">
+                <h2 id="modal-title">Добавить контакт</h2>
+                <p id="modal-description">Введите имя пользователя, чтобы отправить заявку.</p>
+            </div>
+            <input class="modal-input hidden" id="modal-input" type="text" autocomplete="off">
+            <div class="modal-actions">
+                <button class="modal-button secondary" id="modal-cancel" type="button">Отмена</button>
+                <button class="modal-button primary" id="modal-confirm" type="button">Отправить заявку</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-backdrop hidden" id="monkey-nft-modal" role="dialog" aria-modal="true">
+        <div class="app-modal monkey-nft-modal">
+            <div class="modal-icon"><i class="fas fa-paw"></i></div>
+            <div class="modal-copy"><h2>NFT Monkey</h2><p>Бесплатные коллекционные обезьянки. Выбери одну, чтобы отправить её в личный чат.</p></div>
+            <input class="modal-input" id="monkey-nft-search" placeholder="Найти обезьянку..." autocomplete="off">
+            <div id="monkey-nft-list" class="monkey-nft-list"></div>
+            <div class="modal-actions"><button class="modal-button secondary" id="monkey-nft-close-btn" type="button">Закрыть</button></div>
+        </div>
+    </div>
+
+
+    <div class="modal-backdrop hidden" id="admin-modal" role="dialog" aria-modal="true">
+        <div class="app-modal admin-modal">
+            <div class="modal-icon"><i class="fas fa-shield-halved"></i></div>
+            <div class="modal-copy"><h2>Админ-панель</h2><p>Выдавать права и Pulscord Money можно только от имени Deverlope.</p></div>
+            <select class="modal-input" id="admin-user-select"></select>
+            <input class="modal-input" id="admin-amount-input" type="number" min="1" placeholder="Количество Money">
+            <div class="modal-actions admin-actions">
+                <button class="modal-button secondary" id="admin-close-btn">Закрыть</button>
+                <button class="modal-button primary" id="admin-money-btn">Выдать Money</button>
+                <button class="modal-button primary" id="admin-premium-btn">Выдать Premium</button>
+                <button class="modal-button primary" id="admin-developer-btn">Выдать Developer</button>
+                <button class="modal-button primary" id="admin-admin-btn">Выдать админку</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-backdrop hidden" id="bot-builder-modal" role="dialog" aria-modal="true">
+        <div class="app-modal bot-builder-modal">
+            <div class="modal-icon"><i class="fas fa-cubes"></i></div>
+            <div class="modal-copy"><h2>Конструктор бота</h2><p>Собери сценарий из блоков. Блоки выполняются сверху вниз.</p></div>
+            <label class="profile-field">Название бота<input id="bot-builder-name" class="modal-input" maxlength="32" placeholder="Помощник"></label>
+            <div id="bot-blocks" class="bot-blocks"></div>
+            <button class="modal-button secondary" id="add-bot-block-btn" type="button"><i class="fas fa-plus"></i> Добавить блок</button>
+            <div class="modal-actions"><button class="modal-button secondary" id="bot-builder-cancel" type="button">Отмена</button><button class="modal-button primary" id="bot-builder-save" type="button">Создать бота</button></div>
+        </div>
+    </div>
+
+    <div class="modal-backdrop hidden" id="content-modal" role="dialog" aria-modal="true">
+        <div class="app-modal content-modal">
+            <div class="modal-icon"><i class="fas fa-database"></i></div>
+            <div class="modal-copy"><h2>Управление чатами</h2><p>Все группы, каналы, сообщения и боты. Удаление доступно только Deverlope.</p></div>
+            <div id="content-management-list" class="content-management-list"></div>
+            <div class="modal-actions"><button class="modal-button secondary" id="content-close-btn">Закрыть</button></div>
+        </div>
+    </div>
+
+    <div class="modal-backdrop hidden" id="profile-modal" role="dialog" aria-modal="true" aria-labelledby="profile-modal-title">
+        <div class="app-modal profile-modal">
+            <div class="modal-icon"><i class="fas fa-user-gear"></i></div>
+            <div class="modal-copy"><h2 id="profile-modal-title">Мой профиль</h2><p>Изменения сохраняются для вашего аккаунта.</p></div>
+            <label class="profile-field">Username<input id="profile-username-input" type="text" autocomplete="username"></label>
+            <label class="profile-field">Аватар
+                <div class="profile-avatar-editor">
+                    <div class="profile-avatar-preview" id="profile-avatar-preview">П</div>
+                    <input id="profile-avatar-input" type="text" maxlength="2" autocomplete="off" style="flex:1;">
+                    <input type="file" id="profile-avatar-upload" accept="image/*" hidden>
+                    <button type="button" class="modal-button secondary" id="profile-avatar-btn" style="padding:10px 12px;">Фото</button>
+                </div>
+            </label>
+            <label class="profile-field">Новый пароль<input id="profile-password-input" type="password" placeholder="Оставьте пустым, чтобы не менять" autocomplete="new-password"></label>
+            <div class="modal-actions"><button class="modal-button secondary" id="profile-cancel-btn">Отмена</button><button class="modal-button primary" id="profile-save-btn">Сохранить</button></div>
+        </div>
+    </div>
+
+    <div class="voice-call-panel hidden" id="voice-call-panel" role="dialog" aria-label="Голосовой звонок">
+        <div class="voice-call-topline">
+            <span><i class="fas fa-phone"></i> Голосовой звонок</span>
+            <span class="voice-call-status" id="voice-call-status">Подключение...</span>
+        </div>
+        <div class="voice-call-identity">
+            <div class="voice-call-avatar" id="voice-call-avatar">П</div>
+            <h2 id="voice-call-title">Канал общее</h2>
+            <p id="voice-call-subtitle">Ожидание участников</p>
+            <strong id="voice-call-timer">00:00</strong>
+        </div>
+        <div class="voice-video-grid hidden" id="voice-video-grid">
+            <video id="voice-local-video" autoplay muted playsinline></video>
+            <div id="voice-remote-videos"></div>
+        </div>
+        <div class="voice-call-participants" id="voice-call-participants"></div>
+        <div class="voice-call-actions">
+            <button class="voice-action-button voice-mute-button" id="voice-mute-btn" type="button" title="Выключить микрофон" aria-pressed="false"><i class="fas fa-microphone"></i><span id="voice-mute-label">Микрофон</span></button>
+            <button class="voice-action-button" id="screen-share-btn" type="button" title="Показать экран"><i class="fas fa-display"></i><span id="screen-share-label">Экран</span></button>
+            <button class="voice-action-button end-call" id="voice-end-btn" type="button" title="Завершить звонок"><i class="fas fa-phone-slash"></i></button>
+        </div>
+    </div>
+
+    <div class="incoming-call-panel hidden" id="incoming-call-panel" role="dialog" aria-label="Входящий звонок">
+        <div class="incoming-call-icon"><i id="incoming-call-icon" class="fas fa-phone"></i></div>
+        <div class="incoming-call-copy">
+            <strong id="incoming-call-title">Входящий звонок</strong>
+            <span id="incoming-call-caller">Пользователь звонит вам</span>
+        </div>
+        <div class="incoming-call-actions">
+            <button class="incoming-call-button decline" id="decline-call-btn" type="button" title="Отклонить"><i class="fas fa-phone-slash"></i></button>
+            <button class="incoming-call-button accept" id="accept-call-btn" type="button" title="Принять"><i class="fas fa-phone"></i></button>
+        </div>
+    </div>
+
+    <script src="app-real.js?v=20260821-32"></script>
+    <input id="container-avatar-upload" type="file" accept="image/*" hidden>
+</body>
+</html>
+    <div class="app-container">
+        <!-- Боковая панель серверов -->
+        <div class="servers-sidebar">
+            <div class="server-icon active" data-server="home" title="Главная">
+                <i class="fas fa-home"></i>
+            </div>
+            <div class="servers-list">
+                <div class="server-icon" data-server="server-1" title="Основной сервер">
+                    <span>O</span>
+                </div>
+                <div class="server-icon" data-server="server-2" title="Друзья">
+                    <span>Д</span>
+                </div>
+                <div class="server-icon" data-server="server-3" title="Проекты">
+                    <span>П</span>
+                </div>
+            </div>
+            <div class="server-add">
+                <button title="Добавить сервер"><i class="fas fa-plus"></i></button>
+            </div>
+        </div>
+
+        <!-- Главная контент область -->
+        <div class="main-container">
+            <!-- Боковая панель с каналами -->
+            <div class="channels-sidebar">
+                <div class="server-header">
+                    <h2 id="server-name">Главная</h2>
+                    <button class="menu-button"><i class="fas fa-chevron-down"></i></button>
+                </div>
+
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Найти или начать разговор...">
+                </div>
+
+                <div class="channels-section">
+                    <div class="section-header">
+                        <span>КАНАЛЫ</span>
+                        <button><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="channels-list">
+                        <div class="channel-item" data-channel="announcements">
+                            <i class="fas fa-hashtag"></i>
+                            <span>объявления</span>
+                        </div>
+                        <div class="channel-item" data-channel="random">
+                            <i class="fas fa-hashtag"></i>
+                            <span>случайное</span>
+                        </div>
+                        <div class="channel-item" data-channel="events">
+                            <i class="fas fa-hashtag"></i>
+                            <span>события</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="channels-section">
+                    <div class="section-header">
+                        <span>ПРЯМЫЕ СООБЩЕНИЯ</span>
+                        <button><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="dm-list">
+                        <div class="dm-item" data-dm="user-1">
+                            <div class="avatar small">А</div>
+                            <span>Алексей</span>
+                            <span class="online-indicator"></span>
+                        </div>
+                        <div class="dm-item" data-dm="user-2">
+                            <div class="avatar small">М</div>
+                            <span>Мария</span>
+                        </div>
+                        <div class="dm-item" data-dm="user-3">
+                            <div class="avatar small">И</div>
+                            <span>Иван</span>
+                            <span class="online-indicator"></span>
+                        </div>
+                        <div class="dm-item" data-dm="user-4">
+                            <div class="avatar small">Е</div>
+                            <span>Елена</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Основная область чата -->
+            <div class="chat-container">
+                <!-- Заголовок чата -->
+                <div class="chat-header">
+                    <div class="header-left">
+                        <i class="fas fa-hashtag chat-icon"></i>
+                        <h1 id="channel-name">общее</h1>
+                        <p id="channel-desc">Основной канал для обсуждения</p>
+                    </div>
+                    <div class="header-right">
+                        <button title="Поиск"><i class="fas fa-search"></i></button>
+                        <button title="Уведомления"><i class="fas fa-bell"></i></button>
+                        <button title="Пользователи"><i class="fas fa-users"></i></button>
+                        <button title="Еще"><i class="fas fa-ellipsis-v"></i></button>
+                    </div>
+                </div>
+
+                <!-- Область сообщений -->
+                <div class="messages-area" id="messages-area">
+                    <div style="padding: 40px 20px; text-align: center; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+                        <i style="font-size: 48px; opacity: 0.3; margin-bottom: 16px;" class="fas fa-comments"></i>
+                        <p style="font-size: 16px;">Добро пожаловать!</p>
+                        <p style="font-size: 13px; margin-top: 8px;">Начните разговор. Напишите первое сообщение ниже.</p>
+                    </div>
+                </div>
+
+                <!-- Область ввода сообщения -->
+                <div class="message-input-area hidden">
+                    <div class="input-wrapper">
+                        <button class="input-button" title="Прикрепить файл"><i class="fas fa-plus"></i></button>
+                        <input 
+                            type="text" 
+                            id="message-input" 
+                            class="message-input" 
+                            placeholder="Напишите сообщение или /school help"
+                            autocomplete="off"
+                        >
+                        <button class="input-button" title="Отправить голосовое сообщение"><i class="fas fa-microphone"></i></button>
+                        <button class="input-button" title="Отправить"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Боковая панель пользователя -->
+            <div class="user-sidebar">
+                <div class="user-profile">
+                    <div class="large-avatar">Т</div>
+                    <h3>Твоё имя</h3>
+                    <p class="status-text">Активен</p>
+                    <div class="user-actions">
+                        <button title="Профиль"><i class="fas fa-user"></i></button>
+                        <button title="Параметры"><i class="fas fa-sliders-h"></i></button>
+                    </div>
+                </div>
+
+                <div class="members-section">
+                    <h4>Члены канала</h4>
+                    <div class="members-list">
+                        <div class="member-item online">
+                            <div class="avatar small">А</div>
+                            <div class="member-info">
+                                <p>Алексей</p>
+                                <small>Модератор</small>
+                            </div>
+                            <span class="online-indicator"></span>
+                        </div>
+                        <div class="member-item online">
+                            <div class="avatar small">И</div>
+                            <div class="member-info">
+                                <p>Иван</p>
+                                <small>Участник</small>
+                            </div>
+                            <span class="online-indicator"></span>
+                        </div>
+                        <div class="member-item">
+                            <div class="avatar small">М</div>
+                            <div class="member-info">
+                                <p>Мария</p>
+                                <small>Участник</small>
+                            </div>
+                        </div>
+                        <div class="member-item">
+                            <div class="avatar small">Е</div>
+                            <div class="member-info">
+                                <p>Елена</p>
+                                <small>Участник</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Pulscord",
+  "version": "2.0.0",
+  "identifier": "com.pulscord.app",
+  "build": {
+    "beforeDevCommand": "npm run start",
+    "devUrl": "http://localhost:3000",
+    "frontendDist": ".."
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Pulscord",
+        "width": 1280,
+        "height": 800,
+        "minWidth": 900,
+        "minHeight": 600,
+        "resizable": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": []
+  }
+}

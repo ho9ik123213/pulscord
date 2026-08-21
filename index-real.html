@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulscord - Реальный Мессенджер</title>
+    <link rel="stylesheet" href="styles.css?v=20260821-17">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+</head>
+<body>
+    <!-- Экран входа/регистрации -->
+    <div id="auth-screen" class="auth-container active">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>🎯 Pulscord</h1>
+                <p>Реальный мессенджер</p>
+            </div>
+
+            <div class="auth-tabs">
+                <button class="tab-btn active" data-tab="login">Вход</button>
+                <button class="tab-btn" data-tab="register">Регистрация</button>
+            </div>
+
+            <!-- Вход -->
+            <div id="login-tab" class="auth-tab active">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label>Имя пользователя:</label>
+                        <input type="text" id="login-username" placeholder="Введите имя..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Пароль:</label>
+                        <input type="password" id="login-password" placeholder="Введите пароль..." required>
+                    </div>
+                    <button type="submit" class="btn-primary">Войти</button>
+                    <div id="login-error" class="error-message"></div>
+                </form>
+            </div>
+
+            <!-- Регистрация -->
+            <div id="register-tab" class="auth-tab">
+                <form id="register-form">
+                    <div class="form-group">
+                        <label>Имя пользователя:</label>
+                        <input type="text" id="register-username" placeholder="Выберите имя..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Пароль:</label>
+                        <input type="password" id="register-password" placeholder="Придумайте пароль..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Подтвердите пароль:</label>
+                        <input type="password" id="register-password2" placeholder="Повторите пароль..." required>
+                    </div>
+                    <button type="submit" class="btn-primary">Зарегистрироваться</button>
+                    <div id="register-error" class="error-message"></div>
+                </form>
+            </div>
+
+            <div class="auth-footer">
+                <p>или испытайте тестовые учетные данные:</p>
+                <div class="demo-creds">
+                    <button type="button" class="demo-btn" onclick="demoLogin('admin', 'password')">
+                        Admin / password
+                    </button>
+                    <button type="button" class="demo-btn" onclick="demoLogin('user', 'password')">
+                        User / password
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Основное приложение -->
+    <div id="app-screen" class="app-container hidden">
+        <!-- Боковая панель серверов -->
+        <div class="servers-sidebar">
+            <div class="server-icon active" data-server="home" title="Главная">
+                <i class="fas fa-home"></i>
+            </div>
+            <div class="servers-list">
+                <div class="server-icon" data-server="server-1" title="Основной сервер">
+                    <span>O</span>
+                </div>
+                <div class="server-icon" data-server="server-2" title="Друзья">
+                    <span>Д</span>
+                </div>
+                <div class="server-icon" data-server="server-3" title="Проекты">
+                    <span>П</span>
+                </div>
+            </div>
+            <div class="server-add">
+                <button title="Добавить сервер"><i class="fas fa-plus"></i></button>
+            </div>
+        </div>
+
+        <!-- Главная контент область -->
+        <div class="main-container">
+            <!-- Боковая панель с каналами -->
+            <div class="channels-sidebar">
+                <div class="server-header">
+                    <h2 id="server-name">Главная</h2>
+                    <button class="menu-button"><i class="fas fa-chevron-down"></i></button>
+                </div>
+
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Найти или начать разговор...">
+                </div>
+
+                <div class="channels-section">
+                    <div class="section-header">
+                        <span>КАНАЛЫ</span>
+                        <button><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="channels-list" id="channels-list">
+                        <div class="channel-item active" data-channel="general">
+                            <i class="fas fa-hashtag"></i>
+                            <span>общее</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="channels-section">
+                    <div class="section-header">
+                        <span>ОНЛАЙН (<span id="online-count">0</span>)</span>
+                    </div>
+                    <div class="online-list" id="online-list">
+                        <p style="padding: 8px; color: var(--text-muted); font-size: 12px;">Подключение...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Основная область чата -->
+            <div class="chat-container">
+                <!-- Заголовок чата -->
+                <div class="chat-header">
+                    <div class="header-left">
+                        <i class="fas fa-hashtag chat-icon"></i>
+                        <h1 id="channel-name">общее</h1>
+                        <p id="channel-desc">Основной канал</p>
+                    </div>
+                    <div class="header-right">
+                        <button title="Поиск"><i class="fas fa-search"></i></button>
+                        <button title="Уведомления"><i class="fas fa-bell"></i></button>
+                        <button title="Онлайн пользователи"><i class="fas fa-users"></i></button>
+                        <button title="Выход" id="logout-btn"><i class="fas fa-sign-out-alt"></i></button>
+                    </div>
+                </div>
+
+                <!-- Область сообщений -->
+                <div class="messages-area" id="messages-area">
+                    <div style="padding: 40px 20px; text-align: center; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+                        <i style="font-size: 48px; opacity: 0.3; margin-bottom: 16px;" class="fas fa-comments"></i>
+                        <p style="font-size: 16px;">Добро пожаловать в Pulscord!</p>
+                        <p style="font-size: 13px; margin-top: 8px;">Начните разговор. Напишите первое сообщение ниже.</p>
+                    </div>
+                </div>
+
+                <!-- Область ввода сообщения -->
+                <div class="message-input-area">
+                    <div class="input-wrapper">
+                        <button class="input-button" title="Прикрепить файл"><i class="fas fa-plus"></i></button>
+                        <input 
+                            type="text" 
+                            id="message-input" 
+                            class="message-input" 
+                            placeholder="Напишите сообщение..."
+                            autocomplete="off"
+                        >
+                        <button class="input-button" title="Отправить"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Боковая панель пользователя -->
+            <div class="user-sidebar">
+                <div class="user-profile">
+                    <div class="large-avatar" id="user-avatar">Т</div>
+                    <h3 id="user-username">Пользователь</h3>
+                    <p class="status-text">🟢 Активен</p>
+                    <div class="user-actions">
+                        <button title="Параметры"><i class="fas fa-sliders-h"></i></button>
+                    </div>
+                </div>
+
+                <div class="stats-section">
+                    <h4>Статистика</h4>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <span>📨 Сообщений:</span>
+                            <strong id="msg-count">0</strong>
+                        </div>
+                        <div class="stat-item">
+                            <span>👥 Онлайн:</span>
+                            <strong id="online-stat">0</strong>
+                        </div>
+                        <div class="stat-item">
+                            <span>⏰ Время:</span>
+                            <strong id="time-stat">00:00</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app-real.js?v=20260821-32"></script>
+</body>
+</html>
