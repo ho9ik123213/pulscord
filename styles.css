@@ -2668,6 +2668,27 @@ body > .app-container:not(#app-screen) {
     display: none !important;
 }
 
+.verified-badge {
+    display: inline-flex;
+    width: 15px;
+    height: 15px;
+    align-items: center;
+    justify-content: center;
+    margin-left: 4px;
+    border-radius: 50%;
+    background: #3b9cff;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    vertical-align: middle;
+}
+
+.channel-label {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+}
+
 .voice-call-panel {
     position: fixed;
     inset: 0;

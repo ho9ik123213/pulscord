@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pulscord - Реальный Мессенджер</title>
-    <link rel="stylesheet" href="styles.css?v=20260821-17">
+    <link rel="stylesheet" href="styles.css?v=20260821-18">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 </head>
@@ -306,12 +306,19 @@
             <div class="modal-copy"><h2>Админ-панель</h2><p>Выдавать права и Pulscord Money можно только от имени Deverlope.</p></div>
             <select class="modal-input" id="admin-user-select"></select>
             <input class="modal-input" id="admin-amount-input" type="number" min="1" placeholder="Количество Money">
+            <select class="modal-input" id="verification-target-type">
+                <option value="user">Человек</option>
+                <option value="group">Группа</option>
+                <option value="channel">Канал</option>
+            </select>
+            <input class="modal-input" id="verification-target-id" placeholder="Username, ID группы или канала">
             <div class="modal-actions admin-actions">
                 <button class="modal-button secondary" id="admin-close-btn">Закрыть</button>
                 <button class="modal-button primary" id="admin-money-btn">Выдать Money</button>
                 <button class="modal-button primary" id="admin-premium-btn">Выдать Premium</button>
                 <button class="modal-button primary" id="admin-developer-btn">Выдать Developer</button>
                 <button class="modal-button primary" id="admin-admin-btn">Выдать админку</button>
+                <button class="modal-button primary" id="admin-verification-btn"><i class="fas fa-check"></i> Выдать галочку</button>
             </div>
         </div>
     </div>

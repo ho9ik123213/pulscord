@@ -341,6 +341,7 @@ function sendAuthResponse(res, username, user, statusCode = 200) {
             premium: Boolean(user.premium),
             developer: Boolean(user.developer),
             admin: Boolean(user.admin)
+            ,verified: Boolean(user.verified)
         }
     });
 }
@@ -354,6 +355,7 @@ function publicUser(username, user) {
         premium: Boolean(user.premium),
         developer: Boolean(user.developer),
         admin: Boolean(user.admin),
+        verified: Boolean(user.verified),
         bot: Boolean(user.bot),
         botName: user.botName || null,
         botCommand: user.botCommand || null,
@@ -655,6 +657,30 @@ app.post('/api/admin/grant-admin', (req, res) => {
     res.json({ success: true, user: publicUser(username, users[username]) });
 });
 
+app.post('/api/admin/grant-verification', (req, res) => {
+    if (!requireAdmin(req, res)) return;
+    const targetType = String(req.body.targetType || 'user').trim();
+    const targetId = String(req.body.targetId || '').trim();
+    if (!targetId || !['user', 'group', 'channel'].includes(targetType)) return res.status(400).json({ error: 'Укажите тип и объект для верификации' });
+
+    if (targetType === 'user') {
+        const users = loadJSON('users.json') || {};
+        if (!users[targetId]) return res.status(404).json({ error: 'Пользователь не найден' });
+        users[targetId].verified = true;
+        saveJSON('users.json', users);
+        broadcastEvent('verification-updated', { targetType, targetId, verified: true });
+        return res.json({ success: true, targetType, targetId, verified: true, user: publicUser(targetId, users[targetId]) });
+    }
+
+    const filename = targetType === 'group' ? 'groups.json' : 'channels.json';
+    const containers = loadJSON(filename) || {};
+    if (!containers[targetId]) return res.status(404).json({ error: `${targetType === 'group' ? 'Группа' : 'Канал'} не найден` });
+    containers[targetId].verified = true;
+    saveJSON(filename, containers);
+    broadcastEvent('verification-updated', { targetType, targetId, verified: true });
+    res.json({ success: true, targetType, targetId, verified: true });
+});
+
 // Получить профиль пользователя
 app.get('/api/user/:username', (req, res) => {
     const users = loadJSON('users.json');
@@ -736,7 +762,8 @@ app.get('/api/users', (req, res) => {
         username,
         avatar: data.avatar,
         status: data.status,
-        role: data.role
+        role: data.role,
+        verified: Boolean(data.verified)
     }));
     res.json(userList);
 });
@@ -757,6 +784,7 @@ app.get('/api/channels', (req, res) => {
         owner: group.owner,
         members: group.members,
         subscriberCount: (group.members || []).length
+            ,verified: Boolean(group.verified)
     }]));
     const visibleChannels = Object.fromEntries(Object.entries(channels).filter(([, channel]) =>
         !channel.private || (user && (channel.members || []).includes(user.username))
@@ -766,6 +794,7 @@ app.get('/api/channels', (req, res) => {
         owner: channel.owner || 'Deverlope',
         members: channel.members || [],
         subscriberCount: (channel.members || []).length
+        ,verified: Boolean(channel.verified)
     }]));
     res.json({ ...visibleChannels, ...visibleGroups });
 });
@@ -1191,6 +1220,7 @@ app.get('/api/contacts/:username', (req, res) => {
                 premium: Boolean(user.premium),
                 admin: Boolean(user.admin),
                 developer: Boolean(user.developer),
+                verified: Boolean(user.verified),
                 bot: Boolean(user.bot),
                 botName: user.botName || null,
                 botCommand: user.botCommand || null

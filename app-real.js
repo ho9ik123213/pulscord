@@ -309,6 +309,17 @@ function setupSocket() {
 
     socket.on('channel-created', () => loadChannels());
 
+    socket.on('verification-updated', data => {
+        if (!appState.currentUser) return;
+        loadChannels();
+        loadContacts();
+        if (appState.currentDMUser) loadDirectMessages(appState.currentDMUser);
+        else if (appState.currentChannel) loadMessages(appState.currentChannel);
+        if (data.targetType === 'user' && data.targetId === appState.currentUser.username) {
+            appState.currentUser.verified = Boolean(data.verified);
+        }
+    });
+
     socket.on('user-online', (data) => {
         appState.onlineUsers.set(data.username, data);
         updateOnlineUsers();
@@ -356,7 +367,7 @@ async function loadChannels() {
                 const groupItem = document.createElement('div');
                 groupItem.className = `channel-item ${id === appState.currentChannel ? 'active' : ''}`;
                 groupItem.dataset.channel = id;
-                groupItem.innerHTML = `<i class="fas fa-users"></i><span>${escapeHtml(channel.name)}</span>`;
+                groupItem.innerHTML = `<i class="fas fa-users"></i><span>${escapeHtml(channel.name)}${renderVerifiedBadge(channel)}</span>`;
                 groupItem.addEventListener('click', () => switchChannel(id));
                 groupsList.appendChild(groupItem);
                 continue;
@@ -367,8 +378,8 @@ async function loadChannels() {
             channelItem.dataset.channel = id;
             channelItem.title = channel.name;
             channelItem.innerHTML = channel.avatar
-                ? `<img src="${escapeHtml(channel.avatar)}" alt="">`
-                : `<i class="fas fa-hashtag"></i>`;
+                ? `<img src="${escapeHtml(channel.avatar)}" alt=""><span class="channel-label">${escapeHtml(channel.name)}${renderVerifiedBadge(channel)}</span>`
+                : `<i class="fas fa-hashtag"></i><span class="channel-label">${escapeHtml(channel.name)}${renderVerifiedBadge(channel)}</span>`;
             channelItem.addEventListener('click', () => switchChannel(id));
             serverChannelsList.appendChild(channelItem);
         }
@@ -413,7 +424,7 @@ async function loadContacts() {
 
             div.innerHTML = `
                 <div class="contact-avatar" style="width: 24px; height: 24px; flex: 0 0 24px; border-radius: 50%; background: linear-gradient(135deg, #5865f2, #4752c4); display: flex; align-items: center; justify-content: center; overflow: hidden; color: white; font-size: 12px; font-weight: bold;"></div>
-                <span style="font-size: 13px; flex: 1; color: var(--text-primary);">${escapeHtml(contact.botName || contact.username)}${renderRoleBadge(contact)}${contact.premium ? ' <span class="premium-crown" title="Pulscord Premium">★</span>' : ''}</span>
+                <span style="font-size: 13px; flex: 1; color: var(--text-primary);">${escapeHtml(contact.botName || contact.username)}${renderRoleBadge(contact)}${renderVerifiedBadge(contact)}${contact.premium ? ' <span class="premium-crown" title="Pulscord Premium">★</span>' : ''}</span>
                 <span class="contact-status-dot" title="${appState.onlineUsers.has(contact.username) ? 'В сети' : 'Не в сети'}" style="width: 8px; height: 8px; background: ${appState.onlineUsers.has(contact.username) ? '#43b581' : '#72767d'}; border-radius: 50%; display: inline-block;"></span>
                 <button class="remove-contact-btn" type="button" title="Удалить друга" aria-label="Удалить друга"><i class="fas fa-user-minus"></i></button>
             `;
@@ -632,6 +643,10 @@ function renderRoleBadge(user) {
     return '';
 }
 
+function renderVerifiedBadge(item) {
+    return item?.verified ? '<span class="verified-badge" title="Подтверждено Pulscord" aria-label="Подтверждено">✓</span>' : '';
+}
+
 function applyAvatarToElement(element, avatar, fallback = '?') {
     const value = String(avatar || '').trim();
     element.innerHTML = '';
@@ -684,7 +699,7 @@ function createMessageElement(msg, channel) {
         ${renderAvatarHtml(msg.avatar, msg.author ? msg.author[0] : '?')}
         <div class="message-content">
             <div class="message-header">
-                <span class="username">${escapeHtml(msg.author)}${renderRoleBadge(msg)}${msg.premium ? ' <span class="premium-crown" title="Pulscord Premium">★</span>' : ''}</span>
+                <span class="username">${escapeHtml(msg.author)}${renderRoleBadge(msg)}${renderVerifiedBadge(msg)}${msg.premium ? ' <span class="premium-crown" title="Pulscord Premium">★</span>' : ''}</span>
                 <span class="timestamp">${timestamp} ${msg.edited ? '(отредактировано)' : ''}</span>
             </div>
             ${replyHtml}
@@ -883,6 +898,7 @@ function setupAppEvents() {
     document.getElementById('admin-premium-btn').addEventListener('click', () => adminAction('grant-premium'));
     document.getElementById('admin-developer-btn').addEventListener('click', () => adminAction('grant-developer'));
     document.getElementById('admin-admin-btn').addEventListener('click', () => adminAction('grant-admin'));
+    document.getElementById('admin-verification-btn').addEventListener('click', () => adminAction('grant-verification'));
     document.getElementById('invite-channel-btn').addEventListener('click', inviteToCurrentChannel);
     document.getElementById('channel-settings-btn').addEventListener('click', openContainerSettings);
     document.getElementById('channel-delete-btn').addEventListener('click', deleteCurrentContainer);
@@ -1103,7 +1119,11 @@ function closeAdminPanel() {
 async function adminAction(action) {
     const username = document.getElementById('admin-user-select').value;
     const amount = Number(document.getElementById('admin-amount-input').value);
-    const body = action === 'grant-money' ? { username, amount } : { username };
+    const body = action === 'grant-money'
+        ? { username, amount }
+        : action === 'grant-verification'
+            ? { targetType: document.getElementById('verification-target-type').value, targetId: document.getElementById('verification-target-id').value.trim() || username }
+            : { username };
     try {
         const response = await fetch(`${API_URL}/api/admin/${action}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
         const data = await response.json();
