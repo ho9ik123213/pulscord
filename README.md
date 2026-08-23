@@ -45,6 +45,18 @@ npm run cap:sync
 npm run cap:ios
 ```
 
+IPA собирается только на macOS с Xcode и Apple Signing Team:
+
+```bash
+npm install
+npm run cap:sync
+cd ios/App
+pod install
+open App.xcworkspace
+```
+
+В Xcode выберите Apple Team и устройство, затем `Product > Archive` и `Distribute App`. На Windows iOS-проект можно подготовить и синхронизировать, но подписанный IPA собрать нельзя: Apple требует macOS/Xcode.
+
 По умолчанию мобильный клиент обращается к `http://192.168.3.6:3000`. Для другого адреса API задайте его перед запуском в консоли приложения:
 
 ```js

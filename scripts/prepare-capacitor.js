@@ -3,7 +3,7 @@ const path = require('path');
 
 const root = path.resolve(__dirname, '..');
 const output = path.join(root, 'dist');
-const files = ['index.html', 'app-real.js', 'styles.css', 'pulscord-logo.svg'];
+const files = ['index.html', 'app-real.js', 'styles.css', 'pulscord-logo.svg', 'site.webmanifest'];
 
 fs.rmSync(output, { recursive: true, force: true });
 fs.mkdirSync(output, { recursive: true });

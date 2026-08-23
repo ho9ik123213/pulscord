@@ -1,0 +1,12 @@
+{
+  "name": "Pulscord",
+  "short_name": "Pulscord",
+  "description": "Реальный мессенджер Pulscord",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#030711",
+  "theme_color": "#030711",
+  "icons": [
+    { "src": "pulscord-logo.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
