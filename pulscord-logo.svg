@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Pulscord">
+  <defs>
+    <linearGradient id="shell" x1="80" y1="420" x2="430" y2="70" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#a92cff"/><stop offset=".48" stop-color="#245cff"/><stop offset="1" stop-color="#00e5f0"/>
+    </linearGradient>
+    <linearGradient id="pulse" x1="150" y1="280" x2="370" y2="220" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#20e6ff"/><stop offset="1" stop-color="#b449ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="116" fill="#030711"/>
+  <path d="M128 110h210c57 0 103 46 103 103v34c0 57-46 103-103 103H239l-91 69 21-69h-41c-57 0-103-46-103-103v-34c0-57 46-103 103-103Z" fill="url(#shell)"/>
+  <path d="M174 173h164c30 0 54 24 54 54v32c0 30-24 54-54 54H174c-30 0-54-24-54-54v-32c0-30 24-54 54-54Z" fill="#030711" opacity=".92"/>
+  <path d="M145 242h55l29-67 38 112 31-71 22 26h47" fill="none" stroke="url(#pulse)" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/>
+</svg>

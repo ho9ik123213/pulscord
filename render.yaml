@@ -2,7 +2,7 @@ services:
   - type: web
     name: pulscord
     env: node
-    plan: free
+    plan: starter
     region: frankfurt
     buildCommand: npm install
     startCommand: node server.js
@@ -12,3 +12,9 @@ services:
         value: production
       - key: PORT
         value: 10000
+      - key: DATA_DIR
+        value: /var/data
+    disk:
+      name: pulscord-data
+      mountPath: /var/data
+      sizeGB: 1

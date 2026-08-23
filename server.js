@@ -64,7 +64,7 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.static(path.join(__dirname)));
 
 // Простая база данных (JSON файлы)
-const dbDir = path.join(__dirname, 'data');
+const dbDir = path.resolve(process.env.DATA_DIR || path.join(__dirname, 'data'));
 if (!fs.existsSync(dbDir)) {
     fs.mkdirSync(dbDir, { recursive: true });
 }
