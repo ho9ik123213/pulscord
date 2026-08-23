@@ -63,6 +63,10 @@ npm run tauri:build
 
 Конфигурация Tauri находится в `src-tauri/`, а Capacitor -- в `capacitor.config.ts`.
 
+### Данные на Render
+
+Render Persistent Disk подключён в `render.yaml` по адресу `/var/data`, а сервер использует его через `DATA_DIR`. Это сохраняет пользователей, контакты и сообщения между перезапусками. Persistent Disk доступен на платных планах Render; на бесплатном плане файловое хранилище временное.
+
 ### Быстрый запуск (без установки)
 
 1. Откройте папку `Pulscord` в VS Code
