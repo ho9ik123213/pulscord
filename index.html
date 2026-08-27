@@ -64,6 +64,7 @@
                 </form>
             </div>
 
+            <!-- ❌ УДАЛЕНО: тестовые учётные данные -->
         </div>
     </div>
 
@@ -305,9 +306,12 @@
         </div>
     </div>
 
-
+    <!-- Админ-панель с крестиком -->
     <div class="modal-backdrop hidden" id="admin-modal" role="dialog" aria-modal="true">
         <div class="app-modal admin-modal">
+            <button class="modal-close-btn" id="admin-close-btn-x" type="button" title="Закрыть админ-панель">
+                <i class="fas fa-xmark"></i>
+            </button>
             <div class="modal-icon"><i class="fas fa-shield-halved"></i></div>
             <div class="modal-copy"><h2>Админ-панель</h2><p>Выдавать права и Pulscord Money можно только от имени Deverlope.</p></div>
             <select class="modal-input" id="admin-user-select"></select>
@@ -404,186 +408,73 @@
 
     <script src="app-real.js?v=20260821-32"></script>
     <input id="container-avatar-upload" type="file" accept="image/*" hidden>
-</body>
-</html>
-    <div class="app-container">
-        <!-- Боковая панель серверов -->
-        <div class="servers-sidebar">
-            <div class="server-icon active" data-server="home" title="Главная">
-                <i class="fas fa-home"></i>
-            </div>
-            <div class="servers-list">
-                <div class="server-icon" data-server="server-1" title="Основной сервер">
-                    <span>O</span>
-                </div>
-                <div class="server-icon" data-server="server-2" title="Друзья">
-                    <span>Д</span>
-                </div>
-                <div class="server-icon" data-server="server-3" title="Проекты">
-                    <span>П</span>
-                </div>
-            </div>
-            <div class="server-add">
-                <button title="Добавить сервер"><i class="fas fa-plus"></i></button>
-            </div>
-        </div>
 
-        <!-- Главная контент область -->
-        <div class="main-container">
-            <!-- Боковая панель с каналами -->
-            <div class="channels-sidebar">
-                <div class="server-header">
-                    <h2 id="server-name">Главная</h2>
-                    <button class="menu-button"><i class="fas fa-chevron-down"></i></button>
-                </div>
+    <style>
+        .modal-close-btn {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
 
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Найти или начать разговор...">
-                </div>
+        .modal-close-btn:hover {
+            background: rgba(240, 71, 71, 0.2);
+            color: #f04747;
+            transform: rotate(90deg);
+        }
 
-                <div class="channels-section">
-                    <div class="section-header">
-                        <span>КАНАЛЫ</span>
-                        <button><i class="fas fa-plus"></i></button>
-                    </div>
-                    <div class="channels-list">
-                        <div class="channel-item" data-channel="announcements">
-                            <i class="fas fa-hashtag"></i>
-                            <span>объявления</span>
-                        </div>
-                        <div class="channel-item" data-channel="random">
-                            <i class="fas fa-hashtag"></i>
-                            <span>случайное</span>
-                        </div>
-                        <div class="channel-item" data-channel="events">
-                            <i class="fas fa-hashtag"></i>
-                            <span>события</span>
-                        </div>
-                    </div>
-                </div>
+        .app-modal {
+            position: relative;
+        }
+    </style>
 
-                <div class="channels-section">
-                    <div class="section-header">
-                        <span>ПРЯМЫЕ СООБЩЕНИЯ</span>
-                        <button><i class="fas fa-plus"></i></button>
-                    </div>
-                    <div class="dm-list">
-                        <div class="dm-item" data-dm="user-1">
-                            <div class="avatar small">А</div>
-                            <span>Алексей</span>
-                            <span class="online-indicator"></span>
-                        </div>
-                        <div class="dm-item" data-dm="user-2">
-                            <div class="avatar small">М</div>
-                            <span>Мария</span>
-                        </div>
-                        <div class="dm-item" data-dm="user-3">
-                            <div class="avatar small">И</div>
-                            <span>Иван</span>
-                            <span class="online-indicator"></span>
-                        </div>
-                        <div class="dm-item" data-dm="user-4">
-                            <div class="avatar small">Е</div>
-                            <span>Елена</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <script>
+        // Код для закрытия админ-панели по крестику
+        document.addEventListener('DOMContentLoaded', function() {
+            const adminModal = document.getElementById('admin-modal');
+            const closeBtnX = document.getElementById('admin-close-btn-x');
+            const closeBtn = document.getElementById('admin-close-btn');
 
-            <!-- Основная область чата -->
-            <div class="chat-container">
-                <!-- Заголовок чата -->
-                <div class="chat-header">
-                    <div class="header-left">
-                        <i class="fas fa-hashtag chat-icon"></i>
-                        <h1 id="channel-name">общее</h1>
-                        <p id="channel-desc">Основной канал для обсуждения</p>
-                    </div>
-                    <div class="header-right">
-                        <button title="Поиск"><i class="fas fa-search"></i></button>
-                        <button title="Уведомления"><i class="fas fa-bell"></i></button>
-                        <button title="Пользователи"><i class="fas fa-users"></i></button>
-                        <button title="Еще"><i class="fas fa-ellipsis-v"></i></button>
-                    </div>
-                </div>
+            function closeAdminPanel() {
+                if (adminModal) {
+                    adminModal.classList.add('hidden');
+                }
+            }
 
-                <!-- Область сообщений -->
-                <div class="messages-area" id="messages-area">
-                    <div style="padding: 40px 20px; text-align: center; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
-                        <i style="font-size: 48px; opacity: 0.3; margin-bottom: 16px;" class="fas fa-comments"></i>
-                        <p style="font-size: 16px;">Добро пожаловать!</p>
-                        <p style="font-size: 13px; margin-top: 8px;">Начните разговор. Напишите первое сообщение ниже.</p>
-                    </div>
-                </div>
+            if (closeBtnX) {
+                closeBtnX.addEventListener('click', closeAdminPanel);
+            }
 
-                <!-- Область ввода сообщения -->
-                <div class="message-input-area hidden">
-                    <div class="input-wrapper">
-                        <button class="input-button" title="Прикрепить файл"><i class="fas fa-plus"></i></button>
-                        <input 
-                            type="text" 
-                            id="message-input" 
-                            class="message-input" 
-                            placeholder="Напишите сообщение или /school help"
-                            autocomplete="off"
-                        >
-                        <button class="input-button" title="Отправить голосовое сообщение"><i class="fas fa-microphone"></i></button>
-                        <button class="input-button" title="Отправить"><i class="fas fa-paper-plane"></i></button>
-                    </div>
-                </div>
-            </div>
+            if (closeBtn) {
+                closeBtn.addEventListener('click', closeAdminPanel);
+            }
 
-            <!-- Боковая панель пользователя -->
-            <div class="user-sidebar">
-                <div class="user-profile">
-                    <div class="large-avatar">Т</div>
-                    <h3>Твоё имя</h3>
-                    <p class="status-text">Активен</p>
-                    <div class="user-actions">
-                        <button title="Профиль"><i class="fas fa-user"></i></button>
-                        <button title="Параметры"><i class="fas fa-sliders-h"></i></button>
-                    </div>
-                </div>
+            if (adminModal) {
+                adminModal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeAdminPanel();
+                    }
+                });
 
-                <div class="members-section">
-                    <h4>Члены канала</h4>
-                    <div class="members-list">
-                        <div class="member-item online">
-                            <div class="avatar small">А</div>
-                            <div class="member-info">
-                                <p>Алексей</p>
-                                <small>Модератор</small>
-                            </div>
-                            <span class="online-indicator"></span>
-                        </div>
-                        <div class="member-item online">
-                            <div class="avatar small">И</div>
-                            <div class="member-info">
-                                <p>Иван</p>
-                                <small>Участник</small>
-                            </div>
-                            <span class="online-indicator"></span>
-                        </div>
-                        <div class="member-item">
-                            <div class="avatar small">М</div>
-                            <div class="member-info">
-                                <p>Мария</p>
-                                <small>Участник</small>
-                            </div>
-                        </div>
-                        <div class="member-item">
-                            <div class="avatar small">Е</div>
-                            <div class="member-info">
-                                <p>Елена</p>
-                                <small>Участник</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && !adminModal.classList.contains('hidden')) {
+                        closeAdminPanel();
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
