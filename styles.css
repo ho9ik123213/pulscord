@@ -1,6 +1,6 @@
 :root {
-    --primary-color: #5865f2;
-    --primary-dark: #4752c4;
+    --primary-color: #026bb1;
+    --primary-dark: #47c462;
     --secondary-color: #36393f;
     --tertiary-color: #2f3136;
     --quaternary-color: #202225;
@@ -13,6 +13,53 @@
     --online-indicator: #43b581;
     --idle-indicator: #faa61a;
     --dnd-indicator: #f04747;
+
+    /* ===== МЕГА-УЛЬТРА-СУПЕР ЖИДКОЕ СТЕКЛО 111x ===== */
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.25);
+    --glass-shadow: 0 20px 80px rgba(0, 0, 0, 0.5), 
+                    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+                    0 0 40px rgba(88, 101, 242, 0.05);
+    --glass-blur: blur(60px);
+    --glass-saturate: saturate(1.8);
+
+    --glass-bg-strong: rgba(30, 32, 38, 0.45);
+    --glass-border-strong: rgba(255, 255, 255, 0.35);
+    --glass-blur-strong: blur(80px);
+
+    --glass-bg-light: rgba(255, 255, 255, 0.02);
+    --glass-border-light: rgba(255, 255, 255, 0.08);
+    
+    --glass-shine: linear-gradient(135deg, 
+        rgba(255,255,255,0.25) 0%, 
+        rgba(255,255,255,0.05) 30%, 
+        rgba(255,255,255,0.15) 60%, 
+        rgba(255,255,255,0.02) 100%);
+    
+    --glass-shine-strong: linear-gradient(135deg, 
+        rgba(255,255,255,0.35) 0%, 
+        rgba(255,255,255,0.08) 25%, 
+        rgba(255,255,255,0.2) 55%, 
+        rgba(255,255,255,0.04) 85%,
+        rgba(255,255,255,0.15) 100%);
+    
+    --glass-shimmer: linear-gradient(
+        120deg,
+        transparent 0%,
+        transparent 30%,
+        rgba(255,255,255,0.15) 45%,
+        rgba(255,255,255,0.25) 50%,
+        rgba(255,255,255,0.15) 55%,
+        transparent 70%,
+        transparent 100%
+    );
+    
+    --glass-glow: 0 0 60px rgba(88, 101, 242, 0.08),
+                  0 0 120px rgba(88, 101, 242, 0.04);
+    
+    --glass-iphone: inset 0 0 0 1px rgba(255,255,255,0.12),
+                    inset 0 2px 0 rgba(255,255,255,0.08),
+                    inset 0 -2px 0 rgba(0,0,0,0.1);
 }
 
 * {
@@ -24,7 +71,7 @@
 html, body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
     color: var(--text-primary);
-    background-color: var(--background-secondary);
+    background: radial-gradient(ellipse at 50% 0%, #2a2d35, #0a0b0e);
     height: 100%;
     overflow: hidden;
 }
@@ -35,8 +82,18 @@ html, body {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background: linear-gradient(135deg, #202225, #1a1c1f);
+    background: radial-gradient(ellipse at 50% 0%, #2a2d35, #0a0b0e);
     transition: opacity 0.3s;
+    position: relative;
+}
+
+.auth-container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 20%, rgba(88,101,242,0.06), transparent 60%),
+                radial-gradient(ellipse at 70% 80%, rgba(255,196,74,0.04), transparent 50%);
+    pointer-events: none;
 }
 
 .auth-container.hidden {
@@ -44,26 +101,55 @@ html, body {
 }
 
 .auth-card {
-    background: var(--background-secondary);
-    border-radius: 12px;
-    padding: 40px;
+    background: var(--glass-bg-strong);
+    backdrop-filter: var(--glass-blur-strong) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur-strong) var(--glass-saturate);
+    border-radius: 32px;
+    padding: 44px;
     width: 100%;
-    max-width: 400px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(88, 101, 242, 0.2);
+    max-width: 420px;
+    border: 1px solid var(--glass-border-strong);
+    box-shadow: var(--glass-shadow), var(--glass-iphone), var(--glass-glow);
+    background-image: var(--glass-shine-strong);
+    position: relative;
+    overflow: hidden;
+    animation: glassFloat 6s ease-in-out infinite;
+}
+
+.auth-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--glass-shimmer);
+    background-size: 200% 100%;
+    animation: shimmerSlide 4s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes shimmerSlide {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+@keyframes glassFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-4px); }
 }
 
 .auth-header {
     text-align: center;
     margin-bottom: 30px;
+    position: relative;
+    z-index: 1;
 }
 
 .auth-header h1 {
-    font-size: 32px;
+    font-size: 36px;
     margin-bottom: 8px;
-    background: linear-gradient(135deg, #5865f2, #6d77ff);
+    background: linear-gradient(135deg, #5865f2, #6d77ff, #8b93ff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 60px rgba(88,101,242,0.2);
 }
 
 .brand-title {
@@ -74,9 +160,10 @@ html, body {
 }
 
 .brand-title img {
-    width: 42px;
-    height: 42px;
-    border-radius: 11px;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(88,101,242,0.3);
 }
 
 .auth-header p {
@@ -88,6 +175,8 @@ html, body {
     display: flex;
     gap: 12px;
     margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
 }
 
 .tab-btn {
@@ -100,13 +189,15 @@ html, body {
     cursor: pointer;
     font-size: 14px;
     font-weight: 600;
-    transition: all 0.2s;
+    transition: all 0.3s;
     text-transform: uppercase;
+    border-radius: 0;
 }
 
 .tab-btn.active {
     color: var(--primary-color);
     border-bottom-color: var(--primary-color);
+    text-shadow: 0 0 30px rgba(88,101,242,0.2);
 }
 
 .tab-btn:hover:not(.active) {
@@ -116,6 +207,8 @@ html, body {
 .auth-tab {
     display: none;
     animation: fadeIn 0.3s ease;
+    position: relative;
+    z-index: 1;
 }
 
 .auth-tab.active {
@@ -136,19 +229,23 @@ html, body {
 
 .form-group input {
     width: 100%;
-    padding: 10px 12px;
-    background: var(--background-tertiary);
-    border: 1px solid rgba(88, 101, 242, 0.3);
-    border-radius: 4px;
+    padding: 14px 18px;
+    background: var(--glass-bg-light);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
     color: var(--text-primary);
     font-size: 14px;
-    transition: all 0.2s;
+    transition: all 0.3s;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .form-group input:focus {
     outline: none;
     border-color: var(--primary-color);
-    background: rgba(88, 101, 242, 0.1);
+    background: rgba(88, 101, 242, 0.12);
+    box-shadow: 0 0 0 6px rgba(88, 101, 242, 0.06), inset 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .form-group input::placeholder {
@@ -157,25 +254,38 @@ html, body {
 
 .btn-primary {
     width: 100%;
-    padding: 12px;
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    padding: 14px;
+    background: linear-gradient(135deg, var(--primary-color), #6d77ff, var(--primary-dark));
     border: none;
-    border-radius: 4px;
+    border-radius: 16px;
     color: white;
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s;
     margin-top: 8px;
+    box-shadow: 0 8px 32px rgba(88, 101, 242, 0.25);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--glass-shimmer);
+    background-size: 200% 100%;
+    animation: shimmerSlide 3s ease-in-out infinite;
+    pointer-events: none;
 }
 
 .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(88, 101, 242, 0.4);
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 0 12px 48px rgba(88, 101, 242, 0.35);
 }
 
 .btn-primary:active {
-    transform: translateY(0);
+    transform: translateY(0) scale(0.99);
 }
 
 .error-message {
@@ -185,15 +295,17 @@ html, body {
     margin-top: 8px;
     padding: 8px;
     background: rgba(240, 71, 71, 0.1);
-    border-radius: 4px;
+    border-radius: 8px;
     border-left: 3px solid #f04747;
 }
 
 .auth-footer {
     margin-top: 24px;
     text-align: center;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid var(--glass-border);
     padding-top: 20px;
+    position: relative;
+    z-index: 1;
 }
 
 .auth-footer p {
@@ -210,18 +322,22 @@ html, body {
 
 .demo-btn {
     padding: 8px 12px;
-    background: rgba(88, 101, 242, 0.2);
-    border: 1px solid var(--primary-color);
-    border-radius: 4px;
+    background: var(--glass-bg-light);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
     color: var(--primary-color);
     cursor: pointer;
     font-size: 12px;
-    transition: all 0.2s;
+    transition: all 0.3s;
 }
 
 .demo-btn:hover {
     background: var(--primary-color);
     color: white;
+    border-color: var(--primary-color);
+    box-shadow: 0 8px 32px rgba(88,101,242,0.2);
 }
 
 /* ===== ОСНОВНОЕ ПРИЛОЖЕНИЕ ===== */
@@ -239,13 +355,16 @@ body > .app-container:not(#app-screen) {
 /* ===== Боковая панель серверов ===== */
 .servers-sidebar {
     width: 72px;
-    background-color: var(--background-quaternary);
+    background: var(--glass-bg-strong);
+    backdrop-filter: var(--glass-blur-strong) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur-strong) var(--glass-saturate);
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 8px 0;
     gap: 8px;
-    border-right: 1px solid var(--background-tertiary);
+    border-right: 1px solid var(--glass-border);
+    box-shadow: var(--glass-iphone);
 }
 
 .server-icon {
@@ -257,21 +376,23 @@ body > .app-container:not(#app-screen) {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
     font-weight: bold;
     color: white;
     font-size: 20px;
     position: relative;
+    box-shadow: 0 8px 32px rgba(88, 101, 242, 0.2);
 }
 
 .server-icon:hover {
-    border-radius: 45%;
-    transform: scale(1.05);
+    border-radius: 40%;
+    transform: scale(1.08);
     background: linear-gradient(135deg, #6d77ff, #5865f2);
+    box-shadow: 0 12px 48px rgba(88, 101, 242, 0.35);
 }
 
 .server-icon.active {
-    border-radius: 35%;
+    border-radius: 30%;
     background: var(--primary-color);
 }
 
@@ -281,8 +402,9 @@ body > .app-container:not(#app-screen) {
     left: -8px;
     width: 4px;
     height: 48px;
-    background-color: white;
+    background: linear-gradient(180deg, #5865f2, #6d77ff);
     border-radius: 0 4px 4px 0;
+    box-shadow: 0 0 20px rgba(88,101,242,0.3);
 }
 
 .servers-list {
@@ -326,17 +448,22 @@ body > .app-container:not(#app-screen) {
     margin-top: auto;
     border: 0;
     border-radius: 50%;
-    background: var(--background-tertiary);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    border: 1px solid var(--glass-border);
     color: #43b581;
     cursor: pointer;
     font-size: 18px;
-    transition: border-radius 0.2s ease, background 0.2s ease, color 0.2s ease;
+    transition: all 0.3s ease;
 }
 
 .server-create-button:hover {
-    border-radius: 35%;
+    border-radius: 30%;
     background: #43b581;
     color: #fff;
+    border-color: #43b581;
+    box-shadow: 0 8px 32px rgba(67,181,129,0.2);
 }
 
 .server-add {
@@ -348,12 +475,14 @@ body > .app-container:not(#app-screen) {
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background-color: var(--background-secondary);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     border: 2px dashed var(--text-secondary);
     color: var(--online-indicator);
     cursor: pointer;
     font-size: 24px;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -363,6 +492,7 @@ body > .app-container:not(#app-screen) {
     background-color: var(--online-indicator);
     color: white;
     border-color: var(--online-indicator);
+    box-shadow: 0 8px 32px rgba(67,181,129,0.2);
 }
 
 /* ===== Основной контейнер ===== */
@@ -370,18 +500,21 @@ body > .app-container:not(#app-screen) {
     flex: 1;
     display: flex;
     gap: 0;
-    background-color: var(--background-secondary);
+    background: var(--glass-bg-light);
 }
 
 /* ===== Боковая панель каналов ===== */
 .channels-sidebar {
     width: 240px;
-    background-color: var(--background-secondary);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     display: flex;
     flex-direction: column;
-    border-right: 1px solid rgba(0, 0, 0, 0.3);
+    border-right: 1px solid var(--glass-border);
     overflow-y: auto;
     overflow-x: hidden;
+    box-shadow: var(--glass-iphone);
 }
 
 .channels-sidebar::-webkit-scrollbar {
@@ -393,7 +526,7 @@ body > .app-container:not(#app-screen) {
 }
 
 .channels-sidebar::-webkit-scrollbar-thumb {
-    background: var(--background-tertiary);
+    background: var(--glass-bg);
     border-radius: 4px;
 }
 
@@ -403,7 +536,7 @@ body > .app-container:not(#app-screen) {
 
 .server-header {
     padding: 16px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid var(--glass-border);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -413,6 +546,9 @@ body > .app-container:not(#app-screen) {
     font-size: 16px;
     font-weight: 600;
     margin: 0;
+    background: linear-gradient(135deg, #fff, #72767d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .menu-button {
@@ -422,11 +558,12 @@ body > .app-container:not(#app-screen) {
     cursor: pointer;
     font-size: 14px;
     padding: 4px;
-    transition: color 0.2s;
+    transition: all 0.3s;
 }
 
 .menu-button:hover {
     color: var(--text-primary);
+    transform: rotate(90deg);
 }
 
 .search-box {
@@ -434,8 +571,11 @@ body > .app-container:not(#app-screen) {
     display: flex;
     align-items: center;
     padding: 8px 12px;
-    background-color: var(--background-tertiary);
-    border-radius: 20px;
+    background: var(--glass-bg-light);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
     gap: 8px;
 }
 
@@ -495,8 +635,11 @@ body > .app-container:not(#app-screen) {
     align-items: center;
     gap: 7px;
     padding: 8px;
-    border-radius: 7px;
-    background: rgba(255, 255, 255, 0.04);
+    border-radius: 14px;
+    background: var(--glass-bg-light);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    border: 1px solid var(--glass-border-light);
 }
 
 .request-info {
@@ -532,7 +675,7 @@ body > .app-container:not(#app-screen) {
     width: 24px;
     height: 24px;
     border: 0;
-    border-radius: 5px;
+    border-radius: 8px;
     color: #fff;
     cursor: pointer;
 }
@@ -549,8 +692,12 @@ body > .app-container:not(#app-screen) {
     margin: auto 12px 16px;
     padding: 12px;
     border: 1px solid rgba(255, 196, 74, 0.22);
-    border-radius: 10px;
-    background: linear-gradient(145deg, rgba(255, 196, 74, 0.1), rgba(88, 101, 242, 0.08));
+    border-radius: 18px;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    background-image: var(--glass-shine);
+    box-shadow: var(--glass-iphone);
 }
 
 .left-profile-card {
@@ -559,8 +706,13 @@ body > .app-container:not(#app-screen) {
     gap: 8px;
     margin: auto 8px 10px;
     padding: 8px;
-    border-radius: 8px;
-    background: rgba(15, 16, 20, 0.42);
+    border-radius: 14px;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    border: 1px solid var(--glass-border);
+    background-image: var(--glass-shine);
+    box-shadow: var(--glass-iphone);
 }
 
 .left-profile-name {
@@ -578,10 +730,11 @@ body > .app-container:not(#app-screen) {
     width: 26px;
     height: 26px;
     border: 0;
-    border-radius: 5px;
+    border-radius: 8px;
     background: transparent;
     color: var(--text-secondary);
     cursor: pointer;
+    transition: all 0.3s;
 }
 
 .left-profile-card button:hover {
@@ -606,17 +759,19 @@ body > .app-container:not(#app-screen) {
     display: block;
     margin-top: 6px;
     padding: 10px 11px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 7px;
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
     outline: none;
-    background: #202228;
+    background: var(--glass-bg-light);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     color: var(--text-primary);
     font-size: 14px;
 }
 
 .profile-field input:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(88, 101, 242, 0.18);
+    box-shadow: 0 0 0 6px rgba(88, 101, 242, 0.08);
 }
 
 .profile-avatar-editor {
@@ -680,33 +835,24 @@ body > .app-container:not(#app-screen) {
     margin-top: 10px;
     padding: 8px;
     border: 0;
-    border-radius: 6px;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 11px;
     font-weight: 700;
 }
 
 .premium-buy-btn {
-    background: #d39b31;
+    background: linear-gradient(135deg, #d39b31, #f0b232);
     color: #211a0c;
+    box-shadow: 0 8px 32px rgba(240, 178, 50, 0.2);
 }
 
 .admin-panel-btn {
-    background: rgba(88, 101, 242, 0.25);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    border: 1px solid var(--glass-border);
     color: var(--text-primary);
-}
-
-.admin-modal {
-    max-width: 560px;
-}
-
-.admin-modal .modal-input {
-    display: block;
-    margin-top: 12px;
-}
-
-.admin-actions {
-    flex-wrap: wrap;
 }
 
 .section-header {
@@ -728,7 +874,7 @@ body > .app-container:not(#app-screen) {
     cursor: pointer;
     font-size: 12px;
     padding: 0;
-    transition: color 0.2s;
+    transition: all 0.3s;
 }
 
 .section-header button:hover {
@@ -746,11 +892,11 @@ body > .app-container:not(#app-screen) {
 .dm-item {
     padding: 8px 12px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.3s;
     display: flex;
     align-items: center;
     gap: 8px;
-    border-radius: 4px;
+    border-radius: 10px;
     position: relative;
     color: var(--text-secondary);
     font-size: 15px;
@@ -759,14 +905,19 @@ body > .app-container:not(#app-screen) {
 
 .channel-item:hover,
 .dm-item:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background: var(--glass-bg-light);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     color: var(--text-primary);
 }
 
 .channel-item.active,
 .dm-item.active {
-    background-color: rgba(88, 101, 242, 0.3);
+    background: rgba(88, 101, 242, 0.25);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     color: var(--text-primary);
+    box-shadow: inset 0 0 0 1px rgba(88,101,242,0.1);
 }
 
 .channel-item i {
@@ -796,6 +947,7 @@ body > .app-container:not(#app-screen) {
     font-size: 14px;
     flex-shrink: 0;
     overflow: hidden;
+    box-shadow: 0 4px 16px rgba(88,101,242,0.15);
 }
 
 .avatar.small {
@@ -822,6 +974,7 @@ body > .app-container:not(#app-screen) {
     border-radius: 50%;
     border: 3px solid var(--background-secondary);
     position: relative;
+    box-shadow: 0 0 20px rgba(67,181,129,0.3);
 }
 
 /* ===== Основная область чата ===== */
@@ -829,15 +982,18 @@ body > .app-container:not(#app-screen) {
     flex: 1;
     display: flex;
     flex-direction: column;
-    background-color: var(--background-primary);
+    background: var(--glass-bg-light);
 }
 
 .chat-header {
     padding: 12px 20px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid var(--glass-border);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: var(--glass-bg-light);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
 }
 
 .mobile-menu-button {
@@ -859,6 +1015,9 @@ body > .app-container:not(#app-screen) {
     font-size: 16px;
     font-weight: 600;
     margin: 0;
+    background: linear-gradient(135deg, #fff, #72767d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .header-left p {
@@ -873,19 +1032,25 @@ body > .app-container:not(#app-screen) {
 }
 
 .header-right button {
-    background: none;
-    border: none;
+    background: var(--glass-bg-light);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    border: 1px solid var(--glass-border-light);
     color: var(--text-secondary);
     cursor: pointer;
     font-size: 18px;
     padding: 8px;
-    border-radius: 4px;
-    transition: color 0.2s, background-color 0.2s;
+    border-radius: 12px;
+    transition: all 0.3s;
 }
 
 .header-right button:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     color: var(--text-primary);
+    border-color: var(--glass-border);
+    transform: translateY(-2px);
 }
 
 /* ===== Область сообщений ===== */
@@ -907,7 +1072,7 @@ body > .app-container:not(#app-screen) {
 }
 
 .messages-area::-webkit-scrollbar-thumb {
-    background: var(--background-secondary);
+    background: var(--glass-bg);
     border-radius: 4px;
 }
 
@@ -925,13 +1090,15 @@ body > .app-container:not(#app-screen) {
     display: flex;
     gap: 12px;
     margin-bottom: 8px;
-    padding: 4px 8px;
-    border-radius: 4px;
-    transition: background-color 0.2s;
+    padding: 6px 12px;
+    border-radius: 14px;
+    transition: all 0.3s;
 }
 
 .message:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+    background: var(--glass-bg-light);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
 }
 
 .pinned-message {
@@ -965,7 +1132,10 @@ body > .app-container:not(#app-screen) {
     padding: 5px 8px;
     flex-direction: column;
     border-left: 3px solid var(--primary-color);
-    background: rgba(88, 101, 242, 0.12);
+    background: var(--glass-bg-light);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    border-radius: 10px;
     color: var(--text-secondary);
     font-size: 12px;
 }
@@ -998,8 +1168,10 @@ body > .app-container:not(#app-screen) {
 .school-menu button {
     padding: 6px 9px;
     border: 1px solid rgba(45, 156, 219, 0.45);
-    border-radius: 6px;
-    background: rgba(45, 156, 219, 0.14);
+    border-radius: 10px;
+    background: var(--glass-bg-light);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     color: var(--text-primary);
     cursor: pointer;
     font-size: 12px;
@@ -1020,7 +1192,7 @@ body > .app-container:not(#app-screen) {
     padding: 0;
     place-items: center;
     border: 0;
-    border-radius: 5px;
+    border-radius: 8px;
     background: transparent;
     color: var(--text-muted);
     cursor: pointer;
@@ -1064,8 +1236,11 @@ body > .app-container:not(#app-screen) {
     gap: 6px;
     padding: 10px;
     border-left: 4px solid #2d9cdb;
-    border-radius: 7px;
-    background: var(--background-secondary);
+    border-radius: 14px;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    border: 1px solid var(--glass-border);
 }
 
 .bot-block-head {
@@ -1114,9 +1289,11 @@ body > .app-container:not(#app-screen) {
     flex-direction: column;
     align-items: stretch;
     gap: 5px;
-    border: 1px solid var(--background-tertiary);
-    border-radius: 9px;
-    background: var(--background-secondary);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     color: var(--text-primary);
     cursor: pointer;
     text-align: left;
@@ -1125,6 +1302,7 @@ body > .app-container:not(#app-screen) {
 .monkey-nft-card:hover {
     border-color: #f0b232;
     transform: translateY(-2px);
+    box-shadow: 0 12px 48px rgba(240, 178, 50, 0.1);
 }
 
 .monkey-nft-card img {
@@ -1148,8 +1326,10 @@ body > .app-container:not(#app-screen) {
     align-items: center;
     gap: 10px;
     border: 1px solid rgba(240, 178, 50, 0.55);
-    border-radius: 9px;
-    background: rgba(240, 178, 50, 0.1);
+    border-radius: 14px;
+    background: var(--glass-bg-light);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
 }
 
 .monkey-nft-message img {
@@ -1173,9 +1353,11 @@ body > .app-container:not(#app-screen) {
 
 .management-section {
     padding: 10px;
-    border: 1px solid var(--background-tertiary);
-    border-radius: 8px;
-    background: var(--background-secondary);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
 }
 
 .management-section h3 {
@@ -1189,7 +1371,7 @@ body > .app-container:not(#app-screen) {
     align-items: center;
     gap: 8px;
     min-height: 32px;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-top: 1px solid var(--glass-border-light);
     color: var(--text-secondary);
     font-size: 12px;
 }
@@ -1205,7 +1387,7 @@ body > .app-container:not(#app-screen) {
     width: 28px;
     height: 26px;
     border: 0;
-    border-radius: 5px;
+    border-radius: 8px;
     background: rgba(240, 71, 71, 0.14);
     color: #f04747;
     cursor: pointer;
@@ -1246,8 +1428,10 @@ body > .app-container:not(#app-screen) {
     align-items: center;
     gap: 8px;
     padding: 7px;
-    border-radius: 5px;
-    background: var(--background-tertiary);
+    border-radius: 10px;
+    background: var(--glass-bg-light);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     color: var(--text-secondary);
     font-size: 12px;
 }
@@ -1334,10 +1518,10 @@ body > .app-container:not(#app-screen) {
     height: auto;
     max-width: min(100%, 320px);
     max-height: 260px;
-    border-radius: 12px;
+    border-radius: 18px;
     margin-top: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 16px 64px rgba(0, 0, 0, 0.3);
     object-fit: contain;
 }
 
@@ -1349,8 +1533,11 @@ body > .app-container:not(#app-screen) {
     margin-top: 8px;
     padding: 9px 11px;
     border: 1px solid rgba(88, 101, 242, 0.28);
-    border-radius: 12px;
-    background: linear-gradient(135deg, rgba(88, 101, 242, 0.2), rgba(32, 34, 37, 0.9));
+    border-radius: 18px;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    background-image: var(--glass-shine);
 }
 
 .message-audio-icon {
@@ -1484,8 +1671,11 @@ body > .app-container:not(#app-screen) {
     align-items: center;
     justify-content: center;
     margin-top: 4px;
-    border-radius: 18px;
-    background: rgba(88, 101, 242, 0.16);
+    border-radius: 20px;
+    background: var(--glass-bg-light);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    border: 1px solid var(--glass-border-light);
     font-size: 52px;
     line-height: 1;
 }
@@ -1503,22 +1693,25 @@ body > .app-container:not(#app-screen) {
 }
 
 .msg-btn {
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 6px;
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
     width: 28px;
     height: 26px;
     padding: 0;
-    background: rgba(32, 34, 37, 0.8);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     color: var(--text-secondary);
     cursor: pointer;
     font-size: 11px;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
 }
 
 .msg-btn:hover {
     color: var(--text-primary);
-    background: var(--background-tertiary);
+    background: var(--glass-bg-strong);
     border-color: rgba(88, 101, 242, 0.55);
+    transform: scale(1.05);
 }
 
 .channel-avatar {
@@ -1563,9 +1756,11 @@ body > .app-container:not(#app-screen) {
 .reaction-add-btn {
     min-height: 24px;
     padding: 2px 8px;
-    border: 1px solid var(--background-tertiary);
-    border-radius: 12px;
-    background: var(--background-secondary);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    background: var(--glass-bg-light);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     color: var(--text-secondary);
     cursor: pointer;
     font-size: 12px;
@@ -1578,9 +1773,11 @@ body > .app-container:not(#app-screen) {
     max-width: min(360px, 100%);
     margin-top: 8px;
     padding: 10px 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    background: var(--background-secondary);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     color: var(--text-primary);
     text-decoration: none;
 }
@@ -1684,8 +1881,9 @@ body > .app-container:not(#app-screen) {
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background: rgba(8, 10, 14, 0.72);
-    backdrop-filter: blur(5px);
+    background: rgba(8, 10, 14, 0.82);
+    backdrop-filter: blur(60px);
+    -webkit-backdrop-filter: blur(60px);
     animation: modalFadeIn 0.18s ease;
 }
 
@@ -1696,11 +1894,26 @@ body > .app-container:not(#app-screen) {
 .app-modal {
     width: min(100%, 410px);
     padding: 26px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 14px;
-    background: linear-gradient(145deg, #363a45, #292c34);
-    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
+    border: 1px solid var(--glass-border-strong);
+    border-radius: 24px;
+    background: var(--glass-bg-strong);
+    backdrop-filter: var(--glass-blur-strong) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur-strong) var(--glass-saturate);
+    background-image: var(--glass-shine-strong);
+    box-shadow: var(--glass-shadow), var(--glass-iphone), var(--glass-glow);
     animation: modalSlideIn 0.22s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.app-modal::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--glass-shimmer);
+    background-size: 200% 100%;
+    animation: shimmerSlide 4s ease-in-out infinite;
+    pointer-events: none;
 }
 
 .modal-icon {
@@ -1709,8 +1922,10 @@ body > .app-container:not(#app-screen) {
     display: grid;
     place-items: center;
     margin-bottom: 16px;
-    border-radius: 12px;
-    background: rgba(88, 101, 242, 0.18);
+    border-radius: 14px;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     color: #8790ff;
     font-size: 17px;
 }
@@ -1731,17 +1946,19 @@ body > .app-container:not(#app-screen) {
     width: 100%;
     margin-top: 20px;
     padding: 12px 13px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 8px;
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
     outline: none;
-    background: #202228;
+    background: var(--glass-bg-light);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     color: var(--text-primary);
     font-size: 14px;
 }
 
 .modal-input:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(88, 101, 242, 0.18);
+    box-shadow: 0 0 0 6px rgba(88, 101, 242, 0.08);
 }
 
 .modal-input.hidden {
@@ -1757,38 +1974,43 @@ body > .app-container:not(#app-screen) {
 
 .modal-button {
     border: 0;
-    border-radius: 7px;
+    border-radius: 12px;
     padding: 10px 14px;
     color: var(--text-primary);
     cursor: pointer;
     font-size: 13px;
     font-weight: 600;
-    transition: transform 0.2s ease, background 0.2s ease;
+    transition: all 0.3s ease;
 }
 
 .modal-button:hover {
-    transform: translateY(-1px);
+    transform: translateY(-2px);
 }
 
 .modal-button.secondary {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    border: 1px solid var(--glass-border);
 }
 
 .modal-button.secondary:hover {
-    background: rgba(255, 255, 255, 0.14);
+    background: var(--glass-bg-strong);
 }
 
 .modal-button.primary {
-    background: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color), #6d77ff);
     color: #fff;
+    box-shadow: 0 8px 32px rgba(88, 101, 242, 0.3);
 }
 
 .modal-button.primary:hover {
-    background: #6d77ff;
+    box-shadow: 0 12px 48px rgba(88, 101, 242, 0.4);
 }
 
 .modal-button.primary.danger {
     background: #d84b5b;
+    box-shadow: 0 8px 32px rgba(216, 75, 91, 0.3);
 }
 
 .modal-button.primary.danger:hover {
@@ -1848,8 +2070,10 @@ body > .app-container:not(#app-screen) {
     margin-bottom: 8px;
     padding: 8px 10px;
     border: 1px solid rgba(240, 71, 71, 0.4);
-    border-radius: 10px;
-    background: rgba(240, 71, 71, 0.1);
+    border-radius: 14px;
+    background: var(--glass-bg-light);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     color: var(--text-primary);
 }
 
@@ -1876,7 +2100,9 @@ body > .app-container:not(#app-screen) {
     padding: 4px;
     border: 2px solid #f04747;
     border-radius: 50%;
-    background: rgba(240, 71, 71, 0.12);
+    background: var(--glass-bg-light);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     box-shadow: 0 0 0 6px rgba(240, 71, 71, 0.08);
     animation: recordingPreviewPulse 1.4s infinite;
 }
@@ -1909,7 +2135,7 @@ body > .app-container:not(#app-screen) {
 #stop-recording-btn {
     padding: 6px 10px;
     border: 0;
-    border-radius: 6px;
+    border-radius: 10px;
     background: #f04747;
     color: #fff;
     cursor: pointer;
@@ -1925,8 +2151,10 @@ body > .app-container:not(#app-screen) {
     margin-bottom: 8px;
     padding: 8px 10px;
     border: 1px solid rgba(88, 101, 242, 0.45);
-    border-radius: 8px;
-    background: var(--background-secondary);
+    border-radius: 14px;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
 }
 
 .image-preview img {
@@ -1978,7 +2206,7 @@ body > .app-container:not(#app-screen) {
     width: 28px;
     height: 28px;
     border: 0;
-    border-radius: 5px;
+    border-radius: 8px;
     background: transparent;
     color: var(--text-secondary);
     cursor: pointer;
@@ -1997,17 +2225,20 @@ body > .app-container:not(#app-screen) {
     max-width: 100%;
     margin: 0 0 8px auto;
     padding: 10px;
-    border: 1px solid rgba(88, 101, 242, 0.35);
-    border-radius: 12px;
-    background: var(--background-secondary);
-    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--glass-border);
+    border-radius: 18px;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    background-image: var(--glass-shine);
+    box-shadow: var(--glass-shadow);
 }
 
 .sticker-panel button {
     width: 48px;
     height: 44px;
     border: 0;
-    border-radius: 8px;
+    border-radius: 12px;
     background: transparent;
     cursor: pointer;
     font-size: 27px;
@@ -2022,14 +2253,20 @@ body > .app-container:not(#app-screen) {
     display: flex;
     gap: 8px;
     align-items: center;
-    background-color: var(--background-secondary);
-    border-radius: 20px;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    border: 1px solid var(--glass-border);
+    border-radius: 28px;
     padding: 0 12px;
-    transition: background-color 0.2s;
+    transition: all 0.3s;
+    box-shadow: var(--glass-iphone);
 }
 
 .input-wrapper:focus-within {
-    background-color: rgba(88, 101, 242, 0.2);
+    background: rgba(88, 101, 242, 0.12);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 8px rgba(88, 101, 242, 0.04), var(--glass-iphone);
 }
 
 .input-button {
@@ -2039,12 +2276,13 @@ body > .app-container:not(#app-screen) {
     cursor: pointer;
     font-size: 18px;
     padding: 8px;
-    transition: color 0.2s;
+    transition: all 0.3s;
     flex-shrink: 0;
 }
 
 .input-button:hover {
     color: var(--text-primary);
+    transform: scale(1.05);
 }
 
 .input-button.recording {
@@ -2061,8 +2299,10 @@ body > .app-container:not(#app-screen) {
     gap: 12px;
     padding: 8px 16px;
     overflow-x: auto;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-    background: var(--background-primary);
+    border-bottom: 1px solid var(--glass-border);
+    background: var(--glass-bg-light);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
 }
 
 .story-add-button,
@@ -2178,10 +2418,12 @@ body > .app-container:not(#app-screen) {
 /* ===== Боковая панель пользователя ===== */
 .user-sidebar {
     width: 240px;
-    background-color: var(--background-secondary);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     display: flex;
     flex-direction: column;
-    border-left: 1px solid rgba(0, 0, 0, 0.3);
+    border-left: 1px solid var(--glass-border);
     overflow-y: auto;
 }
 
@@ -2194,7 +2436,7 @@ body > .app-container:not(#app-screen) {
 }
 
 .user-sidebar::-webkit-scrollbar-thumb {
-    background: var(--background-tertiary);
+    background: var(--glass-bg);
     border-radius: 4px;
 }
 
@@ -2204,7 +2446,7 @@ body > .app-container:not(#app-screen) {
 
 .user-profile {
     padding: 16px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid var(--glass-border);
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -2224,6 +2466,7 @@ body > .app-container:not(#app-screen) {
     font-weight: bold;
     font-size: 24px;
     overflow: hidden;
+    box-shadow: 0 8px 32px rgba(88,101,242,0.2);
 }
 
 .large-avatar .avatar-image,
@@ -2255,18 +2498,21 @@ body > .app-container:not(#app-screen) {
 .user-actions button {
     width: 32px;
     height: 32px;
-    border-radius: 4px;
-    background-color: var(--background-tertiary);
-    border: none;
+    border-radius: 12px;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    border: 1px solid var(--glass-border);
     color: var(--text-secondary);
     cursor: pointer;
     font-size: 14px;
-    transition: all 0.2s;
+    transition: all 0.3s;
 }
 
 .user-actions button:hover {
-    background-color: rgba(88, 101, 242, 0.3);
+    background: rgba(88, 101, 242, 0.3);
     color: var(--primary-color);
+    transform: translateY(-2px);
 }
 
 .members-section {
@@ -2290,17 +2536,19 @@ body > .app-container:not(#app-screen) {
 
 .member-item {
     padding: 8px;
-    border-radius: 4px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     gap: 8px;
-    transition: background-color 0.2s;
+    transition: all 0.3s;
     position: relative;
     cursor: pointer;
 }
 
 .member-item:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background: var(--glass-bg-light);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
 }
 
 .member-item.online {
@@ -2332,7 +2580,7 @@ body > .app-container:not(#app-screen) {
 
 .stats-section {
     padding: 16px;
-    border-top: 1px solid rgba(0, 0, 0, 0.3);
+    border-top: 1px solid var(--glass-border);
 }
 
 .stats-section h4 {
@@ -2355,8 +2603,10 @@ body > .app-container:not(#app-screen) {
     justify-content: space-between;
     align-items: center;
     padding: 8px;
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: 4px;
+    background: var(--glass-bg-light);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    border-radius: 10px;
     font-size: 13px;
 }
 
@@ -2441,6 +2691,7 @@ body > .app-container:not(#app-screen) {
         inset: 0;
         z-index: 110;
         background: rgba(0, 0, 0, 0.56);
+        backdrop-filter: blur(40px);
     }
 
     .channels-sidebar {
@@ -2454,7 +2705,7 @@ body > .app-container:not(#app-screen) {
         overscroll-behavior: contain;
         transform: translateX(-104%);
         transition: transform 0.3s ease;
-        box-shadow: 8px 0 26px rgba(0, 0, 0, 0.25);
+        box-shadow: 16px 0 80px rgba(0, 0, 0, 0.3);
     }
 
     .channels-sidebar.active {
@@ -2485,8 +2736,11 @@ body > .app-container:not(#app-screen) {
         height: 34px;
         padding: 0;
         border: 0;
-        border-radius: 6px;
-        background: transparent;
+        border-radius: 10px;
+        background: var(--glass-bg-light);
+        backdrop-filter: var(--glass-blur) var(--glass-saturate);
+        -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+        border: 1px solid var(--glass-border-light);
         color: var(--text-secondary);
         font-size: 17px;
     }
@@ -2559,7 +2813,7 @@ body > .app-container:not(#app-screen) {
         max-width: 100%;
         overflow: hidden;
         min-height: 44px;
-        border-radius: 16px;
+        border-radius: 22px;
         gap: 4px;
         padding: 0 8px;
     }
@@ -2710,8 +2964,24 @@ body > .app-container:not(#app-screen) {
     flex-direction: column;
     padding: 24px;
     overflow: hidden;
-    background: radial-gradient(circle at 50% 28%, #6447a8 0%, #382568 42%, #171228 100%);
+    background: var(--glass-bg-strong);
+    backdrop-filter: var(--glass-blur-strong) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur-strong) var(--glass-saturate);
+    background-image: var(--glass-shine-strong);
+    border: 1px solid var(--glass-border-strong);
+    box-shadow: var(--glass-shadow), var(--glass-iphone), var(--glass-glow);
     animation: voicePanelIn 0.25s ease-out;
+    position: relative;
+}
+
+.voice-call-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--glass-shimmer);
+    background-size: 200% 100%;
+    animation: shimmerSlide 4s ease-in-out infinite;
+    pointer-events: none;
 }
 
 .voice-call-panel.hidden,
@@ -2730,9 +3000,12 @@ body > .app-container:not(#app-screen) {
     width: min(380px, calc(100vw - 32px));
     padding: 14px 16px;
     border: 1px solid rgba(165, 130, 255, 0.55);
-    border-radius: 14px;
-    background: linear-gradient(135deg, #3b2670, #21183f);
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+    border-radius: 20px;
+    background: var(--glass-bg-strong);
+    backdrop-filter: var(--glass-blur-strong) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur-strong) var(--glass-saturate);
+    background-image: var(--glass-shine-strong);
+    box-shadow: var(--glass-shadow), var(--glass-iphone), var(--glass-glow);
     color: #fff;
     animation: incomingCallIn 0.25s ease-out;
 }
@@ -2808,15 +3081,16 @@ body > .app-container:not(#app-screen) {
 
 @keyframes incomingCallPulse {
     0%, 100% { box-shadow: 0 0 0 0 rgba(67, 181, 129, 0.45); }
-    50% { box-shadow: 0 0 0 9px rgba(67, 181, 129, 0); }
+    50% { box-shadow: 0 0 0 12px rgba(67, 181, 129, 0); }
 }
 
-.voice-call-panel::before {
+.voice-call-panel::after {
     position: absolute;
     inset: 0;
     content: '';
     pointer-events: none;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 38%, rgba(10, 5, 30, 0.3));
+    background: radial-gradient(ellipse at 30% 20%, rgba(88,101,242,0.06), transparent 60%),
+                radial-gradient(ellipse at 70% 80%, rgba(255,196,74,0.04), transparent 50%);
 }
 
 .voice-call-topline,
@@ -2870,7 +3144,7 @@ body > .app-container:not(#app-screen) {
     color: #fff;
     font-size: 36px;
     font-weight: 700;
-    box-shadow: 0 0 0 6px rgba(67, 181, 129, 0.12);
+    box-shadow: 0 0 0 8px rgba(67, 181, 129, 0.08);
 }
 
 .voice-call-identity h2 {
@@ -2916,10 +3190,11 @@ body > .app-container:not(#app-screen) {
 .voice-video-grid video {
     width: 100%;
     max-height: 62vh;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 12px;
+    border: 1px solid var(--glass-border-strong);
+    border-radius: 18px;
     background: rgba(9, 6, 20, 0.7);
     object-fit: cover;
+    box-shadow: var(--glass-iphone);
 }
 
 #voice-remote-videos {
@@ -2928,8 +3203,10 @@ body > .app-container:not(#app-screen) {
 
 .voice-call-participants span {
     padding: 5px 8px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    background: var(--glass-bg-light);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     color: var(--text-secondary);
     font-size: 11px;
 }
@@ -2948,10 +3225,13 @@ body > .app-container:not(#app-screen) {
     gap: 12px;
     margin-top: 16px;
     padding: 12px 16px;
-    border: 1px solid rgba(255, 255, 255, 0.13);
-    border-radius: 18px;
-    background: rgba(18, 12, 35, 0.72);
-    backdrop-filter: blur(18px);
+    border: 1px solid var(--glass-border-strong);
+    border-radius: 24px;
+    background: var(--glass-bg-strong);
+    backdrop-filter: var(--glass-blur-strong) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur-strong) var(--glass-saturate);
+    background-image: var(--glass-shine-strong);
+    box-shadow: var(--glass-iphone);
 }
 
 .voice-action-button {
@@ -2959,7 +3239,9 @@ body > .app-container:not(#app-screen) {
     height: 42px;
     border: 0;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--glass-bg-light);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     color: var(--text-primary);
     cursor: pointer;
     font-size: 16px;
