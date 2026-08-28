@@ -1,79 +1,135 @@
 :root {
-    --primary-color: #026bb1;
-    --primary-dark: #47c462;
-    --secondary-color: #36393f;
-    --tertiary-color: #2f3136;
-    --quaternary-color: #202225;
-    --text-primary: #dcddde;
-    --text-secondary: #72767d;
-    --text-muted: #72767d;
-    --background-primary: #36393f;
-    --background-secondary: #2f3136;
-    --background-tertiary: #202225;
-    --online-indicator: #43b581;
-    --idle-indicator: #faa61a;
-    --dnd-indicator: #f04747;
+    /* ===== СУПЕР-ЯРКИЕ ЦВЕТА ===== */
+    --primary-color: #6c5ce7;
+    --primary-hover: #5a4bd1;
+    --primary-light: #a29bfe;
+    --primary-dark: #4834d4;
+    --primary-gradient: linear-gradient(135deg, #6c5ce7, #fd79a8, #00cec9);
+    
+    --secondary-color: #2d3436;
+    --tertiary-color: #1e272e;
+    --quaternary-color: #0a0a0f;
+    
+    /* ===== ТЕКСТ ===== */
+    --text-primary: #ffffff;
+    --text-secondary: #b2bec3;
+    --text-muted: #636e72;
+    --text-link: #74b9ff;
+    
+    /* ===== ФОНЫ ===== */
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #14141e;
+    --bg-tertiary: #1a1a2e;
+    --bg-hover: #2d2d44;
+    --bg-active: #3d3d5c;
+    
+    /* ===== ИНДИКАТОРЫ ===== */
+    --online-indicator: #00ff88;
+    --idle-indicator: #ffd93d;
+    --dnd-indicator: #ff6b6b;
+    --streaming-indicator: #a29bfe;
+    
+    /* ===== СУПЕР-ЦВЕТА ДЛЯ РОЛЕЙ ===== */
+    --color-owner: #ffd93d;
+    --color-admin: #ff6b6b;
+    --color-moderator: #00ff88;
+    --color-developer: #a29bfe;
+    --color-verified: #74b9ff;
+    --color-premium: #ffd93d;
+    --color-gold: #ffd93d;
+    --color-rainbow: linear-gradient(135deg, #ff6b6b, #ffd93d, #00ff88, #74b9ff, #a29bfe, #fd79a8);
 
     /* ===== МЕГА-УЛЬТРА-СУПЕР ЖИДКОЕ СТЕКЛО 111x ===== */
-    --glass-bg: rgba(255, 255, 255, 0.03);
-    --glass-border: rgba(255, 255, 255, 0.25);
-    --glass-shadow: 0 20px 80px rgba(0, 0, 0, 0.5), 
-                    inset 0 1px 0 rgba(255, 255, 255, 0.15),
-                    0 0 40px rgba(88, 101, 242, 0.05);
+    --glass-bg: rgba(255, 255, 255, 0.04);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --glass-shadow: 0 20px 80px rgba(108, 92, 231, 0.15), 
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                    0 0 40px rgba(108, 92, 231, 0.08);
     --glass-blur: blur(60px);
     --glass-saturate: saturate(1.8);
 
-    --glass-bg-strong: rgba(30, 32, 38, 0.45);
-    --glass-border-strong: rgba(255, 255, 255, 0.35);
+    --glass-bg-strong: rgba(20, 20, 30, 0.65);
+    --glass-border-strong: rgba(255, 255, 255, 0.2);
     --glass-blur-strong: blur(80px);
 
-    --glass-bg-light: rgba(255, 255, 255, 0.02);
+    --glass-bg-light: rgba(255, 255, 255, 0.03);
     --glass-border-light: rgba(255, 255, 255, 0.08);
     
     --glass-shine: linear-gradient(135deg, 
-        rgba(255,255,255,0.25) 0%, 
-        rgba(255,255,255,0.05) 30%, 
-        rgba(255,255,255,0.15) 60%, 
+        rgba(255,255,255,0.15) 0%, 
+        rgba(255,255,255,0.03) 30%, 
+        rgba(255,255,255,0.1) 60%, 
         rgba(255,255,255,0.02) 100%);
     
     --glass-shine-strong: linear-gradient(135deg, 
-        rgba(255,255,255,0.35) 0%, 
-        rgba(255,255,255,0.08) 25%, 
-        rgba(255,255,255,0.2) 55%, 
-        rgba(255,255,255,0.04) 85%,
-        rgba(255,255,255,0.15) 100%);
+        rgba(255,255,255,0.25) 0%, 
+        rgba(255,255,255,0.06) 25%, 
+        rgba(255,255,255,0.15) 55%, 
+        rgba(255,255,255,0.03) 85%,
+        rgba(255,255,255,0.1) 100%);
     
     --glass-shimmer: linear-gradient(
         120deg,
         transparent 0%,
         transparent 30%,
-        rgba(255,255,255,0.15) 45%,
+        rgba(255,255,255,0.12) 45%,
         rgba(255,255,255,0.25) 50%,
-        rgba(255,255,255,0.15) 55%,
+        rgba(255,255,255,0.12) 55%,
         transparent 70%,
         transparent 100%
     );
     
-    --glass-glow: 0 0 60px rgba(88, 101, 242, 0.08),
-                  0 0 120px rgba(88, 101, 242, 0.04);
+    --glass-glow: 0 0 60px rgba(108, 92, 231, 0.1),
+                  0 0 120px rgba(108, 92, 231, 0.05);
     
-    --glass-iphone: inset 0 0 0 1px rgba(255,255,255,0.12),
-                    inset 0 2px 0 rgba(255,255,255,0.08),
-                    inset 0 -2px 0 rgba(0,0,0,0.1);
+    --glass-iphone: inset 0 0 0 1px rgba(255,255,255,0.08),
+                    inset 0 2px 0 rgba(255,255,255,0.06),
+                    inset 0 -2px 0 rgba(0,0,0,0.15);
+
+    /* ===== ЗАКРУГЛЁННЫЙ КОНТУР ВЕЗДЕ ===== */
+    --radius-xs: 4px;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+    --radius-2xl: 36px;
+    --radius-full: 9999px;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    border-radius: var(--radius-sm);
 }
 
 html, body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
     color: var(--text-primary);
-    background: radial-gradient(ellipse at 50% 0%, #2a2d35, #0a0b0e);
+    background: var(--bg-primary);
     height: 100%;
     overflow: hidden;
+    border-radius: 0;
+}
+
+/* ===== СКРОЛЛБАРЫ ===== */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(108, 92, 231, 0.3);
+    border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(108, 92, 231, 0.5);
 }
 
 /* ===== АУТЕНТИФИКАЦИЯ ===== */
@@ -82,18 +138,20 @@ html, body {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background: radial-gradient(ellipse at 50% 0%, #2a2d35, #0a0b0e);
+    background: radial-gradient(ellipse at 50% 0%, #1a1a2e, #0a0a0f);
     transition: opacity 0.3s;
     position: relative;
+    border-radius: 0;
 }
 
 .auth-container::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at 30% 20%, rgba(88,101,242,0.06), transparent 60%),
-                radial-gradient(ellipse at 70% 80%, rgba(255,196,74,0.04), transparent 50%);
+    background: radial-gradient(ellipse at 30% 20%, rgba(108,92,231,0.12), transparent 60%),
+                radial-gradient(ellipse at 70% 80%, rgba(253,121,168,0.08), transparent 50%);
     pointer-events: none;
+    border-radius: 0;
 }
 
 .auth-container.hidden {
@@ -104,7 +162,7 @@ html, body {
     background: var(--glass-bg-strong);
     backdrop-filter: var(--glass-blur-strong) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur-strong) var(--glass-saturate);
-    border-radius: 32px;
+    border-radius: var(--radius-2xl);
     padding: 44px;
     width: 100%;
     max-width: 420px;
@@ -124,6 +182,11 @@ html, body {
     background-size: 200% 100%;
     animation: shimmerSlide 4s ease-in-out infinite;
     pointer-events: none;
+    border-radius: var(--radius-2xl);
+}
+
+.auth-card * {
+    border-radius: var(--radius-sm);
 }
 
 @keyframes shimmerSlide {
@@ -141,15 +204,17 @@ html, body {
     margin-bottom: 30px;
     position: relative;
     z-index: 1;
+    border-radius: var(--radius-sm);
 }
 
 .auth-header h1 {
     font-size: 36px;
     margin-bottom: 8px;
-    background: linear-gradient(135deg, #5865f2, #6d77ff, #8b93ff);
+    background: var(--color-rainbow);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 60px rgba(88,101,242,0.2);
+    text-shadow: none;
+    border-radius: var(--radius-sm);
 }
 
 .brand-title {
@@ -157,18 +222,20 @@ html, body {
     align-items: center;
     justify-content: center;
     gap: 10px;
+    border-radius: var(--radius-sm);
 }
 
 .brand-title img {
     width: 48px;
     height: 48px;
-    border-radius: 14px;
-    box-shadow: 0 8px 32px rgba(88,101,242,0.3);
+    border-radius: var(--radius-md);
+    box-shadow: 0 8px 32px rgba(108,92,231,0.3);
 }
 
 .auth-header p {
     color: var(--text-muted);
     font-size: 14px;
+    border-radius: var(--radius-sm);
 }
 
 .auth-tabs {
@@ -177,6 +244,7 @@ html, body {
     margin-bottom: 24px;
     position: relative;
     z-index: 1;
+    border-radius: var(--radius-sm);
 }
 
 .tab-btn {
@@ -195,9 +263,9 @@ html, body {
 }
 
 .tab-btn.active {
-    color: var(--primary-color);
+    color: var(--primary-light);
     border-bottom-color: var(--primary-color);
-    text-shadow: 0 0 30px rgba(88,101,242,0.2);
+    text-shadow: 0 0 30px rgba(108,92,231,0.3);
 }
 
 .tab-btn:hover:not(.active) {
@@ -209,6 +277,7 @@ html, body {
     animation: fadeIn 0.3s ease;
     position: relative;
     z-index: 1;
+    border-radius: var(--radius-sm);
 }
 
 .auth-tab.active {
@@ -217,6 +286,7 @@ html, body {
 
 .form-group {
     margin-bottom: 16px;
+    border-radius: var(--radius-sm);
 }
 
 .form-group label {
@@ -225,6 +295,7 @@ html, body {
     font-weight: 600;
     margin-bottom: 8px;
     color: var(--text-primary);
+    border-radius: var(--radius-sm);
 }
 
 .form-group input {
@@ -234,18 +305,19 @@ html, body {
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     border: 1px solid var(--glass-border);
-    border-radius: 16px;
+    border-radius: var(--radius-md);
     color: var(--text-primary);
     font-size: 14px;
     transition: all 0.3s;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .form-group input:focus {
     outline: none;
     border-color: var(--primary-color);
-    background: rgba(88, 101, 242, 0.12);
-    box-shadow: 0 0 0 6px rgba(88, 101, 242, 0.06), inset 0 2px 4px rgba(0,0,0,0.1);
+    background: rgba(108, 92, 231, 0.08);
+    box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.06), inset 0 2px 4px rgba(0,0,0,0.2);
+    border-radius: var(--radius-md);
 }
 
 .form-group input::placeholder {
@@ -255,16 +327,16 @@ html, body {
 .btn-primary {
     width: 100%;
     padding: 14px;
-    background: linear-gradient(135deg, var(--primary-color), #6d77ff, var(--primary-dark));
+    background: var(--primary-gradient);
     border: none;
-    border-radius: 16px;
+    border-radius: var(--radius-md);
     color: white;
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s;
     margin-top: 8px;
-    box-shadow: 0 8px 32px rgba(88, 101, 242, 0.25);
+    box-shadow: 0 8px 32px rgba(108, 92, 231, 0.3);
     position: relative;
     overflow: hidden;
 }
@@ -277,11 +349,13 @@ html, body {
     background-size: 200% 100%;
     animation: shimmerSlide 3s ease-in-out infinite;
     pointer-events: none;
+    border-radius: var(--radius-md);
 }
 
 .btn-primary:hover {
     transform: translateY(-3px) scale(1.01);
-    box-shadow: 0 12px 48px rgba(88, 101, 242, 0.35);
+    box-shadow: 0 12px 48px rgba(108, 92, 231, 0.4);
+    border-radius: var(--radius-md);
 }
 
 .btn-primary:active {
@@ -290,13 +364,13 @@ html, body {
 
 .error-message {
     display: none;
-    color: #f04747;
+    color: var(--dnd-indicator);
     font-size: 13px;
     margin-top: 8px;
     padding: 8px;
-    background: rgba(240, 71, 71, 0.1);
-    border-radius: 8px;
-    border-left: 3px solid #f04747;
+    background: rgba(255, 107, 107, 0.1);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--dnd-indicator);
 }
 
 .auth-footer {
@@ -306,18 +380,21 @@ html, body {
     padding-top: 20px;
     position: relative;
     z-index: 1;
+    border-radius: var(--radius-sm);
 }
 
 .auth-footer p {
     font-size: 12px;
     color: var(--text-muted);
     margin-bottom: 12px;
+    border-radius: var(--radius-sm);
 }
 
 .demo-creds {
     display: flex;
     gap: 8px;
     flex-direction: column;
+    border-radius: var(--radius-sm);
 }
 
 .demo-btn {
@@ -326,8 +403,8 @@ html, body {
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     border: 1px solid var(--glass-border);
-    border-radius: 10px;
-    color: var(--primary-color);
+    border-radius: var(--radius-sm);
+    color: var(--primary-light);
     cursor: pointer;
     font-size: 12px;
     transition: all 0.3s;
@@ -337,7 +414,8 @@ html, body {
     background: var(--primary-color);
     color: white;
     border-color: var(--primary-color);
-    box-shadow: 0 8px 32px rgba(88,101,242,0.2);
+    box-shadow: 0 8px 32px rgba(108,92,231,0.2);
+    border-radius: var(--radius-sm);
 }
 
 /* ===== ОСНОВНОЕ ПРИЛОЖЕНИЕ ===== */
@@ -346,6 +424,11 @@ html, body {
     display: flex;
     height: 100vh;
     gap: 0;
+    border-radius: 0;
+}
+
+.app-container * {
+    border-radius: var(--radius-sm);
 }
 
 body > .app-container:not(#app-screen) {
@@ -365,35 +448,42 @@ body > .app-container:not(#app-screen) {
     gap: 8px;
     border-right: 1px solid var(--glass-border);
     box-shadow: var(--glass-iphone);
+    border-radius: 0;
+}
+
+.servers-sidebar * {
+    border-radius: var(--radius-sm);
 }
 
 .server-icon {
     width: 48px;
     height: 48px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #5865f2, #4752c4);
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-weight: bold;
-    color: white;
-    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-muted);
+    font-size: 18px;
     position: relative;
-    box-shadow: 0 8px 32px rgba(88, 101, 242, 0.2);
+    flex-shrink: 0;
 }
 
 .server-icon:hover {
-    border-radius: 40%;
-    transform: scale(1.08);
-    background: linear-gradient(135deg, #6d77ff, #5865f2);
-    box-shadow: 0 12px 48px rgba(88, 101, 242, 0.35);
+    border-radius: var(--radius-lg);
+    background: var(--primary-gradient);
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 8px 32px rgba(108,92,231,0.2);
 }
 
 .server-icon.active {
-    border-radius: 30%;
-    background: var(--primary-color);
+    border-radius: var(--radius-lg);
+    background: var(--primary-gradient);
+    color: white;
 }
 
 .server-icon.active::before {
@@ -401,10 +491,10 @@ body > .app-container:not(#app-screen) {
     position: absolute;
     left: -8px;
     width: 4px;
-    height: 48px;
-    background: linear-gradient(180deg, #5865f2, #6d77ff);
-    border-radius: 0 4px 4px 0;
-    box-shadow: 0 0 20px rgba(88,101,242,0.3);
+    height: 32px;
+    background: var(--primary-gradient);
+    border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+    box-shadow: 0 0 20px rgba(108,92,231,0.3);
 }
 
 .servers-list {
@@ -412,6 +502,7 @@ body > .app-container:not(#app-screen) {
     flex-direction: column;
     gap: 8px;
     flex-grow: 1;
+    border-radius: var(--radius-sm);
 }
 
 .server-channels-list {
@@ -422,6 +513,7 @@ body > .app-container:not(#app-screen) {
     align-items: center;
     overflow-y: auto;
     scrollbar-width: none;
+    border-radius: var(--radius-sm);
 }
 
 .server-channels-list::-webkit-scrollbar {
@@ -431,14 +523,16 @@ body > .app-container:not(#app-screen) {
 .channel-server-icon {
     flex: 0 0 48px;
     overflow: hidden;
-    background: var(--background-tertiary);
+    background: var(--bg-tertiary);
     font-size: 17px;
+    border-radius: var(--radius-md);
 }
 
 .channel-server-icon img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: var(--radius-md);
 }
 
 .server-create-button {
@@ -447,38 +541,39 @@ body > .app-container:not(#app-screen) {
     flex: 0 0 48px;
     margin-top: auto;
     border: 0;
-    border-radius: 50%;
+    border-radius: var(--radius-md);
     background: var(--glass-bg);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     border: 1px solid var(--glass-border);
-    color: #43b581;
+    color: var(--online-indicator);
     cursor: pointer;
     font-size: 18px;
     transition: all 0.3s ease;
 }
 
 .server-create-button:hover {
-    border-radius: 30%;
-    background: #43b581;
+    border-radius: var(--radius-lg);
+    background: var(--online-indicator);
     color: #fff;
-    border-color: #43b581;
-    box-shadow: 0 8px 32px rgba(67,181,129,0.2);
+    border-color: var(--online-indicator);
+    box-shadow: 0 8px 32px rgba(0, 255, 136, 0.2);
 }
 
 .server-add {
     display: flex;
     justify-content: center;
+    border-radius: var(--radius-sm);
 }
 
 .server-add button {
     width: 48px;
     height: 48px;
-    border-radius: 50%;
+    border-radius: var(--radius-md);
     background: var(--glass-bg);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
-    border: 2px dashed var(--text-secondary);
+    border: 2px dashed var(--text-muted);
     color: var(--online-indicator);
     cursor: pointer;
     font-size: 24px;
@@ -492,7 +587,8 @@ body > .app-container:not(#app-screen) {
     background-color: var(--online-indicator);
     color: white;
     border-color: var(--online-indicator);
-    box-shadow: 0 8px 32px rgba(67,181,129,0.2);
+    box-shadow: 0 8px 32px rgba(0, 255, 136, 0.2);
+    border-radius: var(--radius-lg);
 }
 
 /* ===== Основной контейнер ===== */
@@ -501,6 +597,11 @@ body > .app-container:not(#app-screen) {
     display: flex;
     gap: 0;
     background: var(--glass-bg-light);
+    border-radius: 0;
+}
+
+.main-container * {
+    border-radius: var(--radius-sm);
 }
 
 /* ===== Боковая панель каналов ===== */
@@ -515,23 +616,29 @@ body > .app-container:not(#app-screen) {
     overflow-y: auto;
     overflow-x: hidden;
     box-shadow: var(--glass-iphone);
+    border-radius: 0;
+}
+
+.channels-sidebar * {
+    border-radius: var(--radius-sm);
 }
 
 .channels-sidebar::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
 }
 
 .channels-sidebar::-webkit-scrollbar-track {
     background: transparent;
+    border-radius: var(--radius-sm);
 }
 
 .channels-sidebar::-webkit-scrollbar-thumb {
-    background: var(--glass-bg);
-    border-radius: 4px;
+    background: rgba(108, 92, 231, 0.3);
+    border-radius: var(--radius-sm);
 }
 
 .channels-sidebar::-webkit-scrollbar-thumb:hover {
-    background: var(--text-secondary);
+    background: rgba(108, 92, 231, 0.5);
 }
 
 .server-header {
@@ -540,15 +647,15 @@ body > .app-container:not(#app-screen) {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-radius: var(--radius-sm);
 }
 
 .server-header h2 {
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
     margin: 0;
-    background: linear-gradient(135deg, #fff, #72767d);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--text-primary);
+    border-radius: var(--radius-sm);
 }
 
 .menu-button {
@@ -559,11 +666,13 @@ body > .app-container:not(#app-screen) {
     font-size: 14px;
     padding: 4px;
     transition: all 0.3s;
+    border-radius: var(--radius-sm);
 }
 
 .menu-button:hover {
     color: var(--text-primary);
     transform: rotate(90deg);
+    background: var(--glass-bg-light);
 }
 
 .search-box {
@@ -575,7 +684,7 @@ body > .app-container:not(#app-screen) {
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     border: 1px solid var(--glass-border);
-    border-radius: 24px;
+    border-radius: var(--radius-lg);
     gap: 8px;
 }
 
@@ -586,6 +695,7 @@ body > .app-container:not(#app-screen) {
     outline: none;
     flex: 1;
     font-size: 13px;
+    border-radius: 0;
 }
 
 .search-box input::placeholder {
@@ -600,16 +710,19 @@ body > .app-container:not(#app-screen) {
 .channels-section {
     margin-top: 20px;
     padding: 0 8px;
+    border-radius: var(--radius-sm);
 }
 
 .requests-section {
     margin-bottom: 20px;
+    border-radius: var(--radius-sm);
 }
 
 .sidebar-empty {
     padding: 8px 12px;
     color: var(--text-muted);
     font-size: 12px;
+    border-radius: var(--radius-sm);
 }
 
 .request-badge {
@@ -619,8 +732,8 @@ body > .app-container:not(#app-screen) {
     align-items: center;
     justify-content: center;
     margin-left: 4px;
-    border-radius: 9px;
-    background: var(--primary-color);
+    border-radius: var(--radius-full);
+    background: var(--dnd-indicator);
     color: #fff;
     font-size: 10px;
 }
@@ -635,7 +748,7 @@ body > .app-container:not(#app-screen) {
     align-items: center;
     gap: 7px;
     padding: 8px;
-    border-radius: 14px;
+    border-radius: var(--radius-md);
     background: var(--glass-bg-light);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
@@ -645,6 +758,7 @@ body > .app-container:not(#app-screen) {
 .request-info {
     min-width: 0;
     flex: 1;
+    border-radius: var(--radius-sm);
 }
 
 .request-info strong,
@@ -653,6 +767,7 @@ body > .app-container:not(#app-screen) {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    border-radius: var(--radius-sm);
 }
 
 .request-info strong {
@@ -669,35 +784,40 @@ body > .app-container:not(#app-screen) {
 .request-actions {
     display: flex;
     gap: 3px;
+    border-radius: var(--radius-sm);
 }
 
 .request-actions button {
     width: 24px;
     height: 24px;
     border: 0;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     color: #fff;
     cursor: pointer;
 }
 
 .request-accept {
-    background: rgba(67, 181, 129, 0.75);
+    background: var(--online-indicator);
 }
 
 .request-reject {
-    background: rgba(240, 71, 71, 0.75);
+    background: var(--dnd-indicator);
 }
 
 .premium-panel {
     margin: auto 12px 16px;
     padding: 12px;
-    border: 1px solid rgba(255, 196, 74, 0.22);
-    border-radius: 18px;
+    border: 1px solid rgba(255, 217, 61, 0.15);
+    border-radius: var(--radius-lg);
     background: var(--glass-bg);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     background-image: var(--glass-shine);
     box-shadow: var(--glass-iphone);
+}
+
+.premium-panel * {
+    border-radius: var(--radius-sm);
 }
 
 .left-profile-card {
@@ -706,7 +826,7 @@ body > .app-container:not(#app-screen) {
     gap: 8px;
     margin: auto 8px 10px;
     padding: 8px;
-    border-radius: 14px;
+    border-radius: var(--radius-md);
     background: var(--glass-bg);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
@@ -724,13 +844,14 @@ body > .app-container:not(#app-screen) {
     font-weight: 600;
     text-overflow: ellipsis;
     white-space: nowrap;
+    border-radius: var(--radius-sm);
 }
 
 .left-profile-card button {
     width: 26px;
     height: 26px;
     border: 0;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     background: transparent;
     color: var(--text-secondary);
     cursor: pointer;
@@ -738,12 +859,13 @@ body > .app-container:not(#app-screen) {
 }
 
 .left-profile-card button:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--glass-bg-light);
     color: var(--text-primary);
 }
 
 .profile-modal {
     max-width: 430px;
+    border-radius: var(--radius-xl);
 }
 
 .profile-field {
@@ -752,6 +874,7 @@ body > .app-container:not(#app-screen) {
     color: var(--text-secondary);
     font-size: 12px;
     font-weight: 600;
+    border-radius: var(--radius-sm);
 }
 
 .profile-field input {
@@ -760,7 +883,7 @@ body > .app-container:not(#app-screen) {
     margin-top: 6px;
     padding: 10px 11px;
     border: 1px solid var(--glass-border);
-    border-radius: 14px;
+    border-radius: var(--radius-md);
     outline: none;
     background: var(--glass-bg-light);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
@@ -771,7 +894,8 @@ body > .app-container:not(#app-screen) {
 
 .profile-field input:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 6px rgba(88, 101, 242, 0.08);
+    box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.08);
+    border-radius: var(--radius-md);
 }
 
 .profile-avatar-editor {
@@ -779,6 +903,7 @@ body > .app-container:not(#app-screen) {
     align-items: center;
     gap: 8px;
     margin-top: 6px;
+    border-radius: var(--radius-sm);
 }
 
 .profile-avatar-editor #profile-avatar-input {
@@ -794,8 +919,8 @@ body > .app-container:not(#app-screen) {
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #5865f2, #4752c4);
+    border-radius: var(--radius-full);
+    background: var(--primary-gradient);
     color: #fff;
     font-weight: 700;
 }
@@ -811,10 +936,11 @@ body > .app-container:not(#app-screen) {
     align-items: center;
     justify-content: space-between;
     gap: 8px;
+    border-radius: var(--radius-sm);
 }
 
 .premium-title {
-    color: #ffd166;
+    color: var(--color-premium);
     font-size: 12px;
     font-weight: 700;
 }
@@ -826,7 +952,7 @@ body > .app-container:not(#app-screen) {
 }
 
 .money-line strong {
-    color: #ffd166;
+    color: var(--color-premium);
 }
 
 .premium-buy-btn,
@@ -835,16 +961,22 @@ body > .app-container:not(#app-screen) {
     margin-top: 10px;
     padding: 8px;
     border: 0;
-    border-radius: 10px;
+    border-radius: var(--radius-sm);
     cursor: pointer;
     font-size: 11px;
     font-weight: 700;
 }
 
 .premium-buy-btn {
-    background: linear-gradient(135deg, #d39b31, #f0b232);
-    color: #211a0c;
-    box-shadow: 0 8px 32px rgba(240, 178, 50, 0.2);
+    background: var(--color-rainbow);
+    color: #fff;
+    box-shadow: 0 8px 32px rgba(255, 217, 61, 0.2);
+}
+
+.premium-buy-btn:hover {
+    border-radius: var(--radius-sm);
+    transform: scale(1.02);
+    box-shadow: 0 8px 32px rgba(255, 217, 61, 0.3);
 }
 
 .admin-panel-btn {
@@ -855,30 +987,39 @@ body > .app-container:not(#app-screen) {
     color: var(--text-primary);
 }
 
+.admin-panel-btn:hover {
+    border-radius: var(--radius-sm);
+    background: var(--glass-bg-strong);
+}
+
 .section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 12px;
     font-size: 12px;
-    font-weight: 600;
-    color: var(--text-secondary);
+    font-weight: 700;
+    color: var(--text-muted);
     text-transform: uppercase;
+    letter-spacing: 0.5px;
     cursor: default;
+    border-radius: var(--radius-sm);
 }
 
 .section-header button {
     background: none;
     border: none;
-    color: var(--text-secondary);
+    color: var(--text-muted);
     cursor: pointer;
     font-size: 12px;
     padding: 0;
     transition: all 0.3s;
+    border-radius: var(--radius-sm);
 }
 
 .section-header button:hover {
     color: var(--text-primary);
+    background: var(--glass-bg-light);
 }
 
 .channels-list,
@@ -886,6 +1027,7 @@ body > .app-container:not(#app-screen) {
     display: flex;
     flex-direction: column;
     gap: 0;
+    border-radius: var(--radius-sm);
 }
 
 .channel-item,
@@ -896,7 +1038,7 @@ body > .app-container:not(#app-screen) {
     display: flex;
     align-items: center;
     gap: 8px;
-    border-radius: 10px;
+    border-radius: var(--radius-sm);
     position: relative;
     color: var(--text-secondary);
     font-size: 15px;
@@ -909,15 +1051,17 @@ body > .app-container:not(#app-screen) {
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     color: var(--text-primary);
+    border-radius: var(--radius-sm);
 }
 
 .channel-item.active,
 .dm-item.active {
-    background: rgba(88, 101, 242, 0.25);
+    background: rgba(108, 92, 231, 0.15);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     color: var(--text-primary);
-    box-shadow: inset 0 0 0 1px rgba(88,101,242,0.1);
+    box-shadow: inset 0 0 0 1px rgba(108, 92, 231, 0.08);
+    border-radius: var(--radius-sm);
 }
 
 .channel-item i {
@@ -937,8 +1081,8 @@ body > .app-container:not(#app-screen) {
 .avatar {
     width: 32px;
     height: 32px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #5865f2, #4752c4);
+    border-radius: var(--radius-full);
+    background: var(--primary-gradient);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -947,7 +1091,7 @@ body > .app-container:not(#app-screen) {
     font-size: 14px;
     flex-shrink: 0;
     overflow: hidden;
-    box-shadow: 0 4px 16px rgba(88,101,242,0.15);
+    box-shadow: 0 4px 12px rgba(108, 92, 231, 0.2);
 }
 
 .avatar.small {
@@ -971,10 +1115,10 @@ body > .app-container:not(#app-screen) {
     width: 10px;
     height: 10px;
     background-color: var(--online-indicator);
-    border-radius: 50%;
-    border: 3px solid var(--background-secondary);
+    border-radius: var(--radius-full);
+    border: 3px solid var(--bg-secondary);
     position: relative;
-    box-shadow: 0 0 20px rgba(67,181,129,0.3);
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
 }
 
 /* ===== Основная область чата ===== */
@@ -983,6 +1127,11 @@ body > .app-container:not(#app-screen) {
     display: flex;
     flex-direction: column;
     background: var(--glass-bg-light);
+    border-radius: 0;
+}
+
+.chat-container * {
+    border-radius: var(--radius-sm);
 }
 
 .chat-header {
@@ -994,6 +1143,7 @@ body > .app-container:not(#app-screen) {
     background: var(--glass-bg-light);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    border-radius: var(--radius-sm);
 }
 
 .mobile-menu-button {
@@ -1004,6 +1154,7 @@ body > .app-container:not(#app-screen) {
     display: flex;
     align-items: center;
     gap: 12px;
+    border-radius: var(--radius-sm);
 }
 
 .chat-icon {
@@ -1013,22 +1164,23 @@ body > .app-container:not(#app-screen) {
 
 .header-left h1 {
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
     margin: 0;
-    background: linear-gradient(135deg, #fff, #72767d);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--text-primary);
+    border-radius: var(--radius-sm);
 }
 
 .header-left p {
     font-size: 13px;
     color: var(--text-muted);
     margin: 0;
+    border-radius: var(--radius-sm);
 }
 
 .header-right {
     display: flex;
     gap: 8px;
+    border-radius: var(--radius-sm);
 }
 
 .header-right button {
@@ -1040,7 +1192,7 @@ body > .app-container:not(#app-screen) {
     cursor: pointer;
     font-size: 18px;
     padding: 8px;
-    border-radius: 12px;
+    border-radius: var(--radius-sm);
     transition: all 0.3s;
 }
 
@@ -1051,6 +1203,7 @@ body > .app-container:not(#app-screen) {
     color: var(--text-primary);
     border-color: var(--glass-border);
     transform: translateY(-2px);
+    border-radius: var(--radius-sm);
 }
 
 /* ===== Область сообщений ===== */
@@ -1061,29 +1214,36 @@ body > .app-container:not(#app-screen) {
     display: flex;
     flex-direction: column;
     gap: 0;
+    border-radius: var(--radius-sm);
+}
+
+.messages-area * {
+    border-radius: var(--radius-sm);
 }
 
 .messages-area::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
 }
 
 .messages-area::-webkit-scrollbar-track {
     background: transparent;
+    border-radius: var(--radius-sm);
 }
 
 .messages-area::-webkit-scrollbar-thumb {
-    background: var(--glass-bg);
-    border-radius: 4px;
+    background: rgba(108, 92, 231, 0.3);
+    border-radius: var(--radius-sm);
 }
 
 .messages-area::-webkit-scrollbar-thumb:hover {
-    background: var(--text-secondary);
+    background: rgba(108, 92, 231, 0.5);
 }
 
 .message-group {
     display: flex;
     flex-direction: column;
     gap: 0;
+    border-radius: var(--radius-sm);
 }
 
 .message {
@@ -1091,7 +1251,7 @@ body > .app-container:not(#app-screen) {
     gap: 12px;
     margin-bottom: 8px;
     padding: 6px 12px;
-    border-radius: 14px;
+    border-radius: var(--radius-md);
     transition: all 0.3s;
 }
 
@@ -1099,11 +1259,13 @@ body > .app-container:not(#app-screen) {
     background: var(--glass-bg-light);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    border-radius: var(--radius-md);
 }
 
 .pinned-message {
-    border-left: 3px solid #f0b232;
-    background: rgba(240, 178, 50, 0.08);
+    border-left: 3px solid var(--color-gold);
+    background: rgba(255, 217, 61, 0.06);
+    border-radius: var(--radius-md);
 }
 
 .message .avatar {
@@ -1116,6 +1278,7 @@ body > .app-container:not(#app-screen) {
 .message-content {
     flex: 1;
     min-width: 0;
+    border-radius: var(--radius-sm);
 }
 
 .message-header {
@@ -1123,6 +1286,7 @@ body > .app-container:not(#app-screen) {
     align-items: baseline;
     gap: 8px;
     margin-bottom: 4px;
+    border-radius: var(--radius-sm);
 }
 
 .message-reply {
@@ -1135,7 +1299,7 @@ body > .app-container:not(#app-screen) {
     background: var(--glass-bg-light);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
-    border-radius: 10px;
+    border-radius: var(--radius-sm);
     color: var(--text-secondary);
     font-size: 12px;
 }
@@ -1152,9 +1316,9 @@ body > .app-container:not(#app-screen) {
 }
 
 .message-mention {
-    border-radius: 3px;
-    background: rgba(88, 101, 242, 0.2);
-    color: #b9c0ff;
+    border-radius: var(--radius-xs);
+    background: rgba(108, 92, 231, 0.2);
+    color: var(--primary-light);
     font-weight: 600;
 }
 
@@ -1163,12 +1327,13 @@ body > .app-container:not(#app-screen) {
     flex-wrap: wrap;
     gap: 6px;
     margin-top: 8px;
+    border-radius: var(--radius-sm);
 }
 
 .school-menu button {
     padding: 6px 9px;
-    border: 1px solid rgba(45, 156, 219, 0.45);
-    border-radius: 10px;
+    border: 1px solid rgba(45, 156, 219, 0.3);
+    border-radius: var(--radius-sm);
     background: var(--glass-bg-light);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
@@ -1178,7 +1343,8 @@ body > .app-container:not(#app-screen) {
 }
 
 .school-menu button:hover {
-    background: rgba(45, 156, 219, 0.28);
+    background: rgba(45, 156, 219, 0.2);
+    border-radius: var(--radius-sm);
 }
 
 .search-hidden {
@@ -1192,7 +1358,7 @@ body > .app-container:not(#app-screen) {
     padding: 0;
     place-items: center;
     border: 0;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     background: transparent;
     color: var(--text-muted);
     cursor: pointer;
@@ -1205,14 +1371,16 @@ body > .app-container:not(#app-screen) {
 }
 
 .remove-contact-btn:hover {
-    background: rgba(240, 71, 71, 0.16);
-    color: #f04747;
+    background: rgba(255, 107, 107, 0.15);
+    color: var(--dnd-indicator);
+    border-radius: var(--radius-sm);
 }
 
 .section-actions {
     display: inline-flex;
     align-items: center;
     gap: 4px;
+    border-radius: var(--radius-sm);
 }
 
 .content-modal {
@@ -1229,6 +1397,7 @@ body > .app-container:not(#app-screen) {
     gap: 8px;
     margin: 10px 0;
     overflow: auto;
+    border-radius: var(--radius-sm);
 }
 
 .bot-block {
@@ -1236,7 +1405,7 @@ body > .app-container:not(#app-screen) {
     gap: 6px;
     padding: 10px;
     border-left: 4px solid #2d9cdb;
-    border-radius: 14px;
+    border-radius: var(--radius-md);
     background: var(--glass-bg);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
@@ -1249,6 +1418,7 @@ body > .app-container:not(#app-screen) {
     justify-content: space-between;
     color: var(--text-primary);
     font-size: 12px;
+    border-radius: var(--radius-sm);
 }
 
 .bot-block-head button {
@@ -1256,11 +1426,13 @@ body > .app-container:not(#app-screen) {
     background: transparent;
     color: var(--text-muted);
     cursor: pointer;
+    border-radius: var(--radius-sm);
 }
 
 .bot-block-hint {
     color: var(--text-muted);
     font-size: 11px;
+    border-radius: var(--radius-sm);
 }
 
 .content-management-list {
@@ -1268,6 +1440,7 @@ body > .app-container:not(#app-screen) {
     max-height: 55vh;
     gap: 12px;
     overflow: auto;
+    border-radius: var(--radius-sm);
 }
 
 .monkey-nft-modal {
@@ -1280,6 +1453,7 @@ body > .app-container:not(#app-screen) {
     grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
     gap: 9px;
     overflow: auto;
+    border-radius: var(--radius-sm);
 }
 
 .monkey-nft-card {
@@ -1290,7 +1464,7 @@ body > .app-container:not(#app-screen) {
     align-items: stretch;
     gap: 5px;
     border: 1px solid var(--glass-border);
-    border-radius: 14px;
+    border-radius: var(--radius-md);
     background: var(--glass-bg);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
@@ -1300,21 +1474,22 @@ body > .app-container:not(#app-screen) {
 }
 
 .monkey-nft-card:hover {
-    border-color: #f0b232;
+    border-color: var(--color-gold);
     transform: translateY(-2px);
-    box-shadow: 0 12px 48px rgba(240, 178, 50, 0.1);
+    box-shadow: 0 12px 48px rgba(255, 217, 61, 0.08);
+    border-radius: var(--radius-md);
 }
 
 .monkey-nft-card img {
     width: 100%;
     height: 125px;
-    border-radius: 6px;
-    background: var(--background-tertiary);
+    border-radius: var(--radius-sm);
+    background: var(--bg-tertiary);
     object-fit: cover;
 }
 
 .monkey-nft-card span {
-    color: #ffd166;
+    color: var(--color-premium);
     font-size: 11px;
 }
 
@@ -1325,8 +1500,8 @@ body > .app-container:not(#app-screen) {
     padding: 8px;
     align-items: center;
     gap: 10px;
-    border: 1px solid rgba(240, 178, 50, 0.55);
-    border-radius: 14px;
+    border: 1px solid rgba(255, 217, 61, 0.4);
+    border-radius: var(--radius-md);
     background: var(--glass-bg-light);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
@@ -1335,7 +1510,7 @@ body > .app-container:not(#app-screen) {
 .monkey-nft-message img {
     width: 64px;
     height: 64px;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     object-fit: cover;
 }
 
@@ -1343,6 +1518,7 @@ body > .app-container:not(#app-screen) {
     display: flex;
     flex-direction: column;
     gap: 4px;
+    border-radius: var(--radius-sm);
 }
 
 .monkey-nft-message span,
@@ -1354,7 +1530,7 @@ body > .app-container:not(#app-screen) {
 .management-section {
     padding: 10px;
     border: 1px solid var(--glass-border);
-    border-radius: 14px;
+    border-radius: var(--radius-md);
     background: var(--glass-bg);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
@@ -1364,6 +1540,7 @@ body > .app-container:not(#app-screen) {
     margin: 0 0 8px;
     color: var(--text-primary);
     font-size: 13px;
+    border-radius: var(--radius-sm);
 }
 
 .management-row {
@@ -1374,6 +1551,7 @@ body > .app-container:not(#app-screen) {
     border-top: 1px solid var(--glass-border-light);
     color: var(--text-secondary);
     font-size: 12px;
+    border-radius: var(--radius-sm);
 }
 
 .management-row span {
@@ -1387,9 +1565,9 @@ body > .app-container:not(#app-screen) {
     width: 28px;
     height: 26px;
     border: 0;
-    border-radius: 8px;
-    background: rgba(240, 71, 71, 0.14);
-    color: #f04747;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 107, 107, 0.12);
+    color: var(--dnd-indicator);
     cursor: pointer;
 }
 
@@ -1405,6 +1583,7 @@ body > .app-container:not(#app-screen) {
     color: var(--text-primary) !important;
     cursor: pointer;
     text-align: left;
+    border-radius: var(--radius-sm);
 }
 
 .management-chat-select small {
@@ -1421,6 +1600,7 @@ body > .app-container:not(#app-screen) {
     max-height: 260px;
     gap: 6px;
     overflow: auto;
+    border-radius: var(--radius-sm);
 }
 
 .managed-message {
@@ -1428,7 +1608,7 @@ body > .app-container:not(#app-screen) {
     align-items: center;
     gap: 8px;
     padding: 7px;
-    border-radius: 10px;
+    border-radius: var(--radius-sm);
     background: var(--glass-bg-light);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
@@ -1449,35 +1629,36 @@ body > .app-container:not(#app-screen) {
 }
 
 .username {
-    font-weight: 500;
+    font-weight: 600;
     color: var(--text-primary);
     font-size: 15px;
+    border-radius: var(--radius-sm);
 }
 
 .premium-user::after {
     content: ' ★';
-    color: #ffd166;
+    color: var(--color-premium);
     font-size: 13px;
 }
 
 .premium-crown {
     display: inline-block;
     margin-left: 3px;
-    color: #ffd166;
+    color: var(--color-premium);
     font-size: 12px;
-    text-shadow: 0 0 8px rgba(255, 209, 102, 0.5);
+    text-shadow: 0 0 8px rgba(255, 217, 61, 0.3);
 }
 
 .role-badge {
     display: inline-flex;
     align-items: center;
     margin-left: 6px;
-    padding: 2px 5px;
-    border-radius: 4px;
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
     color: #fff;
     font-size: 9px;
     font-weight: 800;
-    line-height: 1.1;
+    line-height: 1.2;
     letter-spacing: 0.3px;
     vertical-align: middle;
 }
@@ -1487,13 +1668,22 @@ body > .app-container:not(#app-screen) {
 }
 
 .developer-badge {
-    background: #e44dff;
-    box-shadow: 0 0 8px rgba(228, 77, 255, 0.35);
+    background: var(--color-developer);
+    box-shadow: 0 0 12px rgba(162, 155, 254, 0.3);
 }
 
 .admin-badge {
-    background: #e05a47;
-    box-shadow: 0 0 8px rgba(224, 90, 71, 0.3);
+    background: var(--color-admin);
+    box-shadow: 0 0 12px rgba(255, 107, 107, 0.2);
+}
+
+.owner-badge {
+    background: var(--color-gold);
+    color: #1e1f22;
+}
+
+.moderator-badge {
+    background: var(--color-moderator);
 }
 
 .timestamp {
@@ -1504,12 +1694,12 @@ body > .app-container:not(#app-screen) {
 .message-text {
     color: var(--text-primary);
     font-size: 15px;
-    line-height: 1.4;
+    line-height: 1.5;
     word-wrap: break-word;
     white-space: pre-wrap;
     transition: background-color 0.2s;
     padding: 2px 4px;
-    border-radius: 2px;
+    border-radius: var(--radius-xs);
 }
 
 .message-image {
@@ -1518,10 +1708,10 @@ body > .app-container:not(#app-screen) {
     height: auto;
     max-width: min(100%, 320px);
     max-height: 260px;
-    border-radius: 18px;
+    border-radius: var(--radius-lg);
     margin-top: 8px;
     border: 1px solid var(--glass-border);
-    box-shadow: 0 16px 64px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 16px 64px rgba(0, 0, 0, 0.25);
     object-fit: contain;
 }
 
@@ -1532,8 +1722,8 @@ body > .app-container:not(#app-screen) {
     width: min(360px, 100%);
     margin-top: 8px;
     padding: 9px 11px;
-    border: 1px solid rgba(88, 101, 242, 0.28);
-    border-radius: 18px;
+    border: 1px solid rgba(108, 92, 231, 0.2);
+    border-radius: var(--radius-lg);
     background: var(--glass-bg);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
@@ -1547,8 +1737,8 @@ body > .app-container:not(#app-screen) {
     flex: 0 0 36px;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    background: var(--primary-color);
+    border-radius: var(--radius-full);
+    background: var(--primary-gradient);
     color: #fff;
     font-size: 14px;
 }
@@ -1559,6 +1749,7 @@ body > .app-container:not(#app-screen) {
     min-width: 0;
     flex-direction: column;
     gap: 3px;
+    border-radius: var(--radius-sm);
 }
 
 .message-audio-body > span {
@@ -1575,6 +1766,7 @@ body > .app-container:not(#app-screen) {
     align-items: center;
     gap: 8px;
     min-width: 0;
+    border-radius: var(--radius-sm);
 }
 
 .audio-play-button {
@@ -1585,15 +1777,16 @@ body > .app-container:not(#app-screen) {
     align-items: center;
     justify-content: center;
     border: 0;
-    border-radius: 50%;
-    background: var(--primary-color);
+    border-radius: var(--radius-full);
+    background: var(--primary-gradient);
     color: #fff;
     cursor: pointer;
     font-size: 11px;
 }
 
 .audio-play-button:hover {
-    background: #707bf5;
+    background: var(--primary-gradient);
+    opacity: 0.8;
 }
 
 .audio-progress {
@@ -1618,7 +1811,7 @@ body > .app-container:not(#app-screen) {
     height: 190px;
     margin: 0;
     border: 3px solid var(--primary-color);
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     background: #111318;
     object-fit: cover;
 }
@@ -1628,6 +1821,7 @@ body > .app-container:not(#app-screen) {
     width: 190px;
     height: 190px;
     margin-top: 8px;
+    border-radius: var(--radius-full);
 }
 
 .video-note-play {
@@ -1636,8 +1830,8 @@ body > .app-container:not(#app-screen) {
     width: 44px;
     height: 44px;
     border: 0;
-    border-radius: 50%;
-    background: rgba(88, 101, 242, 0.9);
+    border-radius: var(--radius-full);
+    background: rgba(108, 92, 231, 0.85);
     color: #fff;
     cursor: pointer;
     font-size: 15px;
@@ -1645,7 +1839,7 @@ body > .app-container:not(#app-screen) {
 }
 
 .video-note-play:hover {
-    background: #707bf5;
+    background: var(--primary-color);
     transform: translate(-50%, -50%) scale(1.08);
 }
 
@@ -1654,14 +1848,14 @@ body > .app-container:not(#app-screen) {
     right: 10px;
     bottom: 10px;
     padding: 4px 7px;
-    border-radius: 8px;
-    background: rgba(0, 0, 0, 0.58);
+    border-radius: var(--radius-sm);
+    background: rgba(0, 0, 0, 0.6);
     color: #fff;
     font-size: 10px;
 }
 
 .message-text:hover {
-    background-color: rgba(255, 255, 255, 0.03);
+    background-color: rgba(255, 255, 255, 0.02);
 }
 
 .message-sticker {
@@ -1671,7 +1865,7 @@ body > .app-container:not(#app-screen) {
     align-items: center;
     justify-content: center;
     margin-top: 4px;
-    border-radius: 20px;
+    border-radius: var(--radius-lg);
     background: var(--glass-bg-light);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
@@ -1686,6 +1880,7 @@ body > .app-container:not(#app-screen) {
     margin-top: 6px;
     display: flex;
     gap: 6px;
+    border-radius: var(--radius-sm);
 }
 
 .message:hover .message-actions {
@@ -1694,7 +1889,7 @@ body > .app-container:not(#app-screen) {
 
 .msg-btn {
     border: 1px solid var(--glass-border);
-    border-radius: 10px;
+    border-radius: var(--radius-sm);
     width: 28px;
     height: 26px;
     padding: 0;
@@ -1710,8 +1905,9 @@ body > .app-container:not(#app-screen) {
 .msg-btn:hover {
     color: var(--text-primary);
     background: var(--glass-bg-strong);
-    border-color: rgba(88, 101, 242, 0.55);
+    border-color: rgba(108, 92, 231, 0.4);
     transform: scale(1.05);
+    border-radius: var(--radius-sm);
 }
 
 .channel-avatar {
@@ -1721,8 +1917,8 @@ body > .app-container:not(#app-screen) {
     align-items: center;
     justify-content: center;
     flex: 0 0 24px;
-    border-radius: 50%;
-    background: var(--background-tertiary);
+    border-radius: var(--radius-full);
+    background: var(--bg-tertiary);
     color: var(--text-secondary);
     font-size: 12px;
     font-weight: 700;
@@ -1731,7 +1927,7 @@ body > .app-container:not(#app-screen) {
 
 .has-channel-image {
     overflow: hidden;
-    border-radius: 50%;
+    border-radius: var(--radius-full);
 }
 
 .has-channel-image img {
@@ -1742,7 +1938,7 @@ body > .app-container:not(#app-screen) {
 
 .delete-btn:hover {
     color: #ff8585;
-    border-color: rgba(240, 71, 71, 0.5);
+    border-color: rgba(255, 107, 107, 0.4);
 }
 
 .message-reactions {
@@ -1750,6 +1946,7 @@ body > .app-container:not(#app-screen) {
     flex-wrap: wrap;
     gap: 5px;
     margin-top: 8px;
+    border-radius: var(--radius-sm);
 }
 
 .reaction-btn,
@@ -1757,7 +1954,7 @@ body > .app-container:not(#app-screen) {
     min-height: 24px;
     padding: 2px 8px;
     border: 1px solid var(--glass-border);
-    border-radius: 14px;
+    border-radius: var(--radius-md);
     background: var(--glass-bg-light);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
@@ -1774,7 +1971,7 @@ body > .app-container:not(#app-screen) {
     margin-top: 8px;
     padding: 10px 12px;
     border: 1px solid var(--glass-border);
-    border-radius: 14px;
+    border-radius: var(--radius-md);
     background: var(--glass-bg);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
@@ -1791,6 +1988,7 @@ body > .app-container:not(#app-screen) {
     display: block;
     width: 170px;
     min-height: 110px;
+    border-radius: var(--radius-sm);
 }
 
 .message-image-file > a:first-child img {
@@ -1799,7 +1997,7 @@ body > .app-container:not(#app-screen) {
     height: 100%;
     min-height: 110px;
     object-fit: cover;
-    border-radius: 5px;
+    border-radius: var(--radius-sm);
 }
 
 .message-file-icon {
@@ -1808,8 +2006,8 @@ body > .app-container:not(#app-screen) {
     width: 42px;
     height: 42px;
     flex-shrink: 0;
-    border-radius: 6px;
-    background: rgba(88, 101, 242, 0.18);
+    border-radius: var(--radius-sm);
+    background: rgba(108, 92, 231, 0.12);
     color: var(--primary-color);
     font-size: 20px;
 }
@@ -1820,6 +2018,7 @@ body > .app-container:not(#app-screen) {
     flex-direction: column;
     justify-content: center;
     gap: 4px;
+    border-radius: var(--radius-sm);
 }
 
 .message-file-info strong {
@@ -1864,7 +2063,7 @@ body > .app-container:not(#app-screen) {
 
 .reaction-btn.active {
     border-color: var(--primary-color);
-    background: rgba(88, 101, 242, 0.2);
+    background: rgba(108, 92, 231, 0.15);
     color: var(--text-primary);
 }
 
@@ -1881,21 +2080,26 @@ body > .app-container:not(#app-screen) {
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background: rgba(8, 10, 14, 0.82);
+    background: rgba(8, 10, 14, 0.8);
     backdrop-filter: blur(60px);
     -webkit-backdrop-filter: blur(60px);
     animation: modalFadeIn 0.18s ease;
+    border-radius: 0;
 }
 
 .modal-backdrop.hidden {
     display: none;
 }
 
+.modal-backdrop * {
+    border-radius: var(--radius-sm);
+}
+
 .app-modal {
     width: min(100%, 410px);
     padding: 26px;
     border: 1px solid var(--glass-border-strong);
-    border-radius: 24px;
+    border-radius: var(--radius-xl);
     background: var(--glass-bg-strong);
     backdrop-filter: var(--glass-blur-strong) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur-strong) var(--glass-saturate);
@@ -1906,6 +2110,10 @@ body > .app-container:not(#app-screen) {
     overflow: hidden;
 }
 
+.app-modal * {
+    border-radius: var(--radius-sm);
+}
+
 .app-modal::before {
     content: '';
     position: absolute;
@@ -1914,6 +2122,7 @@ body > .app-container:not(#app-screen) {
     background-size: 200% 100%;
     animation: shimmerSlide 4s ease-in-out infinite;
     pointer-events: none;
+    border-radius: var(--radius-xl);
 }
 
 .modal-icon {
@@ -1922,11 +2131,11 @@ body > .app-container:not(#app-screen) {
     display: grid;
     place-items: center;
     margin-bottom: 16px;
-    border-radius: 14px;
+    border-radius: var(--radius-md);
     background: var(--glass-bg);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
-    color: #8790ff;
+    color: var(--primary-light);
     font-size: 17px;
 }
 
@@ -1934,12 +2143,14 @@ body > .app-container:not(#app-screen) {
     color: var(--text-primary);
     font-size: 19px;
     margin-bottom: 7px;
+    border-radius: var(--radius-sm);
 }
 
 .modal-copy p {
     color: var(--text-secondary);
     font-size: 13px;
     line-height: 1.45;
+    border-radius: var(--radius-sm);
 }
 
 .modal-input {
@@ -1947,7 +2158,7 @@ body > .app-container:not(#app-screen) {
     margin-top: 20px;
     padding: 12px 13px;
     border: 1px solid var(--glass-border);
-    border-radius: 14px;
+    border-radius: var(--radius-md);
     outline: none;
     background: var(--glass-bg-light);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
@@ -1958,7 +2169,8 @@ body > .app-container:not(#app-screen) {
 
 .modal-input:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 6px rgba(88, 101, 242, 0.08);
+    box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.08);
+    border-radius: var(--radius-md);
 }
 
 .modal-input.hidden {
@@ -1970,11 +2182,12 @@ body > .app-container:not(#app-screen) {
     justify-content: flex-end;
     gap: 9px;
     margin-top: 24px;
+    border-radius: var(--radius-sm);
 }
 
 .modal-button {
     border: 0;
-    border-radius: 12px;
+    border-radius: var(--radius-sm);
     padding: 10px 14px;
     color: var(--text-primary);
     cursor: pointer;
@@ -1985,6 +2198,7 @@ body > .app-container:not(#app-screen) {
 
 .modal-button:hover {
     transform: translateY(-2px);
+    border-radius: var(--radius-sm);
 }
 
 .modal-button.secondary {
@@ -1999,22 +2213,22 @@ body > .app-container:not(#app-screen) {
 }
 
 .modal-button.primary {
-    background: linear-gradient(135deg, var(--primary-color), #6d77ff);
+    background: var(--primary-gradient);
     color: #fff;
-    box-shadow: 0 8px 32px rgba(88, 101, 242, 0.3);
+    box-shadow: 0 8px 32px rgba(108, 92, 231, 0.25);
 }
 
 .modal-button.primary:hover {
-    box-shadow: 0 12px 48px rgba(88, 101, 242, 0.4);
+    box-shadow: 0 12px 48px rgba(108, 92, 231, 0.35);
 }
 
 .modal-button.primary.danger {
-    background: #d84b5b;
-    box-shadow: 0 8px 32px rgba(216, 75, 91, 0.3);
+    background: var(--dnd-indicator);
+    box-shadow: 0 8px 32px rgba(255, 107, 107, 0.2);
 }
 
 .modal-button.primary.danger:hover {
-    background: #ed5969;
+    background: #ff8585;
 }
 
 @keyframes modalFadeIn {
@@ -2028,7 +2242,7 @@ body > .app-container:not(#app-screen) {
 }
 
 .message.own-message .avatar {
-    background: linear-gradient(135deg, #6d77ff, #5865f2);
+    background: var(--primary-gradient);
 }
 
 .empty-chat {
@@ -2039,28 +2253,36 @@ body > .app-container:not(#app-screen) {
     justify-content: center;
     color: var(--text-muted);
     text-align: center;
+    border-radius: var(--radius-lg);
 }
 
 .empty-chat i {
     margin-bottom: 14px;
     color: var(--primary-color);
     font-size: 42px;
-    opacity: 0.8;
+    opacity: 0.3;
 }
 
 .empty-chat p {
     color: var(--text-primary);
     font-size: 16px;
+    border-radius: var(--radius-sm);
 }
 
 .empty-chat span {
     margin-top: 6px;
     font-size: 13px;
+    border-radius: var(--radius-sm);
 }
 
 /* ===== Область ввода сообщения ===== */
 .message-input-area {
     padding: 16px 20px 20px;
+    border-radius: var(--radius-sm);
+}
+
+.message-input-area * {
+    border-radius: var(--radius-sm);
 }
 
 .recording-indicator {
@@ -2069,8 +2291,8 @@ body > .app-container:not(#app-screen) {
     gap: 9px;
     margin-bottom: 8px;
     padding: 8px 10px;
-    border: 1px solid rgba(240, 71, 71, 0.4);
-    border-radius: 14px;
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    border-radius: var(--radius-md);
     background: var(--glass-bg-light);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
@@ -2081,9 +2303,9 @@ body > .app-container:not(#app-screen) {
     width: 9px;
     height: 9px;
     flex: 0 0 9px;
-    border-radius: 50%;
-    background: #f04747;
-    box-shadow: 0 0 0 5px rgba(240, 71, 71, 0.12);
+    border-radius: var(--radius-full);
+    background: var(--dnd-indicator);
+    box-shadow: 0 0 0 5px rgba(255, 107, 107, 0.12);
     animation: recordingPulse 1s infinite;
 }
 
@@ -2098,12 +2320,12 @@ body > .app-container:not(#app-screen) {
     height: 112px;
     margin: 0 auto 8px;
     padding: 4px;
-    border: 2px solid #f04747;
-    border-radius: 50%;
+    border: 2px solid var(--dnd-indicator);
+    border-radius: var(--radius-full);
     background: var(--glass-bg-light);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
-    box-shadow: 0 0 0 6px rgba(240, 71, 71, 0.08);
+    box-shadow: 0 0 0 6px rgba(255, 107, 107, 0.06);
     animation: recordingPreviewPulse 1.4s infinite;
 }
 
@@ -2111,7 +2333,7 @@ body > .app-container:not(#app-screen) {
     width: 100%;
     height: 100%;
     display: block;
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     object-fit: cover;
     transform: scaleX(-1);
 }
@@ -2135,8 +2357,8 @@ body > .app-container:not(#app-screen) {
 #stop-recording-btn {
     padding: 6px 10px;
     border: 0;
-    border-radius: 10px;
-    background: #f04747;
+    border-radius: var(--radius-sm);
+    background: var(--dnd-indicator);
     color: #fff;
     cursor: pointer;
     font-size: 11px;
@@ -2150,8 +2372,8 @@ body > .app-container:not(#app-screen) {
     max-width: 420px;
     margin-bottom: 8px;
     padding: 8px 10px;
-    border: 1px solid rgba(88, 101, 242, 0.45);
-    border-radius: 14px;
+    border: 1px solid rgba(108, 92, 231, 0.3);
+    border-radius: var(--radius-md);
     background: var(--glass-bg);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
@@ -2160,9 +2382,9 @@ body > .app-container:not(#app-screen) {
 .image-preview img {
     width: 48px;
     height: 48px;
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
     object-fit: cover;
-    background: var(--background-tertiary);
+    background: var(--bg-tertiary);
 }
 
 .file-preview-icon {
@@ -2171,8 +2393,8 @@ body > .app-container:not(#app-screen) {
     width: 48px;
     height: 48px;
     flex-shrink: 0;
-    border-radius: 6px;
-    background: rgba(88, 101, 242, 0.18);
+    border-radius: var(--radius-sm);
+    background: rgba(108, 92, 231, 0.12);
     color: var(--primary-color);
     font-size: 20px;
 }
@@ -2183,6 +2405,7 @@ body > .app-container:not(#app-screen) {
     min-width: 0;
     flex-direction: column;
     gap: 3px;
+    border-radius: var(--radius-sm);
 }
 
 .image-preview-info strong,
@@ -2206,15 +2429,16 @@ body > .app-container:not(#app-screen) {
     width: 28px;
     height: 28px;
     border: 0;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     background: transparent;
     color: var(--text-secondary);
     cursor: pointer;
 }
 
 .image-preview button:hover {
-    background: rgba(240, 71, 71, 0.15);
+    background: rgba(255, 107, 107, 0.12);
     color: var(--dnd-indicator);
+    border-radius: var(--radius-sm);
 }
 
 .sticker-panel {
@@ -2226,7 +2450,7 @@ body > .app-container:not(#app-screen) {
     margin: 0 0 8px auto;
     padding: 10px;
     border: 1px solid var(--glass-border);
-    border-radius: 18px;
+    border-radius: var(--radius-lg);
     background: var(--glass-bg);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
@@ -2238,15 +2462,16 @@ body > .app-container:not(#app-screen) {
     width: 48px;
     height: 44px;
     border: 0;
-    border-radius: 12px;
+    border-radius: var(--radius-sm);
     background: transparent;
     cursor: pointer;
     font-size: 27px;
 }
 
 .sticker-panel button:hover {
-    background: rgba(88, 101, 242, 0.22);
+    background: rgba(108, 92, 231, 0.15);
     transform: scale(1.08);
+    border-radius: var(--radius-sm);
 }
 
 .input-wrapper {
@@ -2257,16 +2482,21 @@ body > .app-container:not(#app-screen) {
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     border: 1px solid var(--glass-border);
-    border-radius: 28px;
+    border-radius: var(--radius-xl);
     padding: 0 12px;
     transition: all 0.3s;
     box-shadow: var(--glass-iphone);
 }
 
+.input-wrapper * {
+    border-radius: var(--radius-sm);
+}
+
 .input-wrapper:focus-within {
-    background: rgba(88, 101, 242, 0.12);
+    background: rgba(108, 92, 231, 0.08);
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 8px rgba(88, 101, 242, 0.04), var(--glass-iphone);
+    box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.04), var(--glass-iphone);
+    border-radius: var(--radius-xl);
 }
 
 .input-button {
@@ -2278,17 +2508,19 @@ body > .app-container:not(#app-screen) {
     padding: 8px;
     transition: all 0.3s;
     flex-shrink: 0;
+    border-radius: var(--radius-sm);
 }
 
 .input-button:hover {
     color: var(--text-primary);
     transform: scale(1.05);
+    background: var(--glass-bg-light);
 }
 
 .input-button.recording {
-    border-radius: 50%;
-    background: rgba(240, 71, 71, 0.2);
-    color: #ff7676;
+    border-radius: var(--radius-full);
+    background: rgba(255, 107, 107, 0.15);
+    color: var(--dnd-indicator);
     animation: recordingPulse 1s infinite;
 }
 
@@ -2303,6 +2535,11 @@ body > .app-container:not(#app-screen) {
     background: var(--glass-bg-light);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    border-radius: var(--radius-sm);
+}
+
+.stories-strip * {
+    border-radius: var(--radius-sm);
 }
 
 .story-add-button,
@@ -2328,14 +2565,14 @@ body > .app-container:not(#app-screen) {
     align-items: center;
     justify-content: center;
     border: 2px solid var(--primary-color);
-    border-radius: 50%;
-    background: var(--background-tertiary);
+    border-radius: var(--radius-full);
+    background: var(--bg-tertiary);
     color: var(--primary-color);
     object-fit: cover;
 }
 
 .story-item img {
-    border-color: #e44dff;
+    border-color: var(--color-developer);
 }
 
 .story-add-button:hover,
@@ -2351,12 +2588,13 @@ body > .app-container:not(#app-screen) {
     align-items: center;
     justify-content: center;
     background: rgba(8, 6, 18, 0.94);
+    border-radius: 0;
 }
 
 .story-viewer img {
     max-width: min(90vw, 560px);
     max-height: 86vh;
-    border-radius: 12px;
+    border-radius: var(--radius-sm);
     object-fit: contain;
 }
 
@@ -2365,6 +2603,7 @@ body > .app-container:not(#app-screen) {
     top: 24px;
     left: 24px;
     color: #fff;
+    border-radius: var(--radius-sm);
 }
 
 .story-viewer-close {
@@ -2374,19 +2613,19 @@ body > .app-container:not(#app-screen) {
     width: 40px;
     height: 40px;
     border: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.08);
     color: #fff;
     cursor: pointer;
     font-size: 18px;
 }
 
 @keyframes recordingPulse {
-    50% { box-shadow: 0 0 0 6px rgba(240, 71, 71, 0.12); }
+    50% { box-shadow: 0 0 0 6px rgba(255, 107, 107, 0.12); }
 }
 
 @keyframes recordingPreviewPulse {
-    50% { box-shadow: 0 0 0 10px rgba(240, 71, 71, 0.02); }
+    50% { box-shadow: 0 0 0 10px rgba(255, 107, 107, 0.02); }
 }
 
 .message-input {
@@ -2399,6 +2638,7 @@ body > .app-container:not(#app-screen) {
     font-size: 15px;
     resize: none;
     max-height: 100px;
+    border-radius: 0;
 }
 
 .message-input:disabled {
@@ -2425,23 +2665,29 @@ body > .app-container:not(#app-screen) {
     flex-direction: column;
     border-left: 1px solid var(--glass-border);
     overflow-y: auto;
+    border-radius: 0;
+}
+
+.user-sidebar * {
+    border-radius: var(--radius-sm);
 }
 
 .user-sidebar::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
 }
 
 .user-sidebar::-webkit-scrollbar-track {
     background: transparent;
+    border-radius: var(--radius-sm);
 }
 
 .user-sidebar::-webkit-scrollbar-thumb {
-    background: var(--glass-bg);
-    border-radius: 4px;
+    background: rgba(108, 92, 231, 0.3);
+    border-radius: var(--radius-sm);
 }
 
 .user-sidebar::-webkit-scrollbar-thumb:hover {
-    background: var(--text-secondary);
+    background: rgba(108, 92, 231, 0.5);
 }
 
 .user-profile {
@@ -2452,13 +2698,14 @@ body > .app-container:not(#app-screen) {
     flex-direction: column;
     align-items: center;
     gap: 12px;
+    border-radius: var(--radius-sm);
 }
 
 .large-avatar {
     width: 60px;
     height: 60px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #5865f2, #4752c4);
+    border-radius: var(--radius-full);
+    background: var(--primary-gradient);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2466,7 +2713,7 @@ body > .app-container:not(#app-screen) {
     font-weight: bold;
     font-size: 24px;
     overflow: hidden;
-    box-shadow: 0 8px 32px rgba(88,101,242,0.2);
+    box-shadow: 0 8px 32px rgba(108, 92, 231, 0.2);
 }
 
 .large-avatar .avatar-image,
@@ -2481,24 +2728,27 @@ body > .app-container:not(#app-screen) {
     margin: 0;
     font-size: 15px;
     font-weight: 600;
+    border-radius: var(--radius-sm);
 }
 
 .status-text {
     font-size: 13px;
     color: var(--text-muted);
     margin: 0;
+    border-radius: var(--radius-sm);
 }
 
 .user-actions {
     display: flex;
     gap: 8px;
     justify-content: center;
+    border-radius: var(--radius-sm);
 }
 
 .user-actions button {
     width: 32px;
     height: 32px;
-    border-radius: 12px;
+    border-radius: var(--radius-sm);
     background: var(--glass-bg);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
@@ -2510,33 +2760,38 @@ body > .app-container:not(#app-screen) {
 }
 
 .user-actions button:hover {
-    background: rgba(88, 101, 242, 0.3);
+    background: rgba(108, 92, 231, 0.15);
     color: var(--primary-color);
     transform: translateY(-2px);
+    border-radius: var(--radius-sm);
 }
 
 .members-section {
     padding: 16px;
+    border-radius: var(--radius-sm);
 }
 
 .members-section h4 {
     font-size: 12px;
-    font-weight: 600;
-    color: var(--text-secondary);
+    font-weight: 700;
+    color: var(--text-muted);
     text-transform: uppercase;
+    letter-spacing: 0.5px;
     margin-bottom: 12px;
     padding: 0 4px;
+    border-radius: var(--radius-sm);
 }
 
 .members-list {
     display: flex;
     flex-direction: column;
     gap: 0;
+    border-radius: var(--radius-sm);
 }
 
 .member-item {
     padding: 8px;
-    border-radius: 10px;
+    border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
     gap: 8px;
@@ -2549,6 +2804,7 @@ body > .app-container:not(#app-screen) {
     background: var(--glass-bg-light);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    border-radius: var(--radius-sm);
 }
 
 .member-item.online {
@@ -2558,6 +2814,7 @@ body > .app-container:not(#app-screen) {
 .member-info {
     flex: 1;
     min-width: 0;
+    border-radius: var(--radius-sm);
 }
 
 .member-info p {
@@ -2565,6 +2822,7 @@ body > .app-container:not(#app-screen) {
     font-size: 14px;
     color: var(--text-primary);
     font-weight: 500;
+    border-radius: var(--radius-sm);
 }
 
 .member-info small {
@@ -2581,21 +2839,25 @@ body > .app-container:not(#app-screen) {
 .stats-section {
     padding: 16px;
     border-top: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
 }
 
 .stats-section h4 {
     font-size: 12px;
-    font-weight: 600;
-    color: var(--text-secondary);
+    font-weight: 700;
+    color: var(--text-muted);
     text-transform: uppercase;
+    letter-spacing: 0.5px;
     margin-bottom: 12px;
     padding: 0 4px;
+    border-radius: var(--radius-sm);
 }
 
 .stats {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    border-radius: var(--radius-sm);
 }
 
 .stat-item {
@@ -2606,7 +2868,7 @@ body > .app-container:not(#app-screen) {
     background: var(--glass-bg-light);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
-    border-radius: 10px;
+    border-radius: var(--radius-sm);
     font-size: 13px;
 }
 
@@ -2615,7 +2877,7 @@ body > .app-container:not(#app-screen) {
 }
 
 .stat-item strong {
-    color: var(--primary-color);
+    color: var(--text-primary);
     font-weight: 600;
 }
 
@@ -2625,19 +2887,21 @@ body > .app-container:not(#app-screen) {
     gap: 0;
     max-height: 300px;
     overflow-y: auto;
+    border-radius: var(--radius-sm);
 }
 
 .online-list::-webkit-scrollbar {
-    width: 6px;
+    width: 4px;
 }
 
 .online-list::-webkit-scrollbar-track {
     background: transparent;
+    border-radius: var(--radius-sm);
 }
 
 .online-list::-webkit-scrollbar-thumb {
-    background: var(--background-tertiary);
-    border-radius: 3px;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
 }
 
 /* ===== Адаптивный дизайн ===== */
@@ -2690,8 +2954,8 @@ body > .app-container:not(#app-screen) {
         position: fixed;
         inset: 0;
         z-index: 110;
-        background: rgba(0, 0, 0, 0.56);
-        backdrop-filter: blur(40px);
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(20px);
     }
 
     .channels-sidebar {
@@ -2705,7 +2969,7 @@ body > .app-container:not(#app-screen) {
         overscroll-behavior: contain;
         transform: translateX(-104%);
         transition: transform 0.3s ease;
-        box-shadow: 16px 0 80px rgba(0, 0, 0, 0.3);
+        box-shadow: 16px 0 80px rgba(0, 0, 0, 0.25);
     }
 
     .channels-sidebar.active {
@@ -2736,7 +3000,7 @@ body > .app-container:not(#app-screen) {
         height: 34px;
         padding: 0;
         border: 0;
-        border-radius: 10px;
+        border-radius: var(--radius-sm);
         background: var(--glass-bg-light);
         backdrop-filter: var(--glass-blur) var(--glass-saturate);
         -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
@@ -2746,8 +3010,9 @@ body > .app-container:not(#app-screen) {
     }
 
     .mobile-menu-button:active {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.05);
         color: var(--text-primary);
+        border-radius: var(--radius-sm);
     }
 
     .chat-header {
@@ -2813,7 +3078,7 @@ body > .app-container:not(#app-screen) {
         max-width: 100%;
         overflow: hidden;
         min-height: 44px;
-        border-radius: 22px;
+        border-radius: var(--radius-xl);
         gap: 4px;
         padding: 0 8px;
     }
@@ -2942,8 +3207,8 @@ body > .app-container:not(#app-screen) {
     align-items: center;
     justify-content: center;
     margin-left: 4px;
-    border-radius: 50%;
-    background: #3b9cff;
+    border-radius: var(--radius-full);
+    background: var(--color-verified);
     color: #fff;
     font-size: 10px;
     font-weight: 800;
@@ -2954,6 +3219,7 @@ body > .app-container:not(#app-screen) {
     display: inline-flex;
     align-items: center;
     min-width: 0;
+    border-radius: var(--radius-sm);
 }
 
 .voice-call-panel {
@@ -2972,6 +3238,11 @@ body > .app-container:not(#app-screen) {
     box-shadow: var(--glass-shadow), var(--glass-iphone), var(--glass-glow);
     animation: voicePanelIn 0.25s ease-out;
     position: relative;
+    border-radius: 0;
+}
+
+.voice-call-panel * {
+    border-radius: var(--radius-sm);
 }
 
 .voice-call-panel::before {
@@ -2999,8 +3270,8 @@ body > .app-container:not(#app-screen) {
     gap: 12px;
     width: min(380px, calc(100vw - 32px));
     padding: 14px 16px;
-    border: 1px solid rgba(165, 130, 255, 0.55);
-    border-radius: 20px;
+    border: 1px solid rgba(162, 155, 254, 0.4);
+    border-radius: var(--radius-xl);
     background: var(--glass-bg-strong);
     backdrop-filter: var(--glass-blur-strong) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur-strong) var(--glass-saturate);
@@ -3008,6 +3279,10 @@ body > .app-container:not(#app-screen) {
     box-shadow: var(--glass-shadow), var(--glass-iphone), var(--glass-glow);
     color: #fff;
     animation: incomingCallIn 0.25s ease-out;
+}
+
+.incoming-call-panel * {
+    border-radius: var(--radius-sm);
 }
 
 .incoming-call-panel.hidden {
@@ -3021,8 +3296,8 @@ body > .app-container:not(#app-screen) {
     flex: 0 0 42px;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    background: #43b581;
+    border-radius: var(--radius-full);
+    background: var(--online-indicator);
     font-size: 17px;
     animation: incomingCallPulse 1.2s infinite;
 }
@@ -3033,6 +3308,7 @@ body > .app-container:not(#app-screen) {
     min-width: 0;
     flex-direction: column;
     gap: 3px;
+    border-radius: var(--radius-sm);
 }
 
 .incoming-call-copy strong,
@@ -3047,31 +3323,32 @@ body > .app-container:not(#app-screen) {
 }
 
 .incoming-call-copy span {
-    color: rgba(255, 255, 255, 0.68);
+    color: rgba(255, 255, 255, 0.6);
     font-size: 12px;
 }
 
 .incoming-call-actions {
     display: flex;
     gap: 8px;
+    border-radius: var(--radius-sm);
 }
 
 .incoming-call-button {
     width: 36px;
     height: 36px;
     border: 0;
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     color: #fff;
     cursor: pointer;
     font-size: 14px;
 }
 
 .incoming-call-button.decline {
-    background: #f04747;
+    background: var(--dnd-indicator);
 }
 
 .incoming-call-button.accept {
-    background: #43b581;
+    background: var(--online-indicator);
 }
 
 @keyframes incomingCallIn {
@@ -3080,8 +3357,8 @@ body > .app-container:not(#app-screen) {
 }
 
 @keyframes incomingCallPulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(67, 181, 129, 0.45); }
-    50% { box-shadow: 0 0 0 12px rgba(67, 181, 129, 0); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.3); }
+    50% { box-shadow: 0 0 0 12px rgba(0, 255, 136, 0); }
 }
 
 .voice-call-panel::after {
@@ -3089,8 +3366,8 @@ body > .app-container:not(#app-screen) {
     inset: 0;
     content: '';
     pointer-events: none;
-    background: radial-gradient(ellipse at 30% 20%, rgba(88,101,242,0.06), transparent 60%),
-                radial-gradient(ellipse at 70% 80%, rgba(255,196,74,0.04), transparent 50%);
+    background: radial-gradient(ellipse at 30% 20%, rgba(108, 92, 231, 0.06), transparent 60%),
+                radial-gradient(ellipse at 70% 80%, rgba(255, 217, 61, 0.04), transparent 50%);
 }
 
 .voice-call-topline,
@@ -3098,6 +3375,7 @@ body > .app-container:not(#app-screen) {
 .voice-call-actions {
     display: flex;
     align-items: center;
+    border-radius: var(--radius-sm);
 }
 
 .voice-call-topline {
@@ -3129,6 +3407,7 @@ body > .app-container:not(#app-screen) {
     justify-content: center;
     padding: 20px 0;
     text-align: center;
+    border-radius: var(--radius-sm);
 }
 
 .voice-call-avatar {
@@ -3139,24 +3418,26 @@ body > .app-container:not(#app-screen) {
     justify-content: center;
     margin: 0 auto 10px;
     border: 3px solid var(--online-indicator);
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary-color), #7b61ff);
+    border-radius: var(--radius-full);
+    background: var(--primary-gradient);
     color: #fff;
     font-size: 36px;
     font-weight: 700;
-    box-shadow: 0 0 0 8px rgba(67, 181, 129, 0.08);
+    box-shadow: 0 0 0 8px rgba(0, 255, 136, 0.08);
 }
 
 .voice-call-identity h2 {
     margin-top: 16px;
     color: var(--text-primary);
     font-size: 24px;
+    border-radius: var(--radius-sm);
 }
 
 .voice-call-identity p {
     margin-top: 4px;
     color: var(--text-secondary);
     font-size: 12px;
+    border-radius: var(--radius-sm);
 }
 
 .voice-call-timer {
@@ -3185,14 +3466,15 @@ body > .app-container:not(#app-screen) {
     margin: 0 auto 18px;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 8px;
+    border-radius: var(--radius-lg);
 }
 
 .voice-video-grid video {
     width: 100%;
     max-height: 62vh;
     border: 1px solid var(--glass-border-strong);
-    border-radius: 18px;
-    background: rgba(9, 6, 20, 0.7);
+    border-radius: var(--radius-lg);
+    background: rgba(9, 6, 20, 0.6);
     object-fit: cover;
     box-shadow: var(--glass-iphone);
 }
@@ -3203,7 +3485,7 @@ body > .app-container:not(#app-screen) {
 
 .voice-call-participants span {
     padding: 5px 8px;
-    border-radius: 14px;
+    border-radius: var(--radius-md);
     background: var(--glass-bg-light);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
@@ -3226,7 +3508,7 @@ body > .app-container:not(#app-screen) {
     margin-top: 16px;
     padding: 12px 16px;
     border: 1px solid var(--glass-border-strong);
-    border-radius: 24px;
+    border-radius: var(--radius-xl);
     background: var(--glass-bg-strong);
     backdrop-filter: var(--glass-blur-strong) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur-strong) var(--glass-saturate);
@@ -3238,7 +3520,7 @@ body > .app-container:not(#app-screen) {
     width: 42px;
     height: 42px;
     border: 0;
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     background: var(--glass-bg-light);
     backdrop-filter: var(--glass-blur) var(--glass-saturate);
     -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
@@ -3251,7 +3533,7 @@ body > .app-container:not(#app-screen) {
     width: auto;
     min-width: 42px;
     padding: 0 14px;
-    border-radius: 22px;
+    border-radius: var(--radius-xl);
 }
 
 .voice-mute-button span {
@@ -3264,7 +3546,7 @@ body > .app-container:not(#app-screen) {
     width: auto;
     min-width: 42px;
     padding: 0 12px;
-    border-radius: 22px;
+    border-radius: var(--radius-xl);
 }
 
 #screen-share-btn span {
@@ -3274,14 +3556,14 @@ body > .app-container:not(#app-screen) {
 }
 
 #screen-share-btn.active {
-    background: rgba(67, 181, 129, 0.25);
-    color: #70e0a4;
+    background: rgba(0, 255, 136, 0.2);
+    color: var(--online-indicator);
 }
 
 .voice-action-button:hover,
 .voice-action-button.muted {
-    background: rgba(250, 166, 26, 0.25);
-    color: #ffd166;
+    background: rgba(255, 217, 61, 0.2);
+    color: var(--idle-indicator);
 }
 
 .voice-action-button.end-call {
@@ -3393,7 +3675,7 @@ body > .app-container:not(#app-screen) {
     .voice-call-actions {
         flex-wrap: wrap;
         margin-top: 10px;
-        border-radius: 14px;
+        border-radius: var(--radius-md);
     }
 
     .incoming-call-panel {
