@@ -20,6 +20,10 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Pulscord использует камеру для видеозвонков.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Pulscord использует микрофон для голосовых и видеозвонков.</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
