@@ -25,6 +25,7 @@
   "license": "MIT",
   "dependencies": {
     "@capacitor/core": "^7.4.3",
+    "@capacitor/splash-screen": "^7.0.2",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "selfsigned": "^2.4.1",
