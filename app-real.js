@@ -1645,7 +1645,7 @@ async function startCall(video, roomOverride = null) {
             targetUsername: roomOverride ? null : appState.currentDMUser,
             video
         });
-        showToast(video ? 'Вы вошли в видеозвонок ✓' : 'Вы вошли в голосовой звонок ✓');
+        showToast(video ? 'Видеозвонок начат ✓' : 'Звонок начат ✓');
     } catch (error) {
         console.error('Ошибка доступа к устройствам:', error);
         const messages = {
