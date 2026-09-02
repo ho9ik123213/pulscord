@@ -7,6 +7,15 @@ const getServerURL = () => {
 };
 
 const API_URL = getServerURL();
+
+const nativeFetch = window.fetch.bind(window);
+window.fetch = (input, init = {}) => {
+    const token = localStorage.getItem('pulscord_session_token');
+    const headers = new Headers(init.headers || {});
+    if (token) headers.set('Authorization', `Bearer ${token}`);
+    return nativeFetch(input, { ...init, headers });
+};
+
 const socket = io(API_URL);
 
 // Состояние приложения
@@ -87,6 +96,7 @@ function setupAuthEvents() {
 
             if (response.ok) {
                 appState.currentUser = data.user;
+                if (data.token) localStorage.setItem('pulscord_session_token', data.token);
                 localStorage.setItem('currentUser', JSON.stringify(data.user));
                 showApp();
             } else {
@@ -127,6 +137,7 @@ function setupAuthEvents() {
 
             if (response.ok) {
                 appState.currentUser = data.user;
+                if (data.token) localStorage.setItem('pulscord_session_token', data.token);
                 localStorage.setItem('currentUser', JSON.stringify(data.user));
                 showApp();
             } else {
@@ -2268,6 +2279,7 @@ function logout() {
         if (!confirmed) return;
         fetch(`${API_URL}/api/auth/logout`, { method: 'POST' }).catch(console.error);
         localStorage.removeItem('currentUser');
+        localStorage.removeItem('pulscord_session_token');
         appState.currentUser = null;
         socket.emit('user-logout');
         

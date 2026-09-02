@@ -301,7 +301,9 @@ function parseCookies(req) {
 }
 
 function getSessionUser(req) {
-    const token = parseCookies(req).pulscord_session;
+    const authorization = req.headers.authorization || '';
+    const bearerToken = authorization.startsWith('Bearer ') ? authorization.slice(7).trim() : '';
+    const token = bearerToken || parseCookies(req).pulscord_session;
     if (!token) return null;
 
     const sessions = loadJSON('sessions.json') || {};
@@ -330,9 +332,11 @@ function clearSessionCookie(res) {
 }
 
 function sendAuthResponse(res, username, user, statusCode = 200) {
-    setSessionCookie(res, createSession(username));
+    const token = createSession(username);
+    setSessionCookie(res, token);
     res.status(statusCode).json({
         success: true,
+        token,
         user: {
             username,
             avatar: user.avatar,
@@ -507,7 +511,8 @@ app.get('/api/auth/me', (req, res) => {
 });
 
 app.post('/api/auth/logout', (req, res) => {
-    const token = parseCookies(req).pulscord_session;
+    const authorization = req.headers.authorization || '';
+    const token = authorization.startsWith('Bearer ') ? authorization.slice(7).trim() : parseCookies(req).pulscord_session;
     const sessions = loadJSON('sessions.json') || {};
     if (token) delete sessions[token];
     saveJSON('sessions.json', sessions);
