@@ -240,6 +240,10 @@ function setupSocket() {
         updateVoiceCallUI();
     });
     socket.on('voice-incoming-call', call => showIncomingCall(call));
+    socket.on('voice-call-unavailable', ({ username }) => {
+        showToast(`${username || 'Собеседник'} сейчас не в сети`);
+        if (appState.voiceRoom) leaveVoiceCall();
+    });
     socket.on('voice-call-rejected', ({ username }) => showToast(`${username || 'Пользователь'} отклонил звонок`));
     socket.on('voice-user-left', ({ socketId }) => {
         appState.voiceParticipants.delete(socketId);
@@ -1603,6 +1607,10 @@ async function startCall(video, roomOverride = null) {
         showToast('Браузер блокирует микрофон. Откройте сайт по HTTPS или через localhost');
         return;
     }
+    if (!appState.currentDMUser && !roomOverride) {
+        showToast('Откройте личный чат, чтобы позвонить собеседнику');
+        return;
+    }
     try {
         appState.voiceStream = await requestCallMedia(video);
         appState.cameraTrack = appState.voiceStream.getVideoTracks()[0] || null;
@@ -1620,7 +1628,12 @@ async function startCall(video, roomOverride = null) {
             localVideo.srcObject = appState.voiceStream;
             document.getElementById('voice-video-grid').classList.remove('hidden');
         }
-        socket.emit('voice-join', { room: appState.voiceRoom, username: appState.currentUser.username, video });
+        socket.emit('voice-join', {
+            room: appState.voiceRoom,
+            username: appState.currentUser.username,
+            targetUsername: roomOverride ? null : appState.currentDMUser,
+            video
+        });
         showToast(video ? 'Вы вошли в видеозвонок ✓' : 'Вы вошли в голосовой звонок ✓');
     } catch (error) {
         console.error('Ошибка доступа к устройствам:', error);
@@ -1705,11 +1718,11 @@ function updateVoiceCallUI() {
     const participants = document.getElementById('voice-call-participants');
     if (!title || !subtitle || !status || !timer || !avatar || !participants) return;
 
-    const channelName = appState.currentDMUser ? `личный чат с ${appState.currentDMUser}` : `канал ${appState.currentChannel || 'общее'}`;
+    const channelName = appState.currentDMUser ? `Звонок с ${appState.currentDMUser}` : 'Звонок';
     const names = [...appState.voiceParticipants.values()];
     title.textContent = channelName;
-    subtitle.textContent = names.length ? `${names.length + 1} участника в звонке` : 'Ожидание участников';
-    status.textContent = names.length ? 'В эфире' : 'Подключение...';
+    subtitle.textContent = names.length ? `${names.length + 1} участника в звонке` : 'Ожидание ответа';
+    status.textContent = names.length ? 'В эфире' : 'Вызов...';
     avatar.textContent = appState.currentUser?.username?.slice(0, 2).toUpperCase() || 'П';
     participants.innerHTML = names.map(name => `<span><i class="fas fa-circle"></i>${escapeHtml(name)}</span>`).join('');
 

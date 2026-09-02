@@ -1657,7 +1657,7 @@ function registerSocketHandlers(socketServer) {
         });
     });
 
-    socket.on('voice-join', ({ room, username, video = false }) => {
+    socket.on('voice-join', ({ room, username, targetUsername, video = false }) => {
         socket.data.username = username;
         const members = voiceRooms.get(room) || new Map();
         const existingMembers = [...members.entries()].map(([socketId, member]) => ({ socketId, ...member }));
@@ -1668,7 +1668,13 @@ function registerSocketHandlers(socketServer) {
         socket.to(`voice:${room}`).emit('voice-user-joined', { socketId: socket.id, username, room, video });
         socket.emit('voice-existing-users', existingMembers);
         socket.emit('voice-join-ack', { room, existingMembers });
-        getVoiceInviteRecipients(socketServer, socket, room).forEach(recipient => {
+        const inviteRecipients = targetUsername
+            ? [...socketServer.sockets.sockets.values()].filter(recipient => recipient.id !== socket.id && recipient.data.username === targetUsername)
+            : getVoiceInviteRecipients(socketServer, socket, room);
+        if (!inviteRecipients.length && targetUsername) {
+            socket.emit('voice-call-unavailable', { username: targetUsername });
+        }
+        inviteRecipients.forEach(recipient => {
             recipient.emit('voice-incoming-call', {
                 socketId: socket.id,
                 username,
