@@ -2,7 +2,6 @@ package com.pulscord.app;
 
 import com.getcapacitor.BridgeActivity;
 import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 public class MainActivity extends BridgeActivity {
@@ -18,4 +17,5 @@ public class MainActivity extends BridgeActivity {
 			}, MEDIA_PERMISSION_REQUEST);
 		}
 	}
+
 }
