@@ -1918,7 +1918,12 @@ function getVideoSender(peer) {
 async function getVoicePeer(socketId) {
     if (appState.peerConnections.has(socketId)) return appState.peerConnections.get(socketId);
     const peer = new RTCPeerConnection({
-        iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+        iceServers: [
+            { urls: 'stun:stun.l.google.com:19302' },
+            { urls: 'stun:stun1.l.google.com:19302' },
+            { urls: 'stun:stun.cloudflare.com:3478' }
+        ],
+        iceCandidatePoolSize: 10
     });
     const localVideoTrack = appState.voiceStream?.getVideoTracks()[0];
     appState.voiceStream?.getAudioTracks().forEach(track => peer.addTrack(track, appState.voiceStream));
