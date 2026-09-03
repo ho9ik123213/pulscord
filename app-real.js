@@ -1615,8 +1615,11 @@ async function startCall(video, roomOverride = null) {
         showToast('Сначала войдите в аккаунт, затем примите звонок');
         return;
     }
+    appState.voiceCallStartedAt = Date.now();
+    showVoiceCallPanel();
+    setVoiceCallStatus(video ? 'Подготовка видеозвонка...' : 'Подготовка звонка...', 'connecting');
     if (!navigator.mediaDevices?.getUserMedia) {
-        showToast('Браузер блокирует микрофон. Откройте сайт по HTTPS или через localhost');
+        setVoiceCallStatus('Микрофон недоступен на этом устройстве', 'error');
         return;
     }
     if (!appState.currentDMUser && !roomOverride) {
@@ -1634,7 +1637,6 @@ async function startCall(video, roomOverride = null) {
         document.getElementById('voice-call-btn').classList.add('hidden');
         document.getElementById('video-call-btn').classList.add('hidden');
         document.getElementById('voice-leave-btn').classList.remove('hidden');
-        showVoiceCallPanel();
         if (video) {
             const localVideo = document.getElementById('voice-local-video');
             localVideo.srcObject = appState.voiceStream;
@@ -1646,16 +1648,19 @@ async function startCall(video, roomOverride = null) {
             targetUsername: roomOverride ? null : appState.currentDMUser,
             video
         });
-        showToast(video ? 'Видеозвонок начат ✓' : 'Звонок начат ✓');
     } catch (error) {
+        appState.voiceStream?.getTracks().forEach(track => track.stop());
+        appState.voiceStream = null;
         console.error('Ошибка доступа к устройствам:', error);
         const messages = {
-            NotAllowedError: 'Доступ запрещён для этого адреса. Разрешите камеру и микрофон именно для текущей ссылки.',
+            NotAllowedError: 'Разрешите микрофон и камеру в настройках приложения Android.',
             NotFoundError: 'Камера или микрофон не найдены.',
             NotReadableError: 'Камера или микрофон уже используются другой программой.',
-            OverconstrainedError: 'Настройки камеры или микрофона не поддерживаются этим устройством.'
+            OverconstrainedError: 'Настройки камеры или микрофона не поддерживаются этим устройством.',
+            SecurityError: 'Разрешите доступ к микрофону и камере в настройках Android.'
         };
-        showToast(messages[error.name] || 'Не удалось открыть камеру и микрофон');
+        setVoiceCallStatus(messages[error.name] || 'Не удалось открыть камеру и микрофон', 'error');
+        document.getElementById('voice-call-subtitle').textContent = 'Проверьте разрешения и повторите звонок';
     }
 }
 
@@ -1734,12 +1739,20 @@ function updateVoiceCallUI() {
     const names = [...appState.voiceParticipants.values()];
     title.textContent = channelName;
     subtitle.textContent = names.length ? `${names.length + 1} участника в звонке` : 'Ожидание ответа';
-    status.textContent = names.length ? 'В эфире' : 'Вызов...';
+    if (status.dataset.manual !== 'true') status.textContent = names.length ? 'В эфире' : 'Вызов...';
     avatar.textContent = appState.currentUser?.username?.slice(0, 2).toUpperCase() || 'П';
     participants.innerHTML = names.map(name => `<span><i class="fas fa-circle"></i>${escapeHtml(name)}</span>`).join('');
 
     const elapsed = appState.voiceCallStartedAt ? Math.floor((Date.now() - appState.voiceCallStartedAt) / 1000) : 0;
     timer.textContent = `${String(Math.floor(elapsed / 60)).padStart(2, '0')}:${String(elapsed % 60).padStart(2, '0')}`;
+}
+
+function setVoiceCallStatus(text, state = 'connecting') {
+    const status = document.getElementById('voice-call-status');
+    if (!status) return;
+    status.textContent = text;
+    status.dataset.manual = state === 'connecting' || state === 'error' ? 'true' : 'false';
+    status.dataset.state = state;
 }
 
 function toggleVoiceMute() {
