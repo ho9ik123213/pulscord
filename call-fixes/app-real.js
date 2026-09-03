@@ -1749,10 +1749,6 @@ function updateVoiceCallUI() {
     const timer = document.getElementById('voice-call-timer');
     const avatar = document.getElementById('voice-call-avatar');
     const participants = document.getElementById('voice-call-participants');
-    const localName = document.getElementById('voice-local-name');
-    const remoteName = document.getElementById('voice-remote-name');
-    const remoteStatus = document.getElementById('voice-remote-status');
-    const remotePlaceholder = document.getElementById('voice-remote-placeholder');
     if (!title || !subtitle || !status || !timer || !avatar || !participants) return;
 
     const channelName = appState.currentDMUser ? appState.currentDMUser : 'Голосовой канал';
@@ -1761,10 +1757,6 @@ function updateVoiceCallUI() {
     subtitle.textContent = names.length ? `${names.length + 1} участника в звонке` : 'Ожидание ответа';
     if (status.dataset.manual !== 'true') status.textContent = names.length ? 'В эфире' : 'Вызов...';
     avatar.textContent = (appState.currentDMUser || appState.currentUser?.username || 'П').slice(0, 2).toUpperCase();
-    if (localName) localName.textContent = appState.currentUser?.username || 'Вы';
-    if (remoteName) remoteName.textContent = names[0] || appState.currentDMUser || 'Ожидание собеседника';
-    if (remoteStatus) remoteStatus.textContent = names.length ? 'В звонке' : 'Звонок отправлен';
-    remotePlaceholder?.classList.toggle('connected', names.length > 0);
     participants.innerHTML = names.map(name => `<span><i class="fas fa-circle"></i>${escapeHtml(name)}</span>`).join('');
 
     const elapsed = appState.voiceCallStartedAt ? Math.floor((Date.now() - appState.voiceCallStartedAt) / 1000) : 0;
