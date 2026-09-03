@@ -1646,7 +1646,6 @@ async function startCall(video, roomOverride = null) {
             targetUsername: roomOverride ? null : appState.currentDMUser,
             video
         });
-        showToast(video ? 'Видеозвонок начат ✓' : 'Звонок начат ✓');
     } catch (error) {
         appState.voiceStream?.getTracks().forEach(track => track.stop());
         appState.voiceStream = null;
