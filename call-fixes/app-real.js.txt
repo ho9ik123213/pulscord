@@ -1622,8 +1622,11 @@ async function startCall(video, roomOverride = null) {
         showToast('Откройте личный чат, чтобы позвонить собеседнику');
         return;
     }
+    appState.voiceCallStartedAt = Date.now();
+    showVoiceCallPanel();
+    setVoiceCallStatus('Запрашиваем доступ к микрофону...', 'connecting');
     try {
-        setVoiceCallStatus('Проверяем доступ к устройствам...', 'connecting');
+        setVoiceCallStatus(video ? 'Запрашиваем доступ к камере и микрофону...' : 'Запрашиваем доступ к микрофону...', 'connecting');
         appState.voiceStream = await requestCallMedia(video);
         appState.cameraTrack = appState.voiceStream.getVideoTracks()[0] || null;
         appState.videoEnabled = video;
@@ -1634,7 +1637,6 @@ async function startCall(video, roomOverride = null) {
         document.getElementById('voice-call-btn').classList.add('hidden');
         document.getElementById('video-call-btn').classList.add('hidden');
         document.getElementById('voice-leave-btn').classList.remove('hidden');
-        showVoiceCallPanel();
         if (video) {
             const localVideo = document.getElementById('voice-local-video');
             localVideo.srcObject = appState.voiceStream;
@@ -1646,7 +1648,6 @@ async function startCall(video, roomOverride = null) {
             targetUsername: roomOverride ? null : appState.currentDMUser,
             video
         });
-        showToast(video ? 'Видеозвонок начат ✓' : 'Звонок начат ✓');
     } catch (error) {
         appState.voiceStream?.getTracks().forEach(track => track.stop());
         appState.voiceStream = null;
@@ -1654,21 +1655,19 @@ async function startCall(video, roomOverride = null) {
         appState.videoEnabled = false;
         console.error('Ошибка доступа к устройствам:', error);
         const messages = {
-            NotAllowedError: 'Доступ запрещён для этого адреса. Разрешите камеру и микрофон именно для текущей ссылки.',
+            NotAllowedError: 'Разрешение отклонено. Разрешите микрофон и камеру в настройках приложения Android.',
             NotFoundError: 'Камера или микрофон не найдены.',
             NotReadableError: 'Камера или микрофон уже используются другой программой.',
             OverconstrainedError: 'Настройки камеры или микрофона не поддерживаются этим устройством.',
             SecurityError: 'Доступ к звонкам возможен только через HTTPS или localhost.',
             AbortError: 'Не удалось завершить запрос доступа к устройствам.'
         };
-        showToast(messages[error.name] || 'Не удалось открыть камеру и микрофон');
+        setVoiceCallStatus(messages[error.name] || 'Не удалось открыть камеру и микрофон', 'error');
+        document.getElementById('voice-call-subtitle').textContent = 'Измените разрешения и повторите звонок';
     }
 }
 
 async function requestCallMedia(video) {
-    if (!window.isSecureContext && !['localhost', '127.0.0.1'].includes(window.location.hostname)) {
-        throw new DOMException('Media devices require a secure context', 'SecurityError');
-    }
     if (navigator.permissions?.query) {
         try {
             const microphone = await navigator.permissions.query({ name: 'microphone' });

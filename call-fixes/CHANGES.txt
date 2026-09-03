@@ -11,6 +11,10 @@ PULSCORD CALL SCREEN - CHANGES
    Экран заполняется именами и статусами участников. До ответа показывается "Позвонок отправлен", после подключения - "В звонке". Карточка собеседника меняет визуальное состояние.
    Также сохранены исправления разрешений камеры/микрофона, очистки media tracks и удалённых WebRTC-потоков.
 
+4. ../android/app/src/main/java/com/pulscord/app/MainActivity.java
+   Добавлен runtime-запрос разрешений RECORD_AUDIO и CAMERA при запуске Android-приложения.
+   Проверка isSecureContext удалена для Capacitor WebView, чтобы Android не показывал ошибку про адрес.
+
 Файлы для загрузки в репозиторий:
 - app-real.js.txt
 - index.html.txt
@@ -20,3 +24,4 @@ PULSCORD CALL SCREEN - CHANGES
 Проверено:
 - node --check app-real.js: успешно
 - git diff --check: успешно
+- APK требует JDK 21. На текущем компьютере полноценный JDK 21 не установлен, поэтому новая APK-сборка не завершена.
