@@ -1995,6 +1995,10 @@ function closeVoicePeer(socketId) {
 }
 
 function leaveVoiceCall() {
+    document.getElementById('voice-call-panel')?.classList.add('hidden');
+    document.getElementById('voice-leave-btn')?.classList.add('hidden');
+    document.getElementById('voice-call-btn')?.classList.remove('hidden');
+    document.getElementById('video-call-btn')?.classList.remove('hidden');
     const hadVoiceRoom = Boolean(appState.voiceRoom);
     if (hadVoiceRoom) socket.emit('voice-leave');
     appState.peerConnections.forEach((peer, socketId) => closeVoicePeer(socketId));
@@ -2037,10 +2041,6 @@ function leaveVoiceCall() {
     outputButton?.classList.remove('active');
     outputButton?.setAttribute('aria-pressed', 'false');
     document.getElementById('voice-remote-videos').innerHTML = '';
-    document.getElementById('voice-call-panel')?.classList.add('hidden');
-    document.getElementById('voice-call-btn').classList.remove('hidden');
-    document.getElementById('video-call-btn').classList.remove('hidden');
-    document.getElementById('voice-leave-btn').classList.add('hidden');
     if (hadVoiceRoom) showToast('Вы вышли из голосового звонка');
 }
 
