@@ -1756,7 +1756,10 @@ function setVoiceCallStatus(text, state = 'connecting') {
 }
 
 function toggleVoiceMute() {
-    if (!appState.voiceStream) return;
+    if (!appState.voiceStream) {
+        setVoiceCallStatus('Сначала разрешите доступ к микрофону', 'error');
+        return;
+    }
     appState.voiceMuted = !appState.voiceMuted;
     appState.voiceStream.getAudioTracks().forEach(track => { track.enabled = !appState.voiceMuted; });
     const button = document.getElementById('voice-mute-btn');

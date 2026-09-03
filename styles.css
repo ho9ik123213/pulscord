@@ -3397,6 +3397,12 @@ body > .app-container:not(#app-screen) {
     font-size: 11px;
 }
 
+.voice-call-status[data-state="error"] {
+    color: #ff8f9b;
+    border-color: rgba(255, 107, 107, 0.35);
+    background: rgba(255, 107, 107, 0.1);
+}
+
 .voice-call-identity {
     position: relative;
     z-index: 1;

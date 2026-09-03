@@ -376,25 +376,7 @@
             <span class="voice-call-status" id="voice-call-status">Подключение...</span>
         </div>
         <div class="voice-call-identity">
-            <div class="voice-live-badge"><span></span> PULSCORD CALL</div>
-            <div class="voice-stage-grid" id="voice-stage-grid">
-                <article class="voice-participant-card is-local">
-                    <div class="voice-participant-avatar" id="voice-call-avatar">П</div>
-                    <div class="voice-participant-copy">
-                        <strong id="voice-local-name">Вы</strong>
-                        <span><i class="fas fa-microphone"></i> Микрофон подключён</span>
-                    </div>
-                    <i class="fas fa-wave-square voice-speaking-icon"></i>
-                </article>
-                <article class="voice-participant-card remote-placeholder" id="voice-remote-placeholder">
-                    <div class="voice-participant-avatar"><i class="fas fa-user"></i></div>
-                    <div class="voice-participant-copy">
-                        <strong id="voice-remote-name">Ожидание собеседника</strong>
-                        <span id="voice-remote-status">Позвонок отправлен</span>
-                    </div>
-                    <i class="fas fa-phone-volume voice-ringing-icon"></i>
-                </article>
-            </div>
+            <div class="voice-call-avatar" id="voice-call-avatar">П</div>
             <h2 id="voice-call-title">Канал общее</h2>
             <p id="voice-call-subtitle">Ожидание участников</p>
             <strong id="voice-call-timer">00:00</strong>
@@ -406,6 +388,7 @@
         <div class="voice-call-participants" id="voice-call-participants"></div>
         <div class="voice-call-actions">
             <button class="voice-action-button voice-mute-button" id="voice-mute-btn" type="button" title="Выключить микрофон" aria-pressed="false"><i class="fas fa-microphone"></i><span id="voice-mute-label">Микрофон</span></button>
+            <button class="voice-action-button" id="voice-video-btn" type="button" title="Включить видео" aria-pressed="false"><i class="fas fa-video"></i><span>Видео</span></button>
             <button class="voice-action-button" id="screen-share-btn" type="button" title="Показать экран"><i class="fas fa-display"></i><span id="screen-share-label">Экран</span></button>
             <button class="voice-action-button end-call" id="voice-end-btn" type="button" title="Завершить звонок"><i class="fas fa-phone-slash"></i></button>
         </div>
@@ -423,7 +406,7 @@
         </div>
     </div>
 
-    <script src="app-real.js?v=20260903-33"></script>
+    <script src="app-real.js?v=20260903-35"></script>
     <input id="container-avatar-upload" type="file" accept="image/*" hidden>
 
     <style>

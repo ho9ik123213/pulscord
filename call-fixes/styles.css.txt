@@ -3397,6 +3397,12 @@ body > .app-container:not(#app-screen) {
     font-size: 11px;
 }
 
+.voice-call-status[data-state="error"] {
+    color: #ff8f9b;
+    border-color: rgba(255, 107, 107, 0.35);
+    background: rgba(255, 107, 107, 0.1);
+}
+
 .voice-call-identity {
     position: relative;
     z-index: 1;
@@ -3409,96 +3415,6 @@ body > .app-container:not(#app-screen) {
     text-align: center;
     border-radius: var(--radius-sm);
 }
-
-.voice-live-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    margin-bottom: 18px;
-    padding: 7px 11px;
-    border: 1px solid rgba(0, 255, 136, 0.28);
-    border-radius: var(--radius-full);
-    background: rgba(0, 255, 136, 0.08);
-    color: var(--online-indicator);
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 1px;
-}
-
-.voice-live-badge span {
-    width: 7px;
-    height: 7px;
-    border-radius: var(--radius-full);
-    background: currentColor;
-    box-shadow: 0 0 0 4px rgba(0, 255, 136, 0.12);
-}
-
-.voice-stage-grid {
-    display: grid;
-    width: min(100%, 760px);
-    grid-template-columns: repeat(2, minmax(220px, 1fr));
-    gap: 14px;
-}
-
-.voice-participant-card {
-    display: flex;
-    align-items: center;
-    min-height: 112px;
-    gap: 13px;
-    padding: 18px;
-    border: 1px solid var(--glass-border-strong);
-    background: rgba(12, 13, 24, 0.66);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 14px 34px rgba(0,0,0,0.2);
-    text-align: left;
-}
-
-.voice-participant-card.is-local {
-    border-color: rgba(0, 255, 136, 0.36);
-}
-
-.voice-participant-card.remote-placeholder {
-    border-color: rgba(255, 217, 61, 0.28);
-}
-
-.voice-participant-card.remote-placeholder.connected {
-    border-color: rgba(116, 185, 255, 0.45);
-}
-
-.voice-participant-avatar {
-    display: flex;
-    flex: 0 0 58px;
-    width: 58px;
-    height: 58px;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid rgba(255,255,255,0.16);
-    border-radius: var(--radius-full);
-    background: var(--primary-gradient);
-    color: #fff;
-    font-size: 20px;
-    font-weight: 800;
-}
-
-.voice-participant-copy {
-    display: flex;
-    min-width: 0;
-    flex: 1;
-    flex-direction: column;
-    gap: 7px;
-}
-
-.voice-participant-copy strong,
-.voice-participant-copy span {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.voice-participant-copy strong { font-size: 14px; }
-.voice-participant-copy span { color: var(--text-secondary); font-size: 11px; }
-.voice-participant-copy span i { margin-right: 5px; color: var(--online-indicator); }
-.voice-speaking-icon { color: var(--online-indicator); }
-.voice-ringing-icon { color: var(--idle-indicator); animation: incomingCallPulse 1.2s infinite; }
 
 .voice-call-avatar {
     width: 124px;
@@ -3679,8 +3595,6 @@ body > .app-container:not(#app-screen) {
         font-size: 28px;
     }
 
-    .voice-stage-grid { grid-template-columns: minmax(0, 1fr); }
-
     .voice-call-identity h2 {
         font-size: 19px;
     }
@@ -3799,4 +3713,117 @@ body > .app-container:not(#app-screen) {
     to {
         opacity: 1;
     }
+}
+
+/* Discord-like call stage with Pulscord colors. */
+.voice-call-panel {
+    padding: 28px 32px 30px;
+    background: #080a10;
+    border: 0;
+    box-shadow: none;
+}
+
+.voice-call-panel::before {
+    background: radial-gradient(circle at 50% 42%, rgba(108, 92, 231, 0.2), transparent 30%),
+                radial-gradient(circle at 20% 100%, rgba(0, 206, 201, 0.08), transparent 32%);
+    animation: none;
+}
+
+.voice-call-panel::after {
+    background: linear-gradient(180deg, rgba(8, 10, 16, 0.1), rgba(8, 10, 16, 0.76));
+}
+
+.voice-call-topline {
+    padding: 4px 4px 0;
+    font-size: 13px;
+}
+
+.voice-call-status {
+    padding: 6px 10px;
+    border: 1px solid rgba(0, 255, 136, 0.18);
+    border-radius: var(--radius-full);
+    background: rgba(0, 255, 136, 0.06);
+}
+
+.voice-call-identity {
+    justify-content: center;
+    padding: 24px 0 10px;
+}
+
+.voice-call-avatar {
+    width: 142px;
+    height: 142px;
+    margin-bottom: 15px;
+    border: 4px solid #080a10;
+    outline: 2px solid var(--primary-color);
+    background: var(--primary-gradient);
+    box-shadow: 0 0 0 13px rgba(108, 92, 231, 0.12), 0 18px 55px rgba(0, 0, 0, 0.4);
+}
+
+.voice-call-identity h2 {
+    margin-top: 8px;
+    font-size: 25px;
+}
+
+.voice-call-identity p {
+    font-size: 13px;
+}
+
+.voice-call-timer {
+    color: rgba(255, 255, 255, 0.58);
+    font-variant-numeric: tabular-nums;
+}
+
+.voice-call-participants span {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.voice-call-actions {
+    gap: 10px;
+    margin-top: 12px;
+    padding: 10px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 18px;
+    background: rgba(20, 22, 31, 0.92);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.38);
+}
+
+.voice-action-button {
+    min-width: 48px;
+    height: 48px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #242733;
+    transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.voice-action-button:hover {
+    transform: translateY(-2px);
+    background: #353949;
+    color: #fff;
+}
+
+.voice-action-button.active {
+    background: rgba(108, 92, 231, 0.34);
+    color: var(--primary-light);
+}
+
+.voice-action-button.end-call {
+    min-width: 58px;
+    margin-left: 8px;
+    border: 0;
+    background: #e34255;
+}
+
+.voice-action-button.end-call:hover {
+    background: #f05263;
+}
+
+@media (max-width: 480px) {
+    .voice-call-panel { padding: 18px 12px calc(16px + env(safe-area-inset-bottom)); }
+    .voice-call-avatar { width: 104px; height: 104px; }
+    .voice-call-actions { gap: 6px; padding: 8px; }
+    .voice-action-button { min-width: 44px; height: 44px; }
+    .voice-mute-button, #screen-share-btn { min-width: 44px; padding: 0; }
+    .voice-action-button span { display: none; }
 }
