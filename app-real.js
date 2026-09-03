@@ -1992,25 +1992,17 @@ function closeVoicePeer(socketId) {
 }
 
 function leaveVoiceCall() {
-    if (!appState.voiceRoom) {
-        appState.voiceStream?.getTracks().forEach(track => track.stop());
-        appState.voiceStream = null;
-        appState.cameraTrack = null;
-        clearInterval(appState.voiceCallTimer);
-        appState.voiceCallTimer = null;
-        appState.voiceCallStartedAt = null;
-        document.getElementById('voice-call-panel')?.classList.add('hidden');
-        document.getElementById('voice-call-btn')?.classList.remove('hidden');
-        document.getElementById('video-call-btn')?.classList.remove('hidden');
-        document.getElementById('voice-leave-btn')?.classList.add('hidden');
-        return;
-    }
-    socket.emit('voice-leave');
+    const hadVoiceRoom = Boolean(appState.voiceRoom);
+    if (hadVoiceRoom) socket.emit('voice-leave');
     appState.peerConnections.forEach((peer, socketId) => closeVoicePeer(socketId));
     appState.voiceStream?.getTracks().forEach(track => track.stop());
+    appState.screenTrack?.stop();
+    appState.screenAudioTrack?.stop();
     appState.voiceStream = null;
     appState.voiceRoom = null;
     appState.voiceParticipants.clear();
+    appState.pendingVoiceCandidates.clear();
+    appState.remoteStreams.clear();
     appState.voiceCallStartedAt = null;
     clearInterval(appState.voiceCallTimer);
     appState.voiceCallTimer = null;
@@ -2046,7 +2038,7 @@ function leaveVoiceCall() {
     document.getElementById('voice-call-btn').classList.remove('hidden');
     document.getElementById('video-call-btn').classList.remove('hidden');
     document.getElementById('voice-leave-btn').classList.add('hidden');
-    showToast('Вы вышли из голосового звонка');
+    if (hadVoiceRoom) showToast('Вы вышли из голосового звонка');
 }
 
 // ===== КОНТАКТЫ =====
