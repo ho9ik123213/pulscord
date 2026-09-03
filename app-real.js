@@ -897,6 +897,7 @@ function setupAppEvents() {
     document.getElementById('voice-mute-btn').addEventListener('click', toggleVoiceMute);
     document.getElementById('voice-video-btn').addEventListener('click', toggleVoiceVideo);
     document.getElementById('screen-share-btn').addEventListener('click', toggleScreenShare);
+    document.getElementById('voice-output-btn').addEventListener('click', toggleVoiceOutput);
     document.getElementById('accept-call-btn').addEventListener('click', acceptIncomingCall);
     document.getElementById('decline-call-btn').addEventListener('click', declineIncomingCall);
     document.getElementById('add-channel-btn')?.addEventListener('click', createChannel);
@@ -1814,6 +1815,22 @@ async function toggleVoiceVideo() {
     showToast(currentTrack.enabled ? 'Видео включено' : 'Видео выключено');
 }
 
+async function toggleVoiceOutput() {
+    const button = document.getElementById('voice-output-btn');
+    const audios = [...document.querySelectorAll('audio[id^="voice-audio-"]')];
+    const speakerMode = button.getAttribute('aria-pressed') !== 'true';
+    for (const audio of audios) {
+        if (typeof audio.setSinkId === 'function') {
+            await audio.setSinkId(speakerMode ? 'default' : 'communications').catch(() => {});
+        }
+        audio.volume = speakerMode ? 1 : 0.7;
+    }
+    button.setAttribute('aria-pressed', String(speakerMode));
+    button.classList.toggle('active', speakerMode);
+    button.title = speakerMode ? 'Выключить громкую связь' : 'Включить громкую связь';
+    showToast(speakerMode ? 'Звук включён' : 'Наушники включены');
+}
+
 async function toggleScreenShare() {
     if (!appState.voiceRoom) return showToast('Сначала начните звонок');
     if (appState.screenSharing) {
@@ -2009,6 +2026,9 @@ function leaveVoiceCall() {
         videoButton.title = 'Включить видео';
         videoButton.querySelector('i').className = 'fas fa-video';
     }
+    const outputButton = document.getElementById('voice-output-btn');
+    outputButton?.classList.remove('active');
+    outputButton?.setAttribute('aria-pressed', 'false');
     document.getElementById('voice-remote-videos').innerHTML = '';
     document.getElementById('voice-call-panel')?.classList.add('hidden');
     document.getElementById('voice-call-btn').classList.remove('hidden');
