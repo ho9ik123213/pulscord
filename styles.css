@@ -3849,3 +3849,42 @@ body > .app-container:not(#app-screen) {
     .voice-mute-button, #screen-share-btn { min-width: 44px; padding: 0; }
     .voice-action-button span { display: none; }
 }
+
+/* Final responsive sizing for phones and short landscape screens. */
+@media (max-width: 520px) {
+    .voice-call-panel {
+        width: calc(100vw - 24px);
+        min-height: min(420px, calc(100dvh - 24px));
+        max-height: calc(100dvh - 24px);
+        padding: 20px 14px calc(18px + env(safe-area-inset-bottom));
+        border-radius: 24px;
+    }
+
+    .voice-call-identity { padding: 14px 0 6px; }
+    .voice-call-avatar { width: clamp(82px, 28vw, 108px); height: clamp(82px, 28vw, 108px); }
+    .voice-call-identity h2 { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: clamp(18px, 5vw, 23px); }
+    .voice-call-actions { width: 100%; margin-top: 8px; gap: clamp(4px, 1.8vw, 8px); padding: 8px; }
+    .voice-action-button { flex: 1 1 0; min-width: 0; width: auto; height: 48px; padding: 0 5px; }
+    .voice-action-button span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .voice-action-button.end-call { flex: 0 0 54px; min-width: 54px; margin-left: 2px; }
+}
+
+@media (max-width: 360px) {
+    .voice-call-panel { width: calc(100vw - 16px); padding-left: 10px; padding-right: 10px; }
+    .voice-call-topline { font-size: 11px; }
+    .voice-call-status { max-width: 58%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .voice-call-actions { padding: 6px; gap: 3px; }
+    .voice-action-button { height: 44px; font-size: 14px; }
+    .voice-action-button span { display: none; }
+    .voice-action-button.end-call { flex-basis: 48px; min-width: 48px; }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+    .voice-call-panel { min-height: 0; padding: 12px 18px; }
+    .voice-call-identity { padding: 8px 0 4px; }
+    .voice-call-avatar { width: 72px; height: 72px; font-size: 24px; }
+    .voice-call-identity h2 { margin-top: 5px; font-size: 17px; }
+    .voice-call-identity p { margin-top: 2px; }
+    .voice-call-timer { margin-top: 3px; }
+    .voice-call-actions { margin-top: 4px; }
+}
