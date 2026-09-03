@@ -1714,6 +1714,9 @@ function showVoiceCallPanel() {
     const panel = document.getElementById('voice-call-panel');
     if (!panel) return;
     panel.classList.remove('hidden');
+    document.getElementById('voice-call-btn')?.classList.add('hidden');
+    document.getElementById('video-call-btn')?.classList.add('hidden');
+    document.getElementById('voice-leave-btn')?.classList.remove('hidden');
     updateVoiceCallUI();
     clearInterval(appState.voiceCallTimer);
     appState.voiceCallTimer = setInterval(updateVoiceCallUI, 1000);
