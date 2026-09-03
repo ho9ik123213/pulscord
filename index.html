@@ -466,7 +466,7 @@
         </div>
     </div>
 
-    <script src="app-real.js?v=20260903-38"></script>
+    <script src="app-real.js?v=20260903-39"></script>
     <input id="container-avatar-upload" type="file" accept="image/*" hidden>
 
     <style>
@@ -862,10 +862,98 @@
             let isScreenSharing = false;
             let localStream = null;
             let isCallActive = false;
+            let remoteStream = null;
+
+            // Полное завершение звонка — очистка всех ресурсов
+            function fullEndCall() {
+                if (!isCallActive && !localStream && !remoteStream) return;
+                
+                console.log('📞 Завершение звонка, очистка ресурсов...');
+
+                // Останавливаем таймер
+                if (callInterval) {
+                    clearInterval(callInterval);
+                    callInterval = null;
+                }
+
+                // Останавливаем все медиа-треки
+                if (localStream) {
+                    localStream.getTracks().forEach(track => {
+                        track.stop();
+                        track.enabled = false;
+                    });
+                    localStream = null;
+                }
+
+                if (remoteStream) {
+                    remoteStream.getTracks().forEach(track => {
+                        track.stop();
+                        track.enabled = false;
+                    });
+                    remoteStream = null;
+                }
+
+                // Очищаем видео-элементы
+                if (callLocalVideo.srcObject) {
+                    callLocalVideo.srcObject.getTracks().forEach(t => t.stop());
+                    callLocalVideo.srcObject = null;
+                }
+                if (callRemoteVideo.srcObject) {
+                    callRemoteVideo.srcObject.getTracks().forEach(t => t.stop());
+                    callRemoteVideo.srcObject = null;
+                }
+
+                // Сбрасываем состояние
+                isCallActive = false;
+                isVideoOn = false;
+                isMuted = false;
+                isSpeakerOn = false;
+                isScreenSharing = false;
+                callSeconds = 0;
+
+                // Скрываем экран звонка
+                callScreen.classList.add('hidden');
+                callVideoContainer.classList.add('hidden');
+
+                // Сбрасываем UI кнопок
+                callMuteBtn.classList.remove('muted', 'active');
+                callVideoToggleBtn.classList.remove('active');
+                callSpeakerBtn.classList.remove('active');
+                callScreenShareBtn.classList.remove('active');
+
+                // Возвращаем иконки в исходное состояние
+                const muteIcon = callMuteBtn.querySelector('i');
+                const muteLabel = callMuteBtn.querySelector('span');
+                if (muteIcon) muteIcon.className = 'fas fa-microphone';
+                if (muteLabel) muteLabel.textContent = 'Микрофон';
+
+                const videoIcon = callVideoToggleBtn.querySelector('i');
+                const videoLabel = callVideoToggleBtn.querySelector('span');
+                if (videoIcon) videoIcon.className = 'fas fa-video';
+                if (videoLabel) videoLabel.textContent = 'Видео';
+
+                const speakerLabel = callSpeakerBtn.querySelector('span');
+                if (speakerLabel) speakerLabel.textContent = 'Громкая';
+
+                const screenLabel = callScreenShareBtn.querySelector('span');
+                if (screenLabel) screenLabel.textContent = 'Экран';
+
+                // Сброс статуса
+                callStatus.textContent = '⏳ Завершён';
+                callStatus.className = 'call-status';
+                callSubtitle.textContent = 'Звонок завершён';
+                callTimer.textContent = '00:00';
+
+                console.log('📞 Звонок полностью завершён');
+            }
 
             // Показать экран звонка
             window.showCallScreen = function(name, avatar, isVideo = false) {
-                // Сохраняем имя для использования в других функциях
+                // Если уже есть активный звонок — завершаем его
+                if (isCallActive) {
+                    fullEndCall();
+                }
+
                 window._callName = name || 'Пользователь';
                 window._callAvatar = avatar || 'П';
 
@@ -875,17 +963,14 @@
                 callStatus.textContent = '⏳ Подключение...';
                 callStatus.className = 'call-status';
 
-                // Сброс таймера
                 callSeconds = 0;
                 callTimer.textContent = '00:00';
 
-                // Сброс кнопок
                 callMuteBtn.classList.remove('muted', 'active');
                 callVideoToggleBtn.classList.remove('active');
                 callSpeakerBtn.classList.remove('active');
                 callScreenShareBtn.classList.remove('active');
 
-                // Сброс видео
                 callVideoContainer.classList.add('hidden');
                 if (callLocalVideo.srcObject) {
                     callLocalVideo.srcObject.getTracks().forEach(t => t.stop());
@@ -899,12 +984,12 @@
                 isMuted = false;
                 isSpeakerOn = false;
                 isScreenSharing = false;
+                localStream = null;
+                remoteStream = null;
 
-                // Показываем экран
                 callScreen.classList.remove('hidden');
                 isCallActive = true;
 
-                // Запускаем таймер после небольшой задержки (имитация подключения)
                 setTimeout(() => {
                     if (isCallActive) {
                         callSubtitle.textContent = '🟢 В процессе...';
@@ -914,7 +999,6 @@
                     }
                 }, 1500);
 
-                // Если видеозвонок — включаем камеру
                 if (isVideo) {
                     setTimeout(() => {
                         if (isCallActive) {
@@ -924,35 +1008,19 @@
                 }
             };
 
-            // Скрыть экран звонка
+            // Скрыть экран звонка (полное завершение)
             window.hideCallScreen = function() {
-                isCallActive = false;
-                stopCallTimer();
-
-                // Останавливаем все треки
-                if (localStream) {
-                    localStream.getTracks().forEach(t => t.stop());
-                    localStream = null;
-                }
-                if (callLocalVideo.srcObject) {
-                    callLocalVideo.srcObject.getTracks().forEach(t => t.stop());
-                    callLocalVideo.srcObject = null;
-                }
-                if (callRemoteVideo.srcObject) {
-                    callRemoteVideo.srcObject.getTracks().forEach(t => t.stop());
-                    callRemoteVideo.srcObject = null;
-                }
-
-                callVideoContainer.classList.add('hidden');
-                callScreen.classList.add('hidden');
-                isVideoOn = false;
-                isMuted = false;
+                fullEndCall();
             };
 
             // Таймер звонка
             function startCallTimer() {
                 stopCallTimer();
                 callInterval = setInterval(() => {
+                    if (!isCallActive) {
+                        stopCallTimer();
+                        return;
+                    }
                     callSeconds++;
                     const mins = String(Math.floor(callSeconds / 60)).padStart(2, '0');
                     const secs = String(callSeconds % 60).padStart(2, '0');
@@ -982,7 +1050,6 @@
                     label.textContent = 'Микрофон';
                 }
 
-                // Мутируем локальный аудио
                 if (localStream) {
                     localStream.getAudioTracks().forEach(t => t.enabled = !isMuted);
                 }
@@ -1016,12 +1083,11 @@
 
             function startLocalVideo() {
                 if (localStream) {
-                    // Если уже есть поток, но без видео — добавляем
                     if (!localStream.getVideoTracks().length) {
                         navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
                             .then(stream => {
                                 const videoTrack = stream.getVideoTracks()[0];
-                                if (videoTrack) {
+                                if (videoTrack && isCallActive) {
                                     localStream.addTrack(videoTrack);
                                     callLocalVideo.srcObject = localStream;
                                 }
@@ -1033,15 +1099,18 @@
 
                 navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: true })
                     .then(stream => {
+                        if (!isCallActive) {
+                            stream.getTracks().forEach(t => t.stop());
+                            return;
+                        }
                         localStream = stream;
                         callLocalVideo.srcObject = stream;
-                        // Если микрофон был выключен — выключаем
                         if (isMuted) {
                             stream.getAudioTracks().forEach(t => t.enabled = false);
                         }
                     })
                     .catch(() => {
-                        // Если не удалось — отключаем видео
+                        if (!isCallActive) return;
                         isVideoOn = false;
                         callVideoToggleBtn.classList.remove('active');
                         callVideoContainer.classList.add('hidden');
@@ -1073,34 +1142,32 @@
                 this.classList.toggle('active', isSpeakerOn);
                 const label = this.querySelector('span');
                 label.textContent = isSpeakerOn ? 'Громкая' : 'Наушники';
-
-                // Здесь можно добавить логику переключения аудиовыхода
             });
 
             // Демонстрация экрана
             callScreenShareBtn.addEventListener('click', function() {
                 if (!isCallActive) return;
                 if (isScreenSharing) {
-                    // Остановить демонстрацию
                     isScreenSharing = false;
                     this.classList.remove('active');
                     this.querySelector('span').textContent = 'Экран';
-                    // Возвращаемся к камере
                     if (isVideoOn) {
                         startLocalVideo();
                     }
                     return;
                 }
 
-                // Начать демонстрацию
                 if (navigator.mediaDevices?.getDisplayMedia) {
                     navigator.mediaDevices.getDisplayMedia({ video: true })
                         .then(stream => {
+                            if (!isCallActive) {
+                                stream.getTracks().forEach(t => t.stop());
+                                return;
+                            }
                             isScreenSharing = true;
                             callScreenShareBtn.classList.add('active');
                             callScreenShareBtn.querySelector('span').textContent = 'Экран';
 
-                            // Меняем видео на экран
                             if (localStream) {
                                 localStream.getVideoTracks().forEach(t => {
                                     t.stop();
@@ -1116,7 +1183,6 @@
                                 callLocalVideo.srcObject = stream;
                             }
 
-                            // Если видео было выключено — включаем
                             if (!isVideoOn) {
                                 isVideoOn = true;
                                 callVideoToggleBtn.classList.add('active');
@@ -1125,8 +1191,8 @@
                                 callVideoToggleBtn.querySelector('span').textContent = 'Видео';
                             }
 
-                            // При завершении демонстрации
                             stream.getVideoTracks()[0]?.addEventListener('ended', () => {
+                                if (!isCallActive) return;
                                 isScreenSharing = false;
                                 callScreenShareBtn.classList.remove('active');
                                 callScreenShareBtn.querySelector('span').textContent = 'Экран';
@@ -1135,17 +1201,15 @@
                                 }
                             });
                         })
-                        .catch(() => {
-                            // Пользователь отменил выбор
-                        });
+                        .catch(() => {});
                 }
             });
 
             // Завершение звонка
             function endCall() {
-                if (!isCallActive) return;
-                window.hideCallScreen();
-                // Показываем сообщение в чате или уведомление
+                if (!isCallActive && !localStream && !remoteStream) return;
+                fullEndCall();
+                // Уведомление о завершении
                 if (window.addSystemMessage) {
                     window.addSystemMessage('🔴 Звонок завершён');
                 }
@@ -1161,14 +1225,13 @@
                 }
             });
 
-            // Симуляция входящего звонка (для демонстрации)
+            // Симуляция входящего звонка
             window.simulateIncomingCall = function(name, avatar) {
                 if (!isCallActive) {
                     window.showCallScreen(name || 'Незнакомец', avatar || 'Н');
                     callSubtitle.textContent = '📞 Входящий звонок...';
                     callStatus.textContent = '📞 Входящий...';
                     callStatus.className = 'call-status';
-                    // Через 2 секунды автоматически "подключаем"
                     setTimeout(() => {
                         if (isCallActive) {
                             callSubtitle.textContent = '🟢 В процессе...';
@@ -1180,8 +1243,9 @@
                 }
             };
 
-            console.log('📞 Экран звонка готов! Используй: showCallScreen("Имя", "А") для звонка.');
-            console.log('📞 Для входящего: simulateIncomingCall("Имя", "А")');
+            console.log('📞 Экран звонка готов!');
+            console.log('📞 showCallScreen("Имя", "А") — начать звонок');
+            console.log('📞 hideCallScreen() — завершить звонок');
         })();
     </script>
 
@@ -1220,56 +1284,7 @@
                 });
             }
 
-            // ===== ДЕМОНСТРАЦИЯ: ЗВОНОК ПО КНОПКЕ =====
-            const voiceBtn = document.getElementById('voice-call-btn');
-            const videoBtn = document.getElementById('video-call-btn');
-
-            if (voiceBtn) {
-                voiceBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const name = document.getElementById('channel-name')?.textContent || 'Собеседник';
-                    const avatar = name.charAt(0).toUpperCase() || 'С';
-                    window.showCallScreen(name, avatar, false);
-                });
-            }
-
-            if (videoBtn) {
-                videoBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const name = document.getElementById('channel-name')?.textContent || 'Собеседник';
-                    const avatar = name.charAt(0).toUpperCase() || 'С';
-                    window.showCallScreen(name, avatar, true);
-                });
-            }
-
-            // Кнопка выхода из звонка в шапке
-            const leaveBtn = document.getElementById('voice-leave-btn');
-            if (leaveBtn) {
-                leaveBtn.addEventListener('click', function() {
-                    window.hideCallScreen();
-                });
-            }
-
-            // Обработка входящего звонка (демо)
-            const incomingPanel = document.getElementById('incoming-call-panel');
-            const acceptBtn = document.getElementById('accept-call-btn');
-            const declineBtn = document.getElementById('decline-call-btn');
-
-            if (acceptBtn) {
-                acceptBtn.addEventListener('click', function() {
-                    incomingPanel.classList.add('hidden');
-                    const name = document.getElementById('incoming-call-caller')?.textContent || 'Собеседник';
-                    window.showCallScreen(name.replace(' звонит вам', ''), name.charAt(0).toUpperCase() || 'С', false);
-                });
-            }
-
-            if (declineBtn) {
-                declineBtn.addEventListener('click', function() {
-                    incomingPanel.classList.add('hidden');
-                });
-            }
-
-            // Симуляция входящего звонка через 3 секунды после загрузки
+            // Симуляция входящего звонка через 4 секунды после загрузки
             setTimeout(() => {
                 if (!document.getElementById('auth-screen').classList.contains('active')) {
                     const name = 'Алексей';
