@@ -3731,10 +3731,11 @@ body > .app-container:not(#app-screen) {
     padding: 24px 28px 28px;
     transform: translate(-50%, -50%);
     overflow-y: auto;
+    isolation: isolate;
     background: #10121c;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 30px;
-    box-shadow: 0 0 0 100vmax rgba(3, 5, 10, 0.76), 0 32px 100px rgba(0, 0, 0, 0.75), 0 0 70px rgba(108, 92, 231, 0.16);
+    box-shadow: 0 0 0 100vmax rgba(3, 5, 10, 0.56), 0 32px 100px rgba(0, 0, 0, 0.75), 0 0 70px rgba(108, 92, 231, 0.16);
 }
 
 .voice-call-panel::before {
@@ -3744,7 +3745,8 @@ body > .app-container:not(#app-screen) {
 }
 
 .voice-call-panel::after {
-    background: linear-gradient(180deg, rgba(8, 10, 16, 0.1), rgba(8, 10, 16, 0.76));
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(8, 10, 16, 0.05), rgba(8, 10, 16, 0.58));
 }
 
 .voice-call-topline {
@@ -3794,6 +3796,8 @@ body > .app-container:not(#app-screen) {
 }
 
 .voice-call-actions {
+    position: relative;
+    z-index: 4;
     flex-wrap: nowrap;
     gap: 10px;
     margin-top: 12px;
