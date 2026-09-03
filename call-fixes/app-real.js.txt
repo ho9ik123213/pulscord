@@ -1614,17 +1614,18 @@ async function startCall(video, roomOverride = null) {
         showToast('Сначала войдите в аккаунт, затем примите звонок');
         return;
     }
+    appState.voiceCallStartedAt = Date.now();
+    showVoiceCallPanel();
+    setVoiceCallStatus(video ? 'Подготовка видеозвонка...' : 'Подготовка звонка...', 'connecting');
     if (!navigator.mediaDevices?.getUserMedia) {
-        showToast('Браузер блокирует микрофон. Откройте сайт по HTTPS или через localhost');
+        setVoiceCallStatus('Микрофон недоступен на этом устройстве', 'error');
+        document.getElementById('voice-call-subtitle').textContent = 'Проверьте разрешения и повторите звонок';
         return;
     }
     if (!appState.currentDMUser && !roomOverride) {
         showToast('Откройте личный чат, чтобы позвонить собеседнику');
         return;
     }
-    appState.voiceCallStartedAt = Date.now();
-    showVoiceCallPanel();
-    setVoiceCallStatus('Запрашиваем доступ к микрофону...', 'connecting');
     try {
         setVoiceCallStatus(video ? 'Запрашиваем доступ к камере и микрофону...' : 'Запрашиваем доступ к микрофону...', 'connecting');
         appState.voiceStream = await requestCallMedia(video);
