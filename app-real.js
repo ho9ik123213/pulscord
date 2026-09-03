@@ -1992,7 +1992,19 @@ function closeVoicePeer(socketId) {
 }
 
 function leaveVoiceCall() {
-    if (!appState.voiceRoom) return;
+    if (!appState.voiceRoom) {
+        appState.voiceStream?.getTracks().forEach(track => track.stop());
+        appState.voiceStream = null;
+        appState.cameraTrack = null;
+        clearInterval(appState.voiceCallTimer);
+        appState.voiceCallTimer = null;
+        appState.voiceCallStartedAt = null;
+        document.getElementById('voice-call-panel')?.classList.add('hidden');
+        document.getElementById('voice-call-btn')?.classList.remove('hidden');
+        document.getElementById('video-call-btn')?.classList.remove('hidden');
+        document.getElementById('voice-leave-btn')?.classList.add('hidden');
+        return;
+    }
     socket.emit('voice-leave');
     appState.peerConnections.forEach((peer, socketId) => closeVoicePeer(socketId));
     appState.voiceStream?.getTracks().forEach(track => track.stop());

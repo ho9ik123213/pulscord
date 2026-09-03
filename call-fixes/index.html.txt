@@ -63,8 +63,6 @@
                     <div id="register-error" class="error-message"></div>
                 </form>
             </div>
-
-            <!-- ❌ ТЕСТОВЫЕ ДАННЫЕ УДАЛЕНЫ ❌ -->
         </div>
     </div>
 
@@ -281,6 +279,67 @@
         </div>
     </div>
 
+    <!-- ========== ЭКРАН ЗВОНКА ========== -->
+    <div id="call-screen" class="call-screen hidden">
+        <div class="call-backdrop"></div>
+        <div class="call-container">
+            <!-- Верхняя панель -->
+            <div class="call-header">
+                <span class="call-status" id="call-status">⏳ Подключение...</span>
+                <button class="call-close-btn" id="call-close-btn" title="Завершить звонок">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Центральная часть -->
+            <div class="call-body">
+                <!-- Аватар пользователя -->
+                <div class="call-avatar-wrapper">
+                    <div class="call-avatar" id="call-avatar">П</div>
+                    <div class="call-avatar-ring"></div>
+                </div>
+
+                <!-- Имя -->
+                <h2 class="call-name" id="call-name">Пользователь</h2>
+                <p class="call-subtitle" id="call-subtitle">Звонит вам...</p>
+
+                <!-- Таймер звонка -->
+                <div class="call-timer" id="call-timer">00:00</div>
+
+                <!-- Видео (скрыто по умолчанию) -->
+                <div class="call-video-container hidden" id="call-video-container">
+                    <video id="call-local-video" autoplay muted playsinline></video>
+                    <video id="call-remote-video" autoplay playsinline></video>
+                </div>
+            </div>
+
+            <!-- Нижняя панель с кнопками -->
+            <div class="call-actions">
+                <button class="call-action-btn" id="call-mute-btn" title="Выключить микрофон">
+                    <i class="fas fa-microphone"></i>
+                    <span>Микрофон</span>
+                </button>
+                <button class="call-action-btn" id="call-video-toggle-btn" title="Включить видео">
+                    <i class="fas fa-video"></i>
+                    <span>Видео</span>
+                </button>
+                <button class="call-action-btn call-end-btn" id="call-end-btn" title="Завершить звонок">
+                    <i class="fas fa-phone-slash"></i>
+                    <span>Завершить</span>
+                </button>
+                <button class="call-action-btn" id="call-speaker-btn" title="Громкая связь">
+                    <i class="fas fa-volume-up"></i>
+                    <span>Громкая</span>
+                </button>
+                <button class="call-action-btn" id="call-screen-share-btn" title="Показать экран">
+                    <i class="fas fa-desktop"></i>
+                    <span>Экран</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальные окна -->
     <div class="modal-backdrop hidden" id="app-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div class="app-modal">
             <div class="modal-icon" id="modal-icon"><i class="fas fa-user-plus"></i></div>
@@ -390,6 +449,7 @@
             <button class="voice-action-button voice-mute-button" id="voice-mute-btn" type="button" title="Выключить микрофон" aria-pressed="false"><i class="fas fa-microphone"></i><span id="voice-mute-label">Микрофон</span></button>
             <button class="voice-action-button" id="voice-video-btn" type="button" title="Включить видео" aria-pressed="false"><i class="fas fa-video"></i><span>Видео</span></button>
             <button class="voice-action-button" id="screen-share-btn" type="button" title="Показать экран"><i class="fas fa-display"></i><span id="screen-share-label">Экран</span></button>
+            <button class="voice-action-button" id="voice-output-btn" type="button" title="Переключить звук" aria-pressed="false"><i class="fas fa-headphones"></i><span>Звук</span></button>
             <button class="voice-action-button end-call" id="voice-end-btn" type="button" title="Завершить звонок"><i class="fas fa-phone-slash"></i></button>
         </div>
     </div>
@@ -406,8 +466,343 @@
         </div>
     </div>
 
-    <script src="app-real.js?v=20260903-35"></script>
+    <script src="app-real.js?v=20260903-37"></script>
     <input id="container-avatar-upload" type="file" accept="image/*" hidden>
+
+    <style>
+        /* ===== ЭКРАН ЗВОНКА ===== */
+        .call-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: callFadeIn 0.3s ease;
+        }
+
+        .call-screen.hidden {
+            display: none !important;
+        }
+
+        .call-backdrop {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 30%, rgba(108, 92, 231, 0.25), rgba(8, 10, 16, 0.95) 70%);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+        }
+
+        .call-container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            width: min(100%, 480px);
+            max-height: 90vh;
+            padding: 24px 28px 32px;
+            border-radius: 32px;
+            background: rgba(16, 18, 28, 0.92);
+            backdrop-filter: blur(60px);
+            -webkit-backdrop-filter: blur(60px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 32px 120px rgba(0, 0, 0, 0.7), 0 0 60px rgba(108, 92, 231, 0.06);
+            animation: callSlideUp 0.35s ease;
+        }
+
+        @keyframes callFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes callSlideUp {
+            from { opacity: 0; transform: translateY(20px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Верхняя панель */
+        .call-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .call-status {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        .call-status.connected {
+            color: #00ff88;
+        }
+
+        .call-status.error {
+            color: #ff6b6b;
+        }
+
+        .call-close-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+
+        .call-close-btn:hover {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            transform: rotate(90deg);
+        }
+
+        /* Центральная часть */
+        .call-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 0 8px;
+            gap: 6px;
+        }
+
+        .call-avatar-wrapper {
+            position: relative;
+            margin-bottom: 8px;
+        }
+
+        .call-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, #6c5ce7, #fd79a8);
+            box-shadow: 0 12px 48px rgba(108, 92, 231, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .call-avatar-ring {
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            border: 2px solid rgba(108, 92, 231, 0.3);
+            animation: callRingPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes callRingPulse {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.08); opacity: 0.2; }
+        }
+
+        .call-name {
+            color: #fff;
+            font-size: 22px;
+            font-weight: 700;
+            margin: 4px 0 2px;
+        }
+
+        .call-subtitle {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .call-timer {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 15px;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        /* Видео */
+        .call-video-container {
+            width: 100%;
+            max-width: 420px;
+            aspect-ratio: 16/10;
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #0a0c14;
+            margin-top: 8px;
+        }
+
+        .call-video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #call-remote-video {
+            position: absolute;
+            inset: 0;
+        }
+
+        #call-local-video {
+            position: absolute;
+            width: 120px;
+            height: 90px;
+            right: 12px;
+            bottom: 12px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            object-fit: cover;
+            transform: scaleX(-1);
+        }
+
+        /* Кнопки действий */
+        .call-actions {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .call-action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 10px 14px;
+            border: none;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.2s;
+            min-width: 60px;
+        }
+
+        .call-action-btn span {
+            font-size: 10px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .call-action-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .call-action-btn:active {
+            transform: translateY(0);
+        }
+
+        .call-action-btn.active {
+            background: rgba(108, 92, 231, 0.25);
+            color: #a29bfe;
+        }
+
+        .call-action-btn.active span {
+            color: #a29bfe;
+        }
+
+        .call-action-btn.muted {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+        }
+
+        .call-action-btn.muted span {
+            color: #ff6b6b;
+        }
+
+        .call-end-btn {
+            background: #e34255 !important;
+            color: #fff !important;
+            min-width: 72px;
+        }
+
+        .call-end-btn:hover {
+            background: #f05263 !important;
+            transform: translateY(-2px);
+        }
+
+        .call-end-btn span {
+            color: rgba(255, 255, 255, 0.8) !important;
+        }
+
+        /* Адаптив */
+        @media (max-width: 520px) {
+            .call-container {
+                padding: 20px 16px 24px;
+                border-radius: 24px;
+                max-height: 95vh;
+            }
+
+            .call-avatar {
+                width: 90px;
+                height: 90px;
+                font-size: 30px;
+            }
+
+            .call-name {
+                font-size: 18px;
+            }
+
+            .call-action-btn {
+                padding: 8px 10px;
+                font-size: 16px;
+                min-width: 50px;
+            }
+
+            .call-action-btn span {
+                font-size: 9px;
+            }
+
+            .call-video-container {
+                max-width: 100%;
+            }
+
+            #call-local-video {
+                width: 80px;
+                height: 60px;
+                right: 8px;
+                bottom: 8px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .call-container {
+                padding: 16px 12px 18px;
+                border-radius: 20px;
+            }
+
+            .call-avatar {
+                width: 72px;
+                height: 72px;
+                font-size: 24px;
+            }
+
+            .call-actions {
+                gap: 6px;
+            }
+
+            .call-action-btn {
+                min-width: 44px;
+                padding: 6px 8px;
+                font-size: 14px;
+            }
+
+            .call-end-btn {
+                min-width: 56px;
+            }
+        }
+    </style>
 
     <style>
         .modal-close-btn {
@@ -439,6 +834,356 @@
             position: relative;
         }
     </style>
+
+    <script>
+        // ========== УПРАВЛЕНИЕ ЭКРАНОМ ЗВОНКА ==========
+        (function() {
+            const callScreen = document.getElementById('call-screen');
+            const callAvatar = document.getElementById('call-avatar');
+            const callName = document.getElementById('call-name');
+            const callSubtitle = document.getElementById('call-subtitle');
+            const callTimer = document.getElementById('call-timer');
+            const callStatus = document.getElementById('call-status');
+            const callCloseBtn = document.getElementById('call-close-btn');
+            const callEndBtn = document.getElementById('call-end-btn');
+            const callMuteBtn = document.getElementById('call-mute-btn');
+            const callVideoToggleBtn = document.getElementById('call-video-toggle-btn');
+            const callSpeakerBtn = document.getElementById('call-speaker-btn');
+            const callScreenShareBtn = document.getElementById('call-screen-share-btn');
+            const callVideoContainer = document.getElementById('call-video-container');
+            const callLocalVideo = document.getElementById('call-local-video');
+            const callRemoteVideo = document.getElementById('call-remote-video');
+
+            let callInterval = null;
+            let callSeconds = 0;
+            let isMuted = false;
+            let isVideoOn = false;
+            let isSpeakerOn = false;
+            let isScreenSharing = false;
+            let localStream = null;
+            let isCallActive = false;
+
+            // Показать экран звонка
+            window.showCallScreen = function(name, avatar, isVideo = false) {
+                // Сохраняем имя для использования в других функциях
+                window._callName = name || 'Пользователь';
+                window._callAvatar = avatar || 'П';
+
+                callAvatar.textContent = window._callAvatar || 'П';
+                callName.textContent = window._callName || 'Пользователь';
+                callSubtitle.textContent = '⏳ Подключение...';
+                callStatus.textContent = '⏳ Подключение...';
+                callStatus.className = 'call-status';
+
+                // Сброс таймера
+                callSeconds = 0;
+                callTimer.textContent = '00:00';
+
+                // Сброс кнопок
+                callMuteBtn.classList.remove('muted', 'active');
+                callVideoToggleBtn.classList.remove('active');
+                callSpeakerBtn.classList.remove('active');
+                callScreenShareBtn.classList.remove('active');
+
+                // Сброс видео
+                callVideoContainer.classList.add('hidden');
+                if (callLocalVideo.srcObject) {
+                    callLocalVideo.srcObject.getTracks().forEach(t => t.stop());
+                    callLocalVideo.srcObject = null;
+                }
+                if (callRemoteVideo.srcObject) {
+                    callRemoteVideo.srcObject.getTracks().forEach(t => t.stop());
+                    callRemoteVideo.srcObject = null;
+                }
+                isVideoOn = false;
+                isMuted = false;
+                isSpeakerOn = false;
+                isScreenSharing = false;
+
+                // Показываем экран
+                callScreen.classList.remove('hidden');
+                isCallActive = true;
+
+                // Запускаем таймер после небольшой задержки (имитация подключения)
+                setTimeout(() => {
+                    if (isCallActive) {
+                        callSubtitle.textContent = '🟢 В процессе...';
+                        callStatus.textContent = '🟢 В процессе';
+                        callStatus.className = 'call-status connected';
+                        startCallTimer();
+                    }
+                }, 1500);
+
+                // Если видеозвонок — включаем камеру
+                if (isVideo) {
+                    setTimeout(() => {
+                        if (isCallActive) {
+                            toggleVideo(true);
+                        }
+                    }, 500);
+                }
+            };
+
+            // Скрыть экран звонка
+            window.hideCallScreen = function() {
+                isCallActive = false;
+                stopCallTimer();
+
+                // Останавливаем все треки
+                if (localStream) {
+                    localStream.getTracks().forEach(t => t.stop());
+                    localStream = null;
+                }
+                if (callLocalVideo.srcObject) {
+                    callLocalVideo.srcObject.getTracks().forEach(t => t.stop());
+                    callLocalVideo.srcObject = null;
+                }
+                if (callRemoteVideo.srcObject) {
+                    callRemoteVideo.srcObject.getTracks().forEach(t => t.stop());
+                    callRemoteVideo.srcObject = null;
+                }
+
+                callVideoContainer.classList.add('hidden');
+                callScreen.classList.add('hidden');
+                isVideoOn = false;
+                isMuted = false;
+            };
+
+            // Таймер звонка
+            function startCallTimer() {
+                stopCallTimer();
+                callInterval = setInterval(() => {
+                    callSeconds++;
+                    const mins = String(Math.floor(callSeconds / 60)).padStart(2, '0');
+                    const secs = String(callSeconds % 60).padStart(2, '0');
+                    callTimer.textContent = `${mins}:${secs}`;
+                }, 1000);
+            }
+
+            function stopCallTimer() {
+                if (callInterval) {
+                    clearInterval(callInterval);
+                    callInterval = null;
+                }
+            }
+
+            // Управление микрофоном
+            callMuteBtn.addEventListener('click', function() {
+                if (!isCallActive) return;
+                isMuted = !isMuted;
+                this.classList.toggle('muted', isMuted);
+                const icon = this.querySelector('i');
+                const label = this.querySelector('span');
+                if (isMuted) {
+                    icon.className = 'fas fa-microphone-slash';
+                    label.textContent = 'Без звука';
+                } else {
+                    icon.className = 'fas fa-microphone';
+                    label.textContent = 'Микрофон';
+                }
+
+                // Мутируем локальный аудио
+                if (localStream) {
+                    localStream.getAudioTracks().forEach(t => t.enabled = !isMuted);
+                }
+            });
+
+            // Управление видео
+            callVideoToggleBtn.addEventListener('click', function() {
+                if (!isCallActive) return;
+                toggleVideo(!isVideoOn);
+            });
+
+            function toggleVideo(enable) {
+                isVideoOn = enable;
+                const icon = callVideoToggleBtn.querySelector('i');
+                const label = callVideoToggleBtn.querySelector('span');
+
+                if (enable) {
+                    icon.className = 'fas fa-video';
+                    label.textContent = 'Видео';
+                    callVideoToggleBtn.classList.add('active');
+                    callVideoContainer.classList.remove('hidden');
+                    startLocalVideo();
+                } else {
+                    icon.className = 'fas fa-video-slash';
+                    label.textContent = 'Видео выкл';
+                    callVideoToggleBtn.classList.remove('active');
+                    callVideoContainer.classList.add('hidden');
+                    stopLocalVideo();
+                }
+            }
+
+            function startLocalVideo() {
+                if (localStream) {
+                    // Если уже есть поток, но без видео — добавляем
+                    if (!localStream.getVideoTracks().length) {
+                        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
+                            .then(stream => {
+                                const videoTrack = stream.getVideoTracks()[0];
+                                if (videoTrack) {
+                                    localStream.addTrack(videoTrack);
+                                    callLocalVideo.srcObject = localStream;
+                                }
+                            })
+                            .catch(() => {});
+                    }
+                    return;
+                }
+
+                navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: true })
+                    .then(stream => {
+                        localStream = stream;
+                        callLocalVideo.srcObject = stream;
+                        // Если микрофон был выключен — выключаем
+                        if (isMuted) {
+                            stream.getAudioTracks().forEach(t => t.enabled = false);
+                        }
+                    })
+                    .catch(() => {
+                        // Если не удалось — отключаем видео
+                        isVideoOn = false;
+                        callVideoToggleBtn.classList.remove('active');
+                        callVideoContainer.classList.add('hidden');
+                        const icon = callVideoToggleBtn.querySelector('i');
+                        const label = callVideoToggleBtn.querySelector('span');
+                        icon.className = 'fas fa-video-slash';
+                        label.textContent = 'Видео выкл';
+                    });
+            }
+
+            function stopLocalVideo() {
+                if (localStream) {
+                    localStream.getVideoTracks().forEach(t => {
+                        t.stop();
+                        localStream.removeTrack(t);
+                    });
+                    if (localStream.getAudioTracks().length > 0) {
+                        callLocalVideo.srcObject = localStream;
+                    } else {
+                        callLocalVideo.srcObject = null;
+                    }
+                }
+            }
+
+            // Громкая связь
+            callSpeakerBtn.addEventListener('click', function() {
+                if (!isCallActive) return;
+                isSpeakerOn = !isSpeakerOn;
+                this.classList.toggle('active', isSpeakerOn);
+                const label = this.querySelector('span');
+                label.textContent = isSpeakerOn ? 'Громкая' : 'Наушники';
+
+                // Здесь можно добавить логику переключения аудиовыхода
+            });
+
+            // Демонстрация экрана
+            callScreenShareBtn.addEventListener('click', function() {
+                if (!isCallActive) return;
+                if (isScreenSharing) {
+                    // Остановить демонстрацию
+                    isScreenSharing = false;
+                    this.classList.remove('active');
+                    this.querySelector('span').textContent = 'Экран';
+                    // Возвращаемся к камере
+                    if (isVideoOn) {
+                        startLocalVideo();
+                    }
+                    return;
+                }
+
+                // Начать демонстрацию
+                if (navigator.mediaDevices?.getDisplayMedia) {
+                    navigator.mediaDevices.getDisplayMedia({ video: true })
+                        .then(stream => {
+                            isScreenSharing = true;
+                            callScreenShareBtn.classList.add('active');
+                            callScreenShareBtn.querySelector('span').textContent = 'Экран';
+
+                            // Меняем видео на экран
+                            if (localStream) {
+                                localStream.getVideoTracks().forEach(t => {
+                                    t.stop();
+                                    localStream.removeTrack(t);
+                                });
+                                const screenTrack = stream.getVideoTracks()[0];
+                                if (screenTrack) {
+                                    localStream.addTrack(screenTrack);
+                                    callLocalVideo.srcObject = localStream;
+                                }
+                            } else {
+                                localStream = stream;
+                                callLocalVideo.srcObject = stream;
+                            }
+
+                            // Если видео было выключено — включаем
+                            if (!isVideoOn) {
+                                isVideoOn = true;
+                                callVideoToggleBtn.classList.add('active');
+                                callVideoContainer.classList.remove('hidden');
+                                callVideoToggleBtn.querySelector('i').className = 'fas fa-video';
+                                callVideoToggleBtn.querySelector('span').textContent = 'Видео';
+                            }
+
+                            // При завершении демонстрации
+                            stream.getVideoTracks()[0]?.addEventListener('ended', () => {
+                                isScreenSharing = false;
+                                callScreenShareBtn.classList.remove('active');
+                                callScreenShareBtn.querySelector('span').textContent = 'Экран';
+                                if (isVideoOn) {
+                                    startLocalVideo();
+                                }
+                            });
+                        })
+                        .catch(() => {
+                            // Пользователь отменил выбор
+                        });
+                }
+            });
+
+            // Завершение звонка
+            function endCall() {
+                if (!isCallActive) return;
+                window.hideCallScreen();
+                // Показываем сообщение в чате или уведомление
+                if (window.addSystemMessage) {
+                    window.addSystemMessage('🔴 Звонок завершён');
+                }
+            }
+
+            callCloseBtn.addEventListener('click', endCall);
+            callEndBtn.addEventListener('click', endCall);
+
+            // Закрытие по Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && !callScreen.classList.contains('hidden')) {
+                    endCall();
+                }
+            });
+
+            // Симуляция входящего звонка (для демонстрации)
+            window.simulateIncomingCall = function(name, avatar) {
+                if (!isCallActive) {
+                    window.showCallScreen(name || 'Незнакомец', avatar || 'Н');
+                    callSubtitle.textContent = '📞 Входящий звонок...';
+                    callStatus.textContent = '📞 Входящий...';
+                    callStatus.className = 'call-status';
+                    // Через 2 секунды автоматически "подключаем"
+                    setTimeout(() => {
+                        if (isCallActive) {
+                            callSubtitle.textContent = '🟢 В процессе...';
+                            callStatus.textContent = '🟢 В процессе';
+                            callStatus.className = 'call-status connected';
+                            startCallTimer();
+                        }
+                    }, 2000);
+                }
+            };
+
+            console.log('📞 Экран звонка готов! Используй: showCallScreen("Имя", "А") для звонка.');
+            console.log('📞 Для входящего: simulateIncomingCall("Имя", "А")');
+        })();
+    </script>
 
     <script>
         // Код для закрытия админ-панели по крестику
@@ -474,6 +1219,65 @@
                     }
                 });
             }
+
+            // ===== ДЕМОНСТРАЦИЯ: ЗВОНОК ПО КНОПКЕ =====
+            const voiceBtn = document.getElementById('voice-call-btn');
+            const videoBtn = document.getElementById('video-call-btn');
+
+            if (voiceBtn) {
+                voiceBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const name = document.getElementById('channel-name')?.textContent || 'Собеседник';
+                    const avatar = name.charAt(0).toUpperCase() || 'С';
+                    window.showCallScreen(name, avatar, false);
+                });
+            }
+
+            if (videoBtn) {
+                videoBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const name = document.getElementById('channel-name')?.textContent || 'Собеседник';
+                    const avatar = name.charAt(0).toUpperCase() || 'С';
+                    window.showCallScreen(name, avatar, true);
+                });
+            }
+
+            // Кнопка выхода из звонка в шапке
+            const leaveBtn = document.getElementById('voice-leave-btn');
+            if (leaveBtn) {
+                leaveBtn.addEventListener('click', function() {
+                    window.hideCallScreen();
+                });
+            }
+
+            // Обработка входящего звонка (демо)
+            const incomingPanel = document.getElementById('incoming-call-panel');
+            const acceptBtn = document.getElementById('accept-call-btn');
+            const declineBtn = document.getElementById('decline-call-btn');
+
+            if (acceptBtn) {
+                acceptBtn.addEventListener('click', function() {
+                    incomingPanel.classList.add('hidden');
+                    const name = document.getElementById('incoming-call-caller')?.textContent || 'Собеседник';
+                    window.showCallScreen(name.replace(' звонит вам', ''), name.charAt(0).toUpperCase() || 'С', false);
+                });
+            }
+
+            if (declineBtn) {
+                declineBtn.addEventListener('click', function() {
+                    incomingPanel.classList.add('hidden');
+                });
+            }
+
+            // Симуляция входящего звонка через 3 секунды после загрузки
+            setTimeout(() => {
+                if (!document.getElementById('auth-screen').classList.contains('active')) {
+                    const name = 'Алексей';
+                    document.getElementById('incoming-call-caller').textContent = `${name} звонит вам`;
+                    document.getElementById('incoming-call-title').textContent = '📞 Входящий звонок';
+                    incomingPanel.classList.remove('hidden');
+                }
+            }, 4000);
         });
     </script>
 </body>
