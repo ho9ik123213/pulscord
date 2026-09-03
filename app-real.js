@@ -238,7 +238,7 @@ function setupSocket() {
     });
     socket.on('voice-join-ack', ({ room }) => {
         if (appState.voiceRoom === room) {
-            setVoiceCallStatus('Подключено', 'connected');
+            document.getElementById('voice-call-status').textContent = 'Подключено';
             updateVoiceCallUI();
         }
     });
@@ -895,6 +895,7 @@ function setupAppEvents() {
     document.getElementById('voice-leave-btn').addEventListener('click', leaveVoiceCall);
     document.getElementById('voice-end-btn').addEventListener('click', leaveVoiceCall);
     document.getElementById('voice-mute-btn').addEventListener('click', toggleVoiceMute);
+    document.getElementById('voice-video-btn').addEventListener('click', toggleVoiceVideo);
     document.getElementById('screen-share-btn').addEventListener('click', toggleScreenShare);
     document.getElementById('accept-call-btn').addEventListener('click', acceptIncomingCall);
     document.getElementById('decline-call-btn').addEventListener('click', declineIncomingCall);
@@ -1614,12 +1615,8 @@ async function startCall(video, roomOverride = null) {
         showToast('Сначала войдите в аккаунт, затем примите звонок');
         return;
     }
-    appState.voiceCallStartedAt = Date.now();
-    showVoiceCallPanel();
-    setVoiceCallStatus(video ? 'Подготовка видеозвонка...' : 'Подготовка звонка...', 'connecting');
     if (!navigator.mediaDevices?.getUserMedia) {
-        setVoiceCallStatus('Микрофон недоступен на этом устройстве', 'error');
-        document.getElementById('voice-call-subtitle').textContent = 'Проверьте разрешения и повторите звонок';
+        showToast('Браузер блокирует микрофон. Откройте сайт по HTTPS или через localhost');
         return;
     }
     if (!appState.currentDMUser && !roomOverride) {
@@ -1627,7 +1624,6 @@ async function startCall(video, roomOverride = null) {
         return;
     }
     try {
-        setVoiceCallStatus(video ? 'Запрашиваем доступ к камере и микрофону...' : 'Запрашиваем доступ к микрофону...', 'connecting');
         appState.voiceStream = await requestCallMedia(video);
         appState.cameraTrack = appState.voiceStream.getVideoTracks()[0] || null;
         appState.videoEnabled = video;
@@ -1638,6 +1634,7 @@ async function startCall(video, roomOverride = null) {
         document.getElementById('voice-call-btn').classList.add('hidden');
         document.getElementById('video-call-btn').classList.add('hidden');
         document.getElementById('voice-leave-btn').classList.remove('hidden');
+        showVoiceCallPanel();
         if (video) {
             const localVideo = document.getElementById('voice-local-video');
             localVideo.srcObject = appState.voiceStream;
@@ -1649,38 +1646,20 @@ async function startCall(video, roomOverride = null) {
             targetUsername: roomOverride ? null : appState.currentDMUser,
             video
         });
+        showToast(video ? 'Видеозвонок начат ✓' : 'Звонок начат ✓');
     } catch (error) {
-        appState.voiceStream?.getTracks().forEach(track => track.stop());
-        appState.voiceStream = null;
-        appState.cameraTrack = null;
-        appState.videoEnabled = false;
         console.error('Ошибка доступа к устройствам:', error);
         const messages = {
-            NotAllowedError: 'Разрешение отклонено. Разрешите микрофон и камеру в настройках приложения Android.',
+            NotAllowedError: 'Доступ запрещён для этого адреса. Разрешите камеру и микрофон именно для текущей ссылки.',
             NotFoundError: 'Камера или микрофон не найдены.',
             NotReadableError: 'Камера или микрофон уже используются другой программой.',
-            OverconstrainedError: 'Настройки камеры или микрофона не поддерживаются этим устройством.',
-            SecurityError: 'Доступ к звонкам возможен только через HTTPS или localhost.',
-            AbortError: 'Не удалось завершить запрос доступа к устройствам.'
+            OverconstrainedError: 'Настройки камеры или микрофона не поддерживаются этим устройством.'
         };
-        setVoiceCallStatus(messages[error.name] || 'Не удалось открыть камеру и микрофон', 'error');
-        document.getElementById('voice-call-subtitle').textContent = 'Измените разрешения и повторите звонок';
+        showToast(messages[error.name] || 'Не удалось открыть камеру и микрофон');
     }
 }
 
 async function requestCallMedia(video) {
-    if (navigator.permissions?.query) {
-        try {
-            const microphone = await navigator.permissions.query({ name: 'microphone' });
-            if (microphone.state === 'denied') throw new DOMException('Microphone permission denied', 'NotAllowedError');
-            if (video) {
-                const camera = await navigator.permissions.query({ name: 'camera' });
-                if (camera.state === 'denied') throw new DOMException('Camera permission denied', 'NotAllowedError');
-            }
-        } catch (error) {
-            if (error.name === 'NotAllowedError') throw error;
-        }
-    }
     const preferred = {
             audio: {
                 echoCancellation: true,
@@ -1749,34 +1728,18 @@ function updateVoiceCallUI() {
     const timer = document.getElementById('voice-call-timer');
     const avatar = document.getElementById('voice-call-avatar');
     const participants = document.getElementById('voice-call-participants');
-    const localName = document.getElementById('voice-local-name');
-    const remoteName = document.getElementById('voice-remote-name');
-    const remoteStatus = document.getElementById('voice-remote-status');
-    const remotePlaceholder = document.getElementById('voice-remote-placeholder');
     if (!title || !subtitle || !status || !timer || !avatar || !participants) return;
 
-    const channelName = appState.currentDMUser ? appState.currentDMUser : 'Голосовой канал';
+    const channelName = appState.currentDMUser ? `Звонок с ${appState.currentDMUser}` : 'Звонок';
     const names = [...appState.voiceParticipants.values()];
     title.textContent = channelName;
     subtitle.textContent = names.length ? `${names.length + 1} участника в звонке` : 'Ожидание ответа';
-    if (status.dataset.manual !== 'true') status.textContent = names.length ? 'В эфире' : 'Вызов...';
-    avatar.textContent = (appState.currentDMUser || appState.currentUser?.username || 'П').slice(0, 2).toUpperCase();
-    if (localName) localName.textContent = appState.currentUser?.username || 'Вы';
-    if (remoteName) remoteName.textContent = names[0] || appState.currentDMUser || 'Ожидание собеседника';
-    if (remoteStatus) remoteStatus.textContent = names.length ? 'В звонке' : 'Звонок отправлен';
-    remotePlaceholder?.classList.toggle('connected', names.length > 0);
+    status.textContent = names.length ? 'В эфире' : 'Вызов...';
+    avatar.textContent = appState.currentUser?.username?.slice(0, 2).toUpperCase() || 'П';
     participants.innerHTML = names.map(name => `<span><i class="fas fa-circle"></i>${escapeHtml(name)}</span>`).join('');
 
     const elapsed = appState.voiceCallStartedAt ? Math.floor((Date.now() - appState.voiceCallStartedAt) / 1000) : 0;
     timer.textContent = `${String(Math.floor(elapsed / 60)).padStart(2, '0')}:${String(elapsed % 60).padStart(2, '0')}`;
-}
-
-function setVoiceCallStatus(text, state = 'connecting') {
-    const status = document.getElementById('voice-call-status');
-    if (!status) return;
-    status.textContent = text;
-    status.dataset.manual = state === 'connecting' ? 'true' : 'false';
-    status.dataset.state = state;
 }
 
 function toggleVoiceMute() {
@@ -1791,6 +1754,48 @@ function toggleVoiceMute() {
     button.setAttribute('aria-pressed', String(appState.voiceMuted));
     button.title = appState.voiceMuted ? 'Включить микрофон' : 'Выключить микрофон';
     showToast(appState.voiceMuted ? 'Микрофон выключен' : 'Микрофон включен');
+}
+
+async function toggleVoiceVideo() {
+    if (!appState.voiceStream) return;
+    const button = document.getElementById('voice-video-btn');
+    const currentTrack = appState.voiceStream.getVideoTracks()[0] || null;
+    if (!currentTrack) {
+        try {
+            const cameraStream = await navigator.mediaDevices.getUserMedia({ video: true });
+            appState.cameraTrack = cameraStream.getVideoTracks()[0] || null;
+            if (!appState.cameraTrack) return;
+            appState.voiceStream.addTrack(appState.cameraTrack);
+            for (const peer of appState.peerConnections.values()) {
+                const sender = getVideoSender(peer);
+                if (sender) {
+                    const transceiver = peer.getTransceivers().find(item => item.sender === sender);
+                    if (transceiver) transceiver.direction = 'sendrecv';
+                    await sender.replaceTrack(appState.cameraTrack);
+                } else {
+                    peer.addTrack(appState.cameraTrack, appState.voiceStream);
+                }
+            }
+            appState.videoEnabled = true;
+            document.getElementById('voice-local-video').srcObject = appState.voiceStream;
+            document.getElementById('voice-video-grid').classList.remove('hidden');
+            button.classList.add('active');
+            button.setAttribute('aria-pressed', 'true');
+            button.title = 'Выключить видео';
+            showToast('Видео включено');
+            await renegotiateVoicePeers();
+        } catch (error) {
+            showToast(error.name === 'NotAllowedError' ? 'Разрешите камеру в настройках приложения' : 'Не удалось включить видео');
+        }
+        return;
+    }
+    currentTrack.enabled = !currentTrack.enabled;
+    appState.videoEnabled = currentTrack.enabled;
+    button.classList.toggle('active', currentTrack.enabled);
+    button.setAttribute('aria-pressed', String(currentTrack.enabled));
+    button.title = currentTrack.enabled ? 'Выключить видео' : 'Включить видео';
+    button.querySelector('i').className = `fas fa-video${currentTrack.enabled ? '' : '-slash'}`;
+    showToast(currentTrack.enabled ? 'Видео включено' : 'Видео выключено');
 }
 
 async function toggleScreenShare() {
@@ -1897,14 +1902,6 @@ async function getVoicePeer(socketId) {
     peer.onicecandidate = event => {
         if (event.candidate) socket.emit('voice-ice-candidate', { target: socketId, candidate: event.candidate });
     };
-    peer.onconnectionstatechange = () => {
-        if (peer.connectionState === 'connected') setVoiceCallStatus('В эфире', 'connected');
-        if (peer.connectionState === 'failed') {
-            setVoiceCallStatus('Соединение потеряно', 'error');
-            showToast('Не удалось установить соединение с участником');
-        }
-        if (peer.connectionState === 'closed') closeVoicePeer(socketId);
-    };
     peer.ontrack = event => {
         let remoteStream = appState.remoteStreams.get(socketId);
         if (!remoteStream) {
@@ -1941,6 +1938,7 @@ async function flushVoiceIceCandidates(socketId, peer) {
     const pending = appState.pendingVoiceCandidates.get(socketId) || [];
     for (const candidate of pending) await peer.addIceCandidate(candidate);
     appState.pendingVoiceCandidates.delete(socketId);
+    appState.remoteStreams.delete(socketId);
 }
 
 async function createVoiceOffer(socketId) {
@@ -1988,6 +1986,13 @@ function leaveVoiceCall() {
     muteButton.innerHTML = '<i class="fas fa-microphone"></i><span id="voice-mute-label">Микрофон</span>';
     document.getElementById('voice-local-video').srcObject = null;
     document.getElementById('voice-video-grid').classList.add('hidden');
+    const videoButton = document.getElementById('voice-video-btn');
+    videoButton?.classList.remove('active');
+    videoButton?.setAttribute('aria-pressed', 'false');
+    if (videoButton) {
+        videoButton.title = 'Включить видео';
+        videoButton.querySelector('i').className = 'fas fa-video';
+    }
     document.getElementById('voice-remote-videos').innerHTML = '';
     document.getElementById('voice-call-panel')?.classList.add('hidden');
     document.getElementById('voice-call-btn').classList.remove('hidden');
