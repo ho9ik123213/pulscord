@@ -4326,6 +4326,10 @@ body {
     }
 
     .channels-sidebar {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
         z-index: 120;
         width: min(310px, calc(100vw - 48px));
         padding-left: env(safe-area-inset-left);
