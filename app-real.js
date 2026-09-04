@@ -2015,6 +2015,14 @@ async function getVoicePeer(socketId) {
     peer.onicecandidate = event => {
         if (event.candidate) socket.emit('voice-ice-candidate', { target: socketId, candidate: event.candidate });
     };
+    peer.onconnectionstatechange = () => {
+        if (peer.connectionState === 'connected') setVoiceCallStatus('В эфире', 'connected');
+        if (peer.connectionState === 'failed') {
+            setVoiceCallStatus('Соединение потеряно', 'error');
+            showToast('Не удалось установить соединение с участником');
+        }
+        if (peer.connectionState === 'closed') closeVoicePeer(socketId);
+    };
     peer.ontrack = event => {
         let remoteStream = appState.remoteStreams.get(socketId);
         if (!remoteStream) {
@@ -2030,6 +2038,7 @@ async function getVoicePeer(socketId) {
             document.body.appendChild(audio);
         }
         audio.srcObject = remoteStream;
+        audio.play().catch(() => {});
         if (event.track.kind === 'video') {
             document.getElementById('voice-video-grid')?.classList.remove('hidden');
             let video = document.getElementById(`voice-video-${socketId}`);
@@ -2041,6 +2050,7 @@ async function getVoicePeer(socketId) {
                 document.getElementById('voice-remote-videos')?.appendChild(video);
             }
             video.srcObject = remoteStream;
+            video.play().catch(() => {});
         }
     };
     appState.peerConnections.set(socketId, peer);
