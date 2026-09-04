@@ -3,6 +3,7 @@ const getServerURL = () => {
     const configuredUrl = window.PULSCORD_API_URL || localStorage.getItem('pulscord_api_url');
     if (configuredUrl) return configuredUrl.replace(/\/$/, '');
     if (window.Capacitor?.isNativePlatform?.()) return 'https://pulscord.onrender.com';
+    if (window.location.protocol === 'file:') return 'https://pulscord.onrender.com';
     return /^https?:$/.test(window.location.protocol) ? window.location.origin : 'http://localhost:3000';
 };
 
