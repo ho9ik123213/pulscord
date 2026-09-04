@@ -142,6 +142,7 @@
                     <div class="header-right">
                         <button title="Поиск"><i class="fas fa-search"></i></button>
                         <button title="Уведомления"><i class="fas fa-bell"></i></button>
+                        <button title="Калькулятор" id="calculator-btn"><i class="fas fa-calculator"></i></button>
                         <button title="NFT Monkey" id="monkey-nft-btn"><i class="fas fa-paw"></i></button>
                         <button title="Онлайн пользователи"><i class="fas fa-users"></i></button>
                         <button title="Пригласить по username" id="invite-channel-btn"><i class="fas fa-user-plus"></i></button>
@@ -352,6 +353,45 @@
             <div class="modal-actions">
                 <button class="modal-button secondary" id="modal-cancel" type="button">Отмена</button>
                 <button class="modal-button primary" id="modal-confirm" type="button">Отправить заявку</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-backdrop hidden" id="calculator-modal" role="dialog" aria-modal="true" aria-labelledby="calculator-title">
+        <div class="app-modal calculator-modal">
+            <div class="calculator-heading">
+                <div class="modal-icon"><i class="fas fa-calculator"></i></div>
+                <div class="modal-copy">
+                    <h2 id="calculator-title">Калькулятор</h2>
+                    <p>Посчитайте выражение и вставьте результат в сообщение.</p>
+                </div>
+            </div>
+            <input class="calculator-display" id="calculator-display" type="text" inputmode="decimal" value="0" aria-label="Выражение калькулятора" autocomplete="off">
+            <div class="calculator-keypad" aria-label="Кнопки калькулятора">
+                <button type="button" data-calculator-action="clear" class="calculator-muted">C</button>
+                <button type="button" data-calculator-action="backspace" class="calculator-muted"><i class="fas fa-delete-left"></i></button>
+                <button type="button" data-calculator-value="%" class="calculator-muted">%</button>
+                <button type="button" data-calculator-value="/" class="calculator-operator">÷</button>
+                <button type="button" data-calculator-value="7">7</button>
+                <button type="button" data-calculator-value="8">8</button>
+                <button type="button" data-calculator-value="9">9</button>
+                <button type="button" data-calculator-value="*" class="calculator-operator">×</button>
+                <button type="button" data-calculator-value="4">4</button>
+                <button type="button" data-calculator-value="5">5</button>
+                <button type="button" data-calculator-value="6">6</button>
+                <button type="button" data-calculator-value="-" class="calculator-operator">−</button>
+                <button type="button" data-calculator-value="1">1</button>
+                <button type="button" data-calculator-value="2">2</button>
+                <button type="button" data-calculator-value="3">3</button>
+                <button type="button" data-calculator-value="+" class="calculator-operator">+</button>
+                <button type="button" data-calculator-value="("> ( </button>
+                <button type="button" data-calculator-value="0">0</button>
+                <button type="button" data-calculator-value=".">.</button>
+                <button type="button" data-calculator-action="equals" class="calculator-equals">=</button>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-button secondary" id="calculator-close-btn" type="button">Закрыть</button>
+                <button class="modal-button primary" id="calculator-insert-btn" type="button"><i class="fas fa-paper-plane"></i> Вставить результат</button>
             </div>
         </div>
     </div>

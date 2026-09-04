@@ -916,6 +916,7 @@ function setupAppEvents() {
     document.getElementById('monkey-nft-btn').addEventListener('click', openMonkeyNftCollection);
     document.getElementById('monkey-nft-close-btn').addEventListener('click', () => document.getElementById('monkey-nft-modal').classList.add('hidden'));
     document.getElementById('monkey-nft-search').addEventListener('input', event => renderMonkeyNfts(event.target.value));
+    setupCalculator();
     document.getElementById('admin-close-btn').addEventListener('click', closeAdminPanel);
     document.getElementById('admin-money-btn').addEventListener('click', () => adminAction('grant-money'));
     document.getElementById('admin-premium-btn').addEventListener('click', () => adminAction('grant-premium'));
@@ -935,6 +936,56 @@ async function openMonkeyNftCollection() {
     monkeyNftCatalog = await response.json().catch(() => []);
     renderMonkeyNfts('');
     document.getElementById('monkey-nft-modal').classList.remove('hidden');
+}
+
+function calculateExpression(value) {
+    const expression = String(value || '').replace(/×/g, '*').replace(/÷/g, '/').replace(/−/g, '-').replace(/(\d+(?:\.\d+)?)%/g, '($1/100)').replace(/\s+/g, '');
+    if (!expression || expression.length > 120 || !/^[0-9+\-*/().^]+$/.test(expression)) throw new Error('invalid');
+    const tokens = expression.match(/\d*\.?\d+|[()+\-*/^]/g) || [];
+    let position = 0;
+    const primary = () => {
+        const token = tokens[position++];
+        if (token === '(') { const result = additive(); if (tokens[position++] !== ')') throw new Error('invalid'); return result; }
+        if (token === '-') return -primary();
+        if (!token || !/^\d*\.?\d+$/.test(token)) throw new Error('invalid');
+        return Number(token);
+    };
+    const power = () => { const left = primary(); return tokens[position] === '^' ? (position++, Math.pow(left, power())) : left; };
+    const multiplicative = () => { let result = power(); while (['*', '/'].includes(tokens[position])) { const operator = tokens[position++]; const right = power(); result = operator === '*' ? result * right : result / right; } return result; };
+    const additive = () => { let result = multiplicative(); while (['+', '-'].includes(tokens[position])) { const operator = tokens[position++]; const right = multiplicative(); result = operator === '+' ? result + right : result - right; } return result; };
+    const result = additive();
+    if (position !== tokens.length || !Number.isFinite(result)) throw new Error('invalid');
+    return String(Number(result.toFixed(10)));
+}
+
+function setupCalculator() {
+    const modal = document.getElementById('calculator-modal');
+    const display = document.getElementById('calculator-display');
+    if (!modal || !display) return;
+    const close = () => modal.classList.add('hidden');
+    const calculate = () => {
+        try { display.value = calculateExpression(display.value); }
+        catch { display.value = 'Ошибка'; }
+    };
+    document.getElementById('calculator-btn')?.addEventListener('click', () => { display.value = '0'; modal.classList.remove('hidden'); display.focus(); });
+    document.getElementById('calculator-close-btn')?.addEventListener('click', close);
+    document.getElementById('calculator-insert-btn')?.addEventListener('click', () => {
+        if (display.value !== 'Ошибка') {
+            const input = document.getElementById('message-input');
+            if (input) { input.value = display.value; input.focus(); }
+            close();
+        }
+    });
+    modal.addEventListener('click', event => { if (event.target === modal) close(); });
+    modal.querySelectorAll('[data-calculator-value]').forEach(button => button.addEventListener('click', () => {
+        if (display.value === 'Ошибка') display.value = '0';
+        if (display.value === '0' && !['.', '+', '-', '*', '/', '^', '%', ')'].includes(button.dataset.calculatorValue)) display.value = '';
+        display.value += button.dataset.calculatorValue;
+    }));
+    modal.querySelector('[data-calculator-action="clear"]')?.addEventListener('click', () => { display.value = '0'; });
+    modal.querySelector('[data-calculator-action="backspace"]')?.addEventListener('click', () => { display.value = display.value.length > 1 ? display.value.slice(0, -1) : '0'; });
+    modal.querySelector('[data-calculator-action="equals"]')?.addEventListener('click', calculate);
+    display.addEventListener('keydown', event => { if (event.key === 'Enter') { event.preventDefault(); calculate(); } });
 }
 
 function renderMonkeyNfts(query) {
