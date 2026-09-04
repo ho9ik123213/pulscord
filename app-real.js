@@ -8,13 +8,6 @@ const getServerURL = () => {
 
 const API_URL = getServerURL();
 
-const nativeFetch = window.fetch.bind(window);
-window.fetch = (input, init = {}) => {
-    const token = localStorage.getItem('pulscord_session_token');
-    const headers = new Headers(init.headers || {});
-    if (token) headers.set('Authorization', `Bearer ${token}`);
-    return nativeFetch(input, { ...init, headers });
-};
 
 const socket = io(API_URL);
 
