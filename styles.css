@@ -4249,3 +4249,129 @@ body {
 @media (max-width: 768px) {
     .channels-sidebar { box-shadow: 12px 0 45px rgba(24, 39, 58, 0.2), var(--liquid-shadow); }
 }
+
+/* Mobile shell: keep the chat inside the device viewport and above system bars. */
+@media (max-width: 768px) {
+    html,
+    body,
+    #app-screen {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        height: 100dvh;
+        min-height: 100dvh;
+    }
+
+    #app-screen {
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .main-container,
+    .chat-container {
+        min-width: 0;
+        min-height: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .main-container {
+        overflow: hidden;
+    }
+
+    .chat-header {
+        flex: 0 0 auto;
+        min-width: 0;
+        padding: 8px 10px;
+        padding-left: max(10px, env(safe-area-inset-left));
+        padding-right: max(10px, env(safe-area-inset-right));
+    }
+
+    .header-left {
+        min-width: 0;
+        overflow: hidden;
+    }
+
+    .header-left h1,
+    .header-left p {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .messages-area {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-x: hidden;
+        overscroll-behavior-y: contain;
+    }
+
+    .message-input-area {
+        flex: 0 0 auto;
+        min-width: 0;
+        padding-left: max(10px, env(safe-area-inset-left));
+        padding-right: max(10px, env(safe-area-inset-right));
+    }
+
+    .input-wrapper {
+        min-width: 0;
+    }
+
+    .main-container:has(.channels-sidebar.active)::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        z-index: 115;
+        cursor: pointer;
+    }
+
+    .channels-sidebar {
+        z-index: 120;
+        width: min(310px, calc(100vw - 48px));
+        padding-left: env(safe-area-inset-left);
+    }
+
+    .mobile-menu-button,
+    .header-right button,
+    .input-button {
+        touch-action: manipulation;
+    }
+}
+
+@media (max-width: 420px) {
+    .chat-header {
+        gap: 6px;
+    }
+
+    .header-left {
+        gap: 7px;
+    }
+
+    .header-left h1 {
+        font-size: 14px;
+    }
+
+    .header-right {
+        max-width: 40%;
+    }
+
+    .messages-area {
+        padding: 10px 8px;
+    }
+
+    .message {
+        gap: 6px;
+        padding: 8px 4px;
+    }
+
+    .message .avatar {
+        width: 30px;
+        height: 30px;
+        flex-basis: 30px;
+    }
+
+    .message-content {
+        max-width: calc(100vw - 62px);
+        padding: 6px 9px;
+    }
+}

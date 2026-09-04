@@ -854,6 +854,12 @@ function setupAppEvents() {
         document.querySelector('.channels-sidebar')?.classList.toggle('active');
     });
 
+    document.querySelector('.main-container')?.addEventListener('click', event => {
+        if (event.target === event.currentTarget) {
+            document.querySelector('.channels-sidebar')?.classList.remove('active');
+        }
+    });
+
     document.querySelectorAll('.channel-item, .contact-item').forEach(item => {
         item.addEventListener('click', () => {
             if (window.innerWidth <= 768) {
