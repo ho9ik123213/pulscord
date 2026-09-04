@@ -17,7 +17,13 @@ window.fetch = (input, init = {}) => {
     return nativeFetch(input, { ...init, headers });
 };
 
-const socket = io(API_URL);
+const socket = io(API_URL, {
+    transports: ['websocket', 'polling'],
+    reconnection: true,
+    reconnectionAttempts: Infinity,
+    reconnectionDelay: 500,
+    auth: callback => callback({ token: localStorage.getItem('pulscord_session_token') || '' })
+});
 
 // Состояние приложения
 let appState = {
@@ -196,6 +202,10 @@ function setupSocket() {
         console.log('✓ Подключено к серверу');
         if (appState.currentUser) socket.emit('user-join', appState.currentUser);
         showToast('Подключено к серверу ✓');
+    });
+
+    socket.on('connect_error', error => {
+        console.error('Ошибка подключения realtime:', error.message);
     });
 
     socket.on('message', (data) => {
