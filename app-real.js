@@ -868,6 +868,12 @@ function setupAppEvents() {
     });
 
     document.querySelector('.mobile-menu-button')?.addEventListener('click', () => {
+        const appScreen = document.getElementById('app-screen');
+        if (appScreen?.classList.contains('mobile-chat-open')) {
+            appScreen.classList.remove('mobile-chat-open');
+            document.querySelector('.mobile-menu-button i')?.classList.replace('fa-arrow-left', 'fa-bars');
+            return;
+        }
         document.querySelector('.channels-sidebar')?.classList.toggle('active');
     });
 
@@ -2195,6 +2201,8 @@ async function addContact(username) {
 function openDirectMessage(username) {
     if (appState.voiceRoom) leaveVoiceCall();
     appState.currentDMUser = username;
+    document.getElementById('app-screen')?.classList.add('mobile-chat-open');
+    document.querySelector('.mobile-menu-button i')?.classList.replace('fa-bars', 'fa-arrow-left');
 
     // Закрываем канал
     document.querySelectorAll('.channel-item').forEach(item => {
@@ -2248,6 +2256,8 @@ function switchChannel(channel) {
     if (appState.voiceRoom) leaveVoiceCall();
     appState.currentChannel = channel;
     appState.currentDMUser = null;
+    document.getElementById('app-screen')?.classList.add('mobile-chat-open');
+    document.querySelector('.mobile-menu-button i')?.classList.replace('fa-bars', 'fa-arrow-left');
     document.getElementById('block-user-btn').classList.add('hidden');
 
     document.querySelectorAll('.channel-item').forEach(item => {

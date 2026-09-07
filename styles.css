@@ -3982,6 +3982,42 @@ body > .app-container:not(#app-screen) {
 }
 
 @media (max-width: 768px) {
+    .auth-container:not(.hidden) ~ .mobile-bottom-dock {
+        display: none;
+    }
+
+    #app-screen:not(.mobile-chat-open) .channels-sidebar {
+        position: relative;
+        inset: auto;
+        width: 100%;
+        max-width: none;
+        height: 100%;
+        transform: none;
+        box-shadow: none;
+    }
+
+    #app-screen:not(.mobile-chat-open) .chat-container {
+        display: none;
+    }
+
+    #app-screen.mobile-chat-open .channels-sidebar {
+        display: none;
+    }
+
+    #app-screen.mobile-chat-open .chat-container {
+        display: flex;
+    }
+
+    #app-screen.mobile-chat-open .mobile-menu-button {
+        display: flex;
+    }
+
+    #app-screen.mobile-chat-open .mobile-bottom-dock {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
     .mobile-menu-button {
         display: none;
     }
@@ -5199,5 +5235,41 @@ body {
 
     .calculator-display {
         font-size: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .auth-container:not(.hidden) ~ .mobile-bottom-dock {
+        display: none;
+    }
+
+    #app-screen:not(.mobile-chat-open) .channels-sidebar {
+        position: relative;
+        inset: auto;
+        width: 100%;
+        max-width: none;
+        height: 100%;
+        transform: none;
+        box-shadow: none;
+    }
+
+    #app-screen:not(.mobile-chat-open) .chat-container {
+        display: none;
+    }
+
+    #app-screen.mobile-chat-open .channels-sidebar {
+        display: none;
+    }
+
+    #app-screen.mobile-chat-open .chat-container {
+        display: flex;
+    }
+
+    #app-screen.mobile-chat-open .mobile-menu-button {
+        display: flex;
+    }
+
+    #app-screen.mobile-chat-open .mobile-bottom-dock {
+        display: none;
     }
 }
