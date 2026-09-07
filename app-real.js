@@ -565,6 +565,11 @@ async function loadRequests() {
         const list = document.getElementById('requests-list');
         count.textContent = appState.requests.length;
         count.classList.toggle('hidden', appState.requests.length === 0);
+        const dockBadge = document.getElementById('mobile-dock-badge');
+        if (dockBadge) {
+            dockBadge.textContent = appState.requests.length;
+            dockBadge.classList.toggle('hidden', appState.requests.length === 0);
+        }
 
         if (!appState.requests.length) {
             list.innerHTML = '<p class="sidebar-empty">Нет новых заявок</p>';
@@ -938,6 +943,28 @@ function setupAppEvents() {
     document.getElementById('invite-channel-btn').addEventListener('click', inviteToCurrentChannel);
     document.getElementById('channel-settings-btn').addEventListener('click', openContainerSettings);
     document.getElementById('channel-delete-btn').addEventListener('click', deleteCurrentContainer);
+    setupMobileDock();
+}
+
+function setupMobileDock() {
+    document.querySelectorAll('[data-mobile-action]').forEach(button => {
+        button.addEventListener('click', () => {
+            document.querySelectorAll('[data-mobile-action]').forEach(item => item.classList.remove('active'));
+            button.classList.add('active');
+            const action = button.dataset.mobileAction;
+            if (action === 'contacts') document.querySelector('.channels-sidebar')?.classList.add('active');
+            if (action === 'calls') {
+                if (appState.currentDMUser) startVoiceCall();
+                else showToast('Откройте личный чат для звонка');
+            }
+            if (action === 'chats') document.querySelector('.channels-sidebar')?.classList.remove('active');
+            if (action === 'settings') openProfileDialog();
+            if (action === 'search') {
+                document.querySelector('.channels-sidebar')?.classList.add('active');
+                document.querySelector('.search-box input')?.focus();
+            }
+        });
+    });
 }
 
 let monkeyNftCatalog = [];

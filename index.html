@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Pulscord">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="stylesheet" href="styles.css?v=20260907-02">
+    <link rel="stylesheet" href="styles.css?v=20260907-03">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 </head>
@@ -505,6 +505,24 @@
             <button class="incoming-call-button accept" id="accept-call-btn" type="button" title="Принять"><i class="fas fa-phone"></i></button>
         </div>
     </div>
+
+    <nav class="mobile-bottom-dock" id="mobile-bottom-dock" aria-label="Мобильная навигация">
+        <button type="button" data-mobile-action="contacts" aria-label="Контакты">
+            <i class="fas fa-user-group"></i><span>Контакты</span>
+        </button>
+        <button type="button" data-mobile-action="calls" aria-label="Звонки">
+            <i class="fas fa-phone"></i><span>Звонки</span>
+        </button>
+        <button type="button" class="active" data-mobile-action="chats" aria-label="Чаты">
+            <i class="fas fa-message"></i><span>Чаты</span><b class="mobile-dock-badge hidden" id="mobile-dock-badge">0</b>
+        </button>
+        <button type="button" data-mobile-action="settings" aria-label="Настройки">
+            <i class="fas fa-sliders"></i><span>Настройки</span>
+        </button>
+        <button type="button" data-mobile-action="search" aria-label="Поиск">
+            <i class="fas fa-magnifying-glass"></i><span>Поиск</span>
+        </button>
+    </nav>
 
     <script src="app-real.js?v=20260903-41"></script>
     <input id="container-avatar-upload" type="file" accept="image/*" hidden>
