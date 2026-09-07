@@ -3893,6 +3893,100 @@ body > .app-container:not(#app-screen) {
     .voice-call-actions { margin-top: 4px; }
 }
 
+:root {
+    --primary-color: #0a84ff;
+    --primary-hover: #007aff;
+    --primary-light: #64d2ff;
+    --primary-dark: #0066cc;
+    --primary-gradient: linear-gradient(135deg, #0a84ff, #5e5ce6 52%, #64d2ff);
+    --bg-primary: #07101d;
+    --bg-secondary: #0c1726;
+    --bg-tertiary: #122237;
+    --bg-hover: #1b3450;
+    --bg-active: #244968;
+    --text-secondary: #b7c5d5;
+    --text-muted: #718198;
+    --glass-bg: rgba(255, 255, 255, 0.065);
+    --glass-border: rgba(255, 255, 255, 0.18);
+    --glass-shadow: 0 22px 70px rgba(0, 0, 0, 0.28),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+                    inset 0 -1px 0 rgba(0, 0, 0, 0.18);
+    --glass-blur: blur(28px);
+    --glass-saturate: saturate(1.55);
+    --glass-bg-strong: rgba(13, 25, 40, 0.72);
+    --glass-border-strong: rgba(255, 255, 255, 0.24);
+    --glass-blur-strong: blur(36px);
+    --glass-bg-light: rgba(255, 255, 255, 0.045);
+    --glass-border-light: rgba(255, 255, 255, 0.11);
+    --glass-shine: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.025) 38%, rgba(125, 211, 252, 0.08) 72%, rgba(255, 255, 255, 0.08));
+    --glass-shine-strong: linear-gradient(135deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.045) 35%, rgba(100, 210, 255, 0.1) 70%, rgba(255, 255, 255, 0.1));
+    --glass-glow: 0 0 70px rgba(10, 132, 255, 0.12), 0 0 140px rgba(100, 210, 255, 0.05);
+    --glass-iphone: inset 0 0 0 1px rgba(255, 255, 255, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.12), inset 0 -2px 0 rgba(0, 0, 0, 0.16);
+}
+
+html,
+body {
+    background: #07101d;
+}
+
+body {
+    background-image: radial-gradient(circle at 8% 0%, rgba(10, 132, 255, 0.16), transparent 32%),
+                      radial-gradient(circle at 92% 100%, rgba(94, 92, 230, 0.12), transparent 34%),
+                      linear-gradient(145deg, #07101d 0%, #0b1625 52%, #08111f 100%);
+    background-attachment: fixed;
+}
+
+.app-container,
+.auth-container {
+    background-color: transparent;
+}
+
+.auth-container {
+    padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
+}
+
+.chat-header,
+.channels-sidebar,
+.user-sidebar,
+.servers-sidebar,
+.message-input-area {
+    background-color: rgba(9, 20, 34, 0.58);
+    box-shadow: var(--glass-iphone);
+}
+
+.chat-header,
+.message-input-area {
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+}
+
+.voice-call-panel {
+    background: rgba(9, 20, 34, 0.78);
+    border-color: rgba(255, 255, 255, 0.22);
+    box-shadow: 0 0 0 100vmax rgba(2, 8, 16, 0.64), 0 30px 90px rgba(0, 0, 0, 0.48), 0 0 70px rgba(10, 132, 255, 0.18);
+}
+
+.voice-call-panel::before {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.11), transparent 35%, rgba(100, 210, 255, 0.08) 72%, transparent);
+}
+
+.voice-action-button {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.13);
+}
+
+.voice-action-button:hover,
+.voice-action-button.active {
+    background: rgba(10, 132, 255, 0.24);
+    color: var(--primary-light);
+}
+
+@media (max-width: 520px) {
+    .chat-header {
+        padding-top: calc(8px + env(safe-area-inset-top));
+    }
+}
+
 /* Telegram-inspired messenger skin. */
 :root {
     --primary-color: #2aabee;
