@@ -300,6 +300,25 @@ function parseCookies(req) {
     }, {});
 }
 
+function hashPassword(password) {
+    const salt = crypto.randomBytes(16).toString('base64url');
+    const derivedKey = crypto.scryptSync(password, salt, 32, { N: 32768, r: 8, p: 2, maxmem: 64 * 1024 * 1024 });
+    return `scrypt$32768$8$2$${salt}$${derivedKey.toString('base64url')}`;
+}
+
+function verifyPassword(password, storedPassword) {
+    if (typeof storedPassword !== 'string' || !storedPassword.startsWith('scrypt$')) return storedPassword === password;
+    const [, n, r, p, salt, encodedHash] = storedPassword.split('$');
+    if (!n || !r || !p || !salt || !encodedHash) return false;
+    try {
+        const expected = Buffer.from(encodedHash, 'base64url');
+        const actual = crypto.scryptSync(password, salt, expected.length, { N: Number(n), r: Number(r), p: Number(p), maxmem: 64 * 1024 * 1024 });
+        return expected.length === actual.length && crypto.timingSafeEqual(expected, actual);
+    } catch {
+        return false;
+    }
+}
+
 function getSessionUser(req) {
     const authorization = req.headers.authorization || '';
     const bearerToken = authorization.startsWith('Bearer ') ? authorization.slice(7).trim() : '';
@@ -470,7 +489,7 @@ app.post('/api/auth/register', (req, res) => {
     }
 
     users[username] = {
-        password,
+        password: hashPassword(password),
         avatar: avatar || username[0].toUpperCase(),
         created: new Date(),
         role: 'user',
@@ -497,8 +516,14 @@ app.post('/api/auth/login', (req, res) => {
     const users = loadJSON('users.json');
     const user = users[username];
 
-    if (!user || user.password !== password) {
+    if (!user || !verifyPassword(password, user.password)) {
         return res.status(401).json({ error: 'Неверные учетные данные' });
+    }
+
+    if (!String(user.password).startsWith('scrypt$')) {
+        user.password = hashPassword(password);
+        users[username] = user;
+        saveJSON('users.json', users);
     }
 
     sendAuthResponse(res, username, user);
@@ -755,7 +780,7 @@ app.put('/api/user/:username', (req, res) => {
 
     const updatedUser = users[newUsername];
     updatedUser.avatar = avatar;
-    if (password) updatedUser.password = password;
+    if (password) updatedUser.password = hashPassword(password);
     saveJSON('users.json', users);
     res.json({ success: true, user: publicUser(newUsername, updatedUser) });
 });
