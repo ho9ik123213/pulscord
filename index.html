@@ -1324,15 +1324,6 @@
                 });
             }
 
-            // Симуляция входящего звонка через 4 секунды после загрузки
-            setTimeout(() => {
-                if (!document.getElementById('auth-screen').classList.contains('active')) {
-                    const name = 'Алексей';
-                    document.getElementById('incoming-call-caller').textContent = `${name} звонит вам`;
-                    document.getElementById('incoming-call-title').textContent = '📞 Входящий звонок';
-                    incomingPanel.classList.remove('hidden');
-                }
-            }, 4000);
         });
     </script>
 </body>
