@@ -4730,6 +4730,21 @@ body {
     }
 }
 
+@media (max-width: 768px) {
+    .message-content .message-text,
+    .message-content .message-reply,
+    .message-content .message-reply strong,
+    .message-content .message-reply span,
+    .message-content .message-file-info,
+    .message-content .message-file-info strong,
+    .message-content .message-file-info small,
+    .message-content .message-audio-body,
+    .message-content .message-audio-body span,
+    .message-content .video-note-label {
+        color: #17212b;
+    }
+}
+
 .calculator-modal {
     width: min(100%, 390px);
 }
