@@ -5244,6 +5244,16 @@ body {
     }
 }
 
+.app-container {
+    width: 100vw;
+    height: 100dvh;
+    min-height: 100dvh;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
 @media (max-width: 768px) {
     .auth-container:not(.hidden) ~ .mobile-bottom-dock {
         display: none;
