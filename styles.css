@@ -211,6 +211,7 @@ html, body {
     font-size: 36px;
     margin-bottom: 8px;
     background: var(--color-rainbow);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     text-shadow: none;
@@ -4742,6 +4743,243 @@ body {
     .message-content .message-audio-body span,
     .message-content .video-note-label {
         color: #17212b;
+    }
+}
+
+/* Final visual direction: northern glass with ink, jade, and coral accents. */
+:root {
+    --primary-color: #19b394;
+    --primary-hover: #10977f;
+    --primary-light: #73e0c5;
+    --primary-dark: #087762;
+    --primary-gradient: linear-gradient(135deg, #19b394, #2c9bd1 58%, #f28b72);
+    --text-primary: #f3f7f5;
+    --text-secondary: #b6c7c3;
+    --text-muted: #718681;
+    --text-link: #73e0c5;
+    --bg-primary: #091412;
+    --bg-secondary: #0f1d19;
+    --bg-tertiary: #142923;
+    --bg-hover: #1a3830;
+    --bg-active: #235447;
+    --glass-bg: rgba(20, 39, 34, 0.66);
+    --glass-bg-strong: rgba(13, 28, 24, 0.84);
+    --glass-bg-light: rgba(210, 248, 237, 0.07);
+    --glass-border: rgba(164, 232, 211, 0.17);
+    --glass-border-light: rgba(164, 232, 211, 0.1);
+    --glass-border-strong: rgba(164, 232, 211, 0.25);
+    --glass-shadow: 0 24px 80px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.09);
+    --glass-glow: 0 0 70px rgba(25, 179, 148, 0.1), 0 0 120px rgba(242, 139, 114, 0.05);
+    --color-admin: #f28b72;
+    --color-developer: #73b7e5;
+    --color-verified: #73e0c5;
+    --color-premium: #f5c96a;
+    --online-indicator: #65dfad;
+    --dnd-indicator: #f28b72;
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 18px;
+    --radius-xl: 24px;
+}
+
+html,
+body {
+    background: #091412;
+    color: var(--text-primary);
+}
+
+body {
+    background-image: radial-gradient(circle at 0% 0%, rgba(25, 179, 148, 0.16), transparent 30%),
+                      radial-gradient(circle at 100% 100%, rgba(242, 139, 114, 0.11), transparent 28%),
+                      linear-gradient(135deg, #091412, #10231e 54%, #11151a);
+}
+
+.auth-container {
+    background: transparent;
+}
+
+.auth-card,
+.channels-sidebar,
+.chat-header,
+.user-sidebar,
+.message-input-area,
+.premium-panel,
+.request-item,
+.input-wrapper {
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 42%, rgba(25, 179, 148, 0.06));
+    border-color: var(--glass-border);
+    box-shadow: var(--glass-shadow);
+}
+
+.servers-sidebar {
+    background: rgba(6, 18, 15, 0.9);
+    border-right: 1px solid var(--glass-border);
+}
+
+.server-icon,
+.server-create-button {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid transparent;
+    color: var(--text-secondary);
+}
+
+.server-icon.active,
+.server-icon:hover,
+.server-create-button:hover {
+    background: var(--primary-color);
+    border-color: rgba(255, 255, 255, 0.28);
+    color: #06110e;
+    box-shadow: 0 10px 26px rgba(25, 179, 148, 0.24);
+}
+
+.channels-sidebar,
+.user-sidebar {
+    background-color: rgba(13, 28, 24, 0.72);
+}
+
+.server-header,
+.chat-header {
+    background-color: rgba(20, 39, 34, 0.58);
+    border-color: var(--glass-border);
+}
+
+.server-header h2,
+.header-left h1,
+.user-profile h3,
+.message-text,
+.message-input,
+.search-box input {
+    color: var(--text-primary);
+}
+
+.section-header,
+.header-left p,
+.menu-button,
+.stats-section h4,
+.status-text,
+.timestamp {
+    color: var(--text-muted);
+}
+
+.search-box,
+.input-wrapper,
+.message-content {
+    background-color: rgba(4, 15, 12, 0.38);
+    border: 1px solid var(--glass-border-light);
+}
+
+.search-box:focus-within,
+.input-wrapper:focus-within {
+    border-color: rgba(115, 224, 197, 0.55);
+    box-shadow: 0 0 0 4px rgba(25, 179, 148, 0.1);
+}
+
+.contact-item,
+.channel-item {
+    color: var(--text-secondary);
+}
+
+.contact-item:hover,
+.channel-item:hover,
+.header-right button:hover {
+    background: rgba(25, 179, 148, 0.12);
+    color: var(--primary-light);
+}
+
+.contact-item.active,
+.channel-item.active {
+    background: linear-gradient(90deg, rgba(25, 179, 148, 0.2), rgba(25, 179, 148, 0.06));
+    color: var(--primary-light);
+    box-shadow: inset 3px 0 0 var(--primary-color);
+}
+
+.header-right button {
+    color: var(--text-secondary);
+    border: 1px solid transparent;
+}
+
+.message {
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.message:hover {
+    background: rgba(115, 224, 197, 0.06);
+    transform: translateX(2px);
+}
+
+.message-content {
+    border-radius: var(--radius-lg);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.own-message .message-content {
+    background: linear-gradient(135deg, rgba(25, 179, 148, 0.2), rgba(44, 155, 209, 0.16));
+    border-color: rgba(115, 224, 197, 0.23);
+}
+
+.username {
+    color: var(--primary-light);
+}
+
+.btn-primary {
+    background: var(--primary-gradient);
+    color: #06110e;
+    box-shadow: 0 12px 28px rgba(25, 179, 148, 0.2);
+}
+
+.btn-primary:hover {
+    box-shadow: 0 16px 34px rgba(25, 179, 148, 0.3);
+    transform: translateY(-2px);
+}
+
+.premium-panel {
+    background-color: rgba(245, 201, 106, 0.1);
+    border-color: rgba(245, 201, 106, 0.28);
+}
+
+.premium-buy-btn {
+    background: rgba(245, 201, 106, 0.16);
+    border: 1px solid rgba(245, 201, 106, 0.38);
+    color: #f5d889;
+}
+
+.voice-call-panel {
+    background: rgba(8, 22, 18, 0.9);
+    border-color: rgba(115, 224, 197, 0.25);
+}
+
+.voice-call-avatar {
+    background: var(--primary-gradient);
+    outline-color: var(--primary-color);
+}
+
+.voice-action-button.active,
+.voice-action-button:hover {
+    background: rgba(25, 179, 148, 0.24);
+    color: var(--primary-light);
+}
+
+.voice-action-button.end-call {
+    background: var(--dnd-indicator);
+    color: #26100c;
+}
+
+@media (max-width: 768px) {
+    .channels-sidebar {
+        background-color: rgba(13, 28, 24, 0.94);
+    }
+
+    .message-content .message-text,
+    .message-content .message-reply,
+    .message-content .message-reply strong,
+    .message-content .message-reply span,
+    .message-content .message-file-info,
+    .message-content .message-file-info strong,
+    .message-content .message-file-info small,
+    .message-content .message-audio-body,
+    .message-content .message-audio-body span,
+    .message-content .video-note-label {
+        color: var(--text-primary);
     }
 }
 
