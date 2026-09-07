@@ -5239,6 +5239,12 @@ body {
 }
 
 @media (max-width: 768px) {
+    body:has(#auth-screen:not(.hidden)) .mobile-bottom-dock {
+        display: none !important;
+    }
+}
+
+@media (max-width: 768px) {
     .auth-container:not(.hidden) ~ .mobile-bottom-dock {
         display: none;
     }
