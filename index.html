@@ -121,6 +121,12 @@
 
     <!-- Основное приложение -->
     <div id="app-screen" class="app-container hidden">
+        <header class="app-topbar">
+            <div class="topbar-brand"><span class="topbar-brand-mark"><i class="fas fa-bolt"></i></span><strong>Pulscord</strong><small>WORKSPACE</small></div>
+            <div class="topbar-breadcrumb"><span>Рабочее пространство</span><i class="fas fa-chevron-right"></i><strong>Мои сообщения</strong></div>
+            <label class="topbar-search"><i class="fas fa-search"></i><input type="search" placeholder="Поиск по Pulscord"><kbd>⌘ K</kbd></label>
+            <div class="topbar-actions"><button type="button" title="Помощь"><i class="fas fa-circle-question"></i></button><button type="button" title="Уведомления"><i class="fas fa-bell"></i><b>3</b></button><button type="button" title="Открыть профиль"><span class="topbar-avatar" id="topbar-user-avatar">П</span></button></div>
+        </header>
         <!-- Боковая панель серверов -->
         <div class="servers-sidebar">
             <div class="app-rail-brand" aria-label="Pulscord"><i class="fas fa-bolt"></i></div>
@@ -147,6 +153,11 @@
                 <div class="search-box">
                     <i class="fas fa-search"></i>
                     <input type="text" placeholder="Найти или начать разговор...">
+                </div>
+
+                <div class="sidebar-switcher" role="tablist" aria-label="Разделы сообщений">
+                    <button class="active" type="button" data-sidebar-view="messages"><i class="fas fa-inbox"></i> Входящие <b>3</b></button>
+                    <button type="button" data-sidebar-view="favorites"><i class="fas fa-star"></i> Избранное</button>
                 </div>
 
                 <button class="archive-chat-item" id="archive-chat-item" type="button">
@@ -217,9 +228,11 @@
                     <button class="mobile-menu-button" type="button" title="Открыть меню"><i class="fas fa-bars"></i></button>
                     <div class="header-left">
                         <i class="fas fa-hashtag chat-icon" id="channel-avatar"></i>
-                        <h1 id="channel-name">общее</h1>
+                        <div><h1 id="channel-name">общее</h1>
                         <p id="channel-desc">Основной канал</p>
+                        </div>
                     </div>
+                    <div class="chat-presence"><span></span> Безопасное соединение</div>
                     <div class="header-right">
                         <button title="Поиск"><i class="fas fa-search"></i></button>
                         <button title="Уведомления"><i class="fas fa-bell"></i></button>
