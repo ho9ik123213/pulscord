@@ -143,6 +143,7 @@ function renderPhoneContacts() {
 // ===== Инициализация =====
 document.addEventListener('DOMContentLoaded', () => {
     setupPulseLoadingScreen();
+    setupRegistrationScreen();
     setupLandingEvents();
     setupAuthEvents();
     setupAppEvents();
@@ -155,6 +156,16 @@ document.addEventListener('DOMContentLoaded', () => {
     renderPhoneContacts();
     renderCallHistory();
 });
+
+function setupRegistrationScreen() {
+    const registerScreen = document.getElementById('register-screen');
+    const authScreen = document.getElementById('auth-screen');
+    document.querySelector('.auth-open-login')?.addEventListener('click', () => {
+        registerScreen?.classList.add('hidden');
+        authScreen?.classList.remove('hidden');
+        document.querySelector('#auth-screen [data-tab="login"]')?.click();
+    });
+}
 
 function setupPulseLoadingScreen() {
     const loadingScreen = document.getElementById('pulse-loading-screen');
@@ -297,6 +308,7 @@ async function restoreSession() {
 function showApp() {
     document.getElementById('pulse-loading-screen')?.classList.add('hidden');
     document.getElementById('landing-screen')?.classList.add('hidden');
+    document.getElementById('register-screen')?.classList.add('hidden');
     document.getElementById('auth-screen').classList.add('hidden');
     document.getElementById('app-screen').classList.remove('hidden');
     updateCurrentUserUI();
