@@ -5750,6 +5750,118 @@ body > .app-container:not(#app-screen) {
     }
 }
 
+@media (min-width: 801px) {
+    html,
+    body {
+        background: #061020;
+    }
+
+    body {
+        background-image: linear-gradient(125deg, rgba(2, 8, 20, 0.62), rgba(8, 23, 51, 0.4)), url('https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=2200&q=82');
+        background-position: center;
+        background-size: cover;
+        background-attachment: fixed;
+    }
+
+    #app-screen.app-container {
+        position: fixed;
+        inset: 0;
+        display: flex !important;
+        width: 100vw;
+        height: 100vh;
+        min-width: 1040px;
+        min-height: 640px;
+        padding: 46px 24px 54px !important;
+        gap: 0;
+        background: linear-gradient(120deg, rgba(3, 10, 23, 0.38), rgba(7, 20, 42, 0.18));
+    }
+
+    #app-screen.app-container::after {
+        position: absolute;
+        z-index: 0;
+        inset: 0;
+        content: '';
+        background: radial-gradient(ellipse at 50% 110%, rgba(75, 119, 236, 0.24), transparent 46%);
+        pointer-events: none;
+    }
+
+    #app-screen > .servers-sidebar,
+    #app-screen > .main-container,
+    #app-screen > .user-sidebar {
+        height: 100%;
+    }
+
+    #app-screen > .servers-sidebar {
+        width: 190px !important;
+        min-width: 190px !important;
+        flex-basis: 190px !important;
+        padding: 16px 12px;
+        border: 1px solid rgba(177, 206, 255, 0.22);
+        border-radius: 20px 0 0 20px;
+        background: rgba(10, 23, 45, 0.7);
+        box-shadow: 0 20px 70px rgba(0, 0, 0, 0.34), inset 0 1px rgba(255, 255, 255, 0.13);
+    }
+
+    #app-screen > .main-container {
+        height: 100% !important;
+        min-width: 0 !important;
+        padding: 0 !important;
+        background: transparent;
+    }
+
+    #app-screen .channels-sidebar {
+        width: 278px !important;
+        min-width: 278px !important;
+        flex-basis: 278px !important;
+        border: 1px solid rgba(177, 206, 255, 0.22);
+        border-right: 0;
+        border-radius: 0;
+        background: rgba(14, 29, 54, 0.72);
+        box-shadow: inset 0 1px rgba(255, 255, 255, 0.11);
+    }
+
+    #app-screen .chat-container {
+        min-width: 390px !important;
+        border: 1px solid rgba(177, 206, 255, 0.22);
+        border-radius: 0;
+        background: rgba(7, 19, 43, 0.72);
+    }
+
+    #app-screen > .user-sidebar {
+        width: 246px !important;
+        min-width: 246px !important;
+        flex-basis: 246px !important;
+        border: 1px solid rgba(177, 206, 255, 0.22);
+        border-left: 0;
+        border-radius: 0 20px 20px 0;
+        background: rgba(14, 29, 54, 0.72);
+    }
+
+    #app-screen .app-rail-brand {
+        margin-bottom: 17px;
+    }
+
+    #app-screen .server-icon,
+    #app-screen .rail-nav-item {
+        height: 42px;
+        flex-basis: 42px;
+    }
+
+    #app-screen .server-header,
+    #app-screen .chat-header,
+    #app-screen .details-heading {
+        min-height: 67px;
+    }
+
+    #app-screen .messages-area {
+        background: linear-gradient(135deg, rgba(8, 23, 49, 0.34), rgba(25, 50, 97, 0.14)), radial-gradient(circle at 70% 20%, rgba(86, 99, 227, 0.23), transparent 38%);
+    }
+
+    #app-screen .message-input-area {
+        background: rgba(5, 15, 33, 0.24);
+    }
+}
+
 .app-container > .servers-sidebar {
     display: flex;
     width: 86px;
