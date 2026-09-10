@@ -16,6 +16,21 @@
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 </head>
 <body>
+    <section class="pulse-loading-screen" id="pulse-loading-screen" aria-label="Загрузка Pulscord">
+        <div class="loading-orbit loading-orbit-left"></div>
+        <div class="loading-orbit loading-orbit-right"></div>
+        <div class="loading-badge loading-badge-top"><i class="fas fa-lock"></i><span>Твои данные<br>в безопасности</span></div>
+        <div class="loading-badge loading-badge-left"><i class="fas fa-paper-plane"></i><span>Общайся<br>с близкими</span></div>
+        <div class="pulse-loading-center">
+            <div class="pulse-loading-logo"><i class="fas fa-wave-square"></i></div>
+            <strong>Pulse</strong>
+            <span>Ближе, чем кажется</span>
+            <div class="pulse-loading-progress"><span></span></div>
+            <small id="pulse-loading-status">Подготавливаем пространство</small>
+        </div>
+        <div class="loading-badge loading-badge-bottom"><i class="fas fa-bolt"></i><span>Быстро<br>и удобно</span></div>
+    </section>
+
     <section class="landing-screen hidden" id="landing-screen">
         <header class="landing-nav">
             <a class="landing-brand" href="#landing-screen" aria-label="Pulse">

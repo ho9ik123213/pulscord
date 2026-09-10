@@ -142,6 +142,7 @@ function renderPhoneContacts() {
 
 // ===== Инициализация =====
 document.addEventListener('DOMContentLoaded', () => {
+    setupPulseLoadingScreen();
     setupLandingEvents();
     setupAuthEvents();
     setupAppEvents();
@@ -154,6 +155,23 @@ document.addEventListener('DOMContentLoaded', () => {
     renderPhoneContacts();
     renderCallHistory();
 });
+
+function setupPulseLoadingScreen() {
+    const loadingScreen = document.getElementById('pulse-loading-screen');
+    if (!loadingScreen) return;
+    const status = document.getElementById('pulse-loading-status');
+    const messages = ['Подготавливаем пространство', 'Проверяем соединение', 'Почти готово'];
+    let messageIndex = 0;
+    const messageTimer = setInterval(() => {
+        messageIndex += 1;
+        if (messageIndex < messages.length && status) status.textContent = messages[messageIndex];
+    }, 420);
+    window.pulseLoadingTimer = setTimeout(() => {
+        clearInterval(messageTimer);
+        loadingScreen.classList.add('is-ready');
+        setTimeout(() => loadingScreen.classList.add('hidden'), 500);
+    }, 1500);
+}
 
 function setupLandingEvents() {
     const landing = document.getElementById('landing-screen');
@@ -277,6 +295,7 @@ async function restoreSession() {
 }
 
 function showApp() {
+    document.getElementById('pulse-loading-screen')?.classList.add('hidden');
     document.getElementById('landing-screen')?.classList.add('hidden');
     document.getElementById('auth-screen').classList.add('hidden');
     document.getElementById('app-screen').classList.remove('hidden');
