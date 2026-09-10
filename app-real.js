@@ -142,6 +142,7 @@ function renderPhoneContacts() {
 
 // ===== Инициализация =====
 document.addEventListener('DOMContentLoaded', () => {
+    setupLandingEvents();
     setupAuthEvents();
     setupAppEvents();
     loadChannels();
@@ -153,6 +154,20 @@ document.addEventListener('DOMContentLoaded', () => {
     renderPhoneContacts();
     renderCallHistory();
 });
+
+function setupLandingEvents() {
+    const landing = document.getElementById('landing-screen');
+    const auth = document.getElementById('auth-screen');
+    const openAuth = tab => {
+        landing?.classList.add('hidden');
+        auth?.classList.remove('hidden');
+        document.querySelector(`[data-tab="${tab}"]`)?.click();
+    };
+    document.getElementById('landing-start-btn')?.addEventListener('click', () => openAuth('login'));
+    document.getElementById('landing-login-btn')?.addEventListener('click', () => openAuth('login'));
+    document.getElementById('landing-register-btn')?.addEventListener('click', () => openAuth('register'));
+    if (window.Capacitor?.isNativePlatform?.()) openAuth('login');
+}
 
 // ===== АУТЕНТИФИКАЦИЯ =====
 function setupAuthEvents() {
@@ -262,6 +277,7 @@ async function restoreSession() {
 }
 
 function showApp() {
+    document.getElementById('landing-screen')?.classList.add('hidden');
     document.getElementById('auth-screen').classList.add('hidden');
     document.getElementById('app-screen').classList.remove('hidden');
     updateCurrentUserUI();

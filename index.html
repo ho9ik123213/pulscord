@@ -16,8 +16,60 @@
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 </head>
 <body>
+    <section class="landing-screen" id="landing-screen">
+        <header class="landing-nav">
+            <a class="landing-brand" href="#landing-screen" aria-label="Pulse">
+                <span class="landing-brand-mark"><i class="fas fa-bolt"></i></span>
+                <strong>Pulse</strong>
+            </a>
+            <nav class="landing-links" aria-label="Навигация">
+                <a class="active" href="#landing-screen">Главная</a>
+                <a href="#landing-features">Возможности</a>
+                <a href="#landing-download">Скачать</a>
+                <a href="#landing-about">О нас</a>
+            </nav>
+            <div class="landing-actions">
+                <button class="landing-login-btn" id="landing-login-btn" type="button">Войти</button>
+                <button class="landing-register-btn" id="landing-register-btn" type="button">Регистрация</button>
+            </div>
+        </header>
+
+        <main class="landing-main">
+            <section class="landing-hero" id="landing-about">
+                <div class="landing-hero-copy">
+                    <div class="landing-online"><span></span> Онлайн: 125 428</div>
+                    <h1>Pulse — мессенджер<br><strong>нового поколения</strong></h1>
+                    <p>Общайся с друзьями, создавай сервера, играй, используй голосовые чаты и многое другое. Всё, что ты любишь — в одном приложении.</p>
+                    <div class="landing-hero-actions">
+                        <button class="landing-primary-btn" id="landing-start-btn" type="button"><i class="fas fa-paper-plane"></i> Начать сейчас</button>
+                        <a class="landing-secondary-btn" id="landing-download" href="#landing-features"><i class="fas fa-download"></i> Скачать приложение</a>
+                    </div>
+                    <div class="landing-platforms"><span><i class="fab fa-apple"></i> iOS</span><span><i class="fab fa-android"></i> Android</span><span><i class="fas fa-globe"></i> Web</span></div>
+                </div>
+                <div class="landing-visual" aria-label="Предпросмотр Pulse">
+                    <div class="landing-glow"></div>
+                    <div class="landing-window">
+                        <div class="landing-window-top"><strong><i class="fas fa-bolt"></i> Pulse</strong><span><i class="fas fa-minus"></i><i class="fas fa-expand"></i><i class="fas fa-xmark"></i></span></div>
+                        <div class="landing-window-body">
+                            <aside><span class="landing-side-active"><i class="fas fa-house"></i> Главная</span><span><i class="fas fa-message"></i> Сообщения <b>3</b></span><span><i class="fas fa-user-group"></i> Друзья</span><span><i class="fas fa-server"></i> Серверы</span><span><i class="fas fa-microphone"></i> Голоса</span><span><i class="fas fa-user"></i> Профиль</span></aside>
+                            <div class="landing-preview-list"><div class="landing-preview-search"><i class="fas fa-search"></i> Поиск</div><div class="landing-preview-contact active"><i>М</i><span><b>Мой друг</b><small>Привет! Как дела?</small></span><time>14:24</time></div><div class="landing-preview-contact"><i>🎮</i><span><b>Brawl Stars</b><small>Игорь: Заходи в сеть</small></span><time>14:12</time></div><div class="landing-preview-contact"><i>Ч</i><span><b>Чатик</b><small>Сегодня в 14:32</small></span><time>14:32</time></div><div class="landing-preview-contact"><i>F</i><span><b>FC МЕRAB</b><small>Написал: всем</small></span><time>12:20</time></div><div class="landing-preview-contact"><i>✨</i><span><b>Новый сервер</b><small>Приглашение</small></span><time>11:20</time></div></div>
+                            <div class="landing-preview-chat"><div class="landing-chat-head"><i>М</i><span><b>Мой друг</b><small>онлайн</small></span><div><i class="fas fa-phone"></i><i class="fas fa-video"></i><i class="fas fa-ellipsis"></i></div></div><div class="landing-bubbles"><span class="incoming">Привет! Как дела? 👋</span><span class="outgoing">Всё отлично! А как ты?</span><span class="incoming">Тоже хорошо! Давай вечером поиграем?</span><span class="outgoing">Давай! В 8? ✨</span></div><div class="landing-chat-input">Написать сообщение... <i class="fas fa-paper-plane"></i></div></div>
+                        </div>
+                    </div>
+                    <div class="landing-phone"><div class="landing-phone-notch"></div><strong><i class="fas fa-bolt"></i> Pulse</strong><div class="landing-phone-search"><i class="fas fa-search"></i> Поиск</div><div class="landing-phone-item"><i>М</i><span>Мой друг<small>Привет! Как дела?</small></span><time>14:24</time></div><div class="landing-phone-item"><i>🎮</i><span>Brawl Stars<small>Игорь: Заходи в сеть</small></span><time>14:12</time></div><div class="landing-phone-item"><i>Ч</i><span>Чатик<small>Сегодня в 14:32</small></span><time>14:32</time></div><div class="landing-phone-item"><i>F</i><span>FC МЕRAB<small>Написал: всем</small></span><time>12:20</time></div><div class="landing-phone-nav"><i class="fas fa-house"></i><i class="fas fa-server"></i><i class="fas fa-user-group"></i><i class="fas fa-user"></i></div></div>
+                </div>
+            </section>
+
+            <section class="landing-features" id="landing-features">
+                <h2>Всё, что нужно для общения</h2><p>Современные технологии, крутой дизайн и максимум возможностей.</p>
+                <div class="landing-feature-grid"><article><i class="fas fa-message"></i><h3>Чаты и друзья</h3><p>Личные переписки, друзья, статусы, онлайн и офлайн.</p></article><article><i class="fas fa-users"></i><h3>Серверы и каналы</h3><p>Создавай свои серверы, приглашай друзей, настраивай роли и права.</p></article><article><i class="fas fa-microphone"></i><h3>Голосовые чаты</h3><p>Общайся голосом, играй с друзьями, не выходя из приложения.</p></article><article><i class="fas fa-gamepad"></i><h3>Игры и развлечения</h3><p>Мини-игры, рейтинги, достижения и многое другое.</p></article><article><i class="fas fa-shield-halved"></i><h3>Безопасность</h3><p>Надёжная защита данных, AI-модерация и защита от спама.</p></article></div>
+            </section>
+        </main>
+        <footer class="landing-footer"><span>⚡</span> Pulse — больше, чем просто мессенджер.</footer>
+    </section>
+
     <!-- Экран входа/регистрации -->
-    <div id="auth-screen" class="auth-container active">
+    <div id="auth-screen" class="auth-container hidden">
         <div class="auth-card">
             <div class="auth-header">
                 <h1 class="brand-title"><img src="pulscord-logo.svg" alt="Pulscord">Pulscord</h1>
