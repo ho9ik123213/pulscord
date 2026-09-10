@@ -85,12 +85,20 @@
 
     <!-- Экран входа/регистрации -->
     <div id="auth-screen" class="auth-container active">
+        <nav class="auth-top-nav"><span>Общайся</span><span>Звони</span><span>Будь ближе</span></nav>
+        <div class="auth-scene">
+            <div class="auth-brand-panel">
+                <div class="auth-brand-logo"><i class="fas fa-wave-square"></i></div>
+                <strong>Pulse</strong>
+                <span>Ближе, чем кажется</span>
+                <small>Pulse · Твой мессенджер нового поколения</small>
+            </div>
         <div class="auth-card">
             <div class="auth-card-orbit auth-card-orbit-one"></div>
             <div class="auth-card-orbit auth-card-orbit-two"></div>
             <div class="auth-header">
-                <h1 class="brand-title"><img src="pulscord-logo.svg" alt="Pulscord">Pulscord</h1>
-                <p>Твоя команда. Твои люди. Твой Pulse.</p>
+                <h1 class="brand-title">Регистрация</h1>
+                <p>Создайте свой аккаунт в Pulse и начните<br>общаться уже сейчас</p>
             </div>
 
             <div class="auth-tabs">
@@ -118,23 +126,32 @@
             <div id="register-tab" class="auth-tab active">
                 <form id="register-form">
                     <div class="form-group">
-                        <label>Имя пользователя:</label>
-                        <input type="text" id="register-username" placeholder="Выберите имя..." required>
+                        <label class="sr-only" for="register-username">Имя пользователя</label>
+                        <input type="text" id="register-username" placeholder="Имя пользователя" required>
                     </div>
                     <div class="form-group">
-                        <label>Пароль:</label>
-                        <input type="password" id="register-password" placeholder="Придумайте пароль..." required>
+                        <label class="sr-only" for="register-email">Email</label>
+                        <input type="email" id="register-email" placeholder="Email">
                     </div>
                     <div class="form-group">
-                        <label>Подтвердите пароль:</label>
-                        <input type="password" id="register-password2" placeholder="Повторите пароль..." required>
+                        <label class="sr-only" for="register-password">Пароль</label>
+                        <input type="password" id="register-password" placeholder="Пароль" required>
                     </div>
-                    <button type="submit" class="btn-primary">Зарегистрироваться</button>
+                    <div class="form-group">
+                        <label class="sr-only" for="register-password2">Повторите пароль</label>
+                        <input type="password" id="register-password2" placeholder="Повторите пароль" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Зарегистрироваться <i class="fas fa-arrow-right"></i></button>
                     <div id="register-error" class="error-message"></div>
                 </form>
+                <div class="auth-divider"><span>или</span></div>
+                <button class="auth-google-btn" type="button"><b>G</b> Продолжить с Google</button>
+                <p class="auth-switch-copy">Уже есть аккаунт? <button class="tab-btn" data-tab="login" type="button">Войти</button></p>
             </div>
             <div class="auth-trust"><span><i class="fas fa-shield-halved"></i> Защищённое соединение</span><span><i class="fas fa-bolt"></i> Быстрый старт</span></div>
         </div>
+        </div>
+        <div class="auth-footer">Pulse <span>•</span> Твой мессенджер нового поколения</div>
     </div>
 
     <!-- Основное приложение -->
