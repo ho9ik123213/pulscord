@@ -4142,7 +4142,6 @@ body > .app-container:not(#app-screen) {
 
 .server-header h2 {
     font-size: 18px;
-    letter-spacing: -0.1px;
 }
 
 .search-box {
@@ -4353,6 +4352,398 @@ body > .app-container:not(#app-screen) {
 @media (max-width: 768px) {
     .channels-sidebar {
         width: min(340px, 88vw);
+    }
+}
+
+:root {
+    --primary-color: #007aff;
+    --primary-hover: #006ee6;
+    --primary-light: #5ac8fa;
+    --primary-dark: #005ec4;
+    --primary-gradient: linear-gradient(135deg, #007aff, #5ac8fa);
+    --text-primary: #1d1d1f;
+    --text-secondary: #515154;
+    --text-muted: #86868b;
+    --text-link: #007aff;
+    --bg-primary: #f5f5f7;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #e8e8ed;
+    --bg-hover: #e5e5ea;
+    --bg-active: #dbeeff;
+    --glass-bg: rgba(255, 255, 255, 0.74);
+    --glass-bg-strong: rgba(255, 255, 255, 0.88);
+    --glass-bg-light: rgba(255, 255, 255, 0.58);
+    --glass-border: rgba(60, 60, 67, 0.16);
+    --glass-border-light: rgba(60, 60, 67, 0.1);
+    --glass-shadow: 0 20px 60px rgba(31, 35, 41, 0.1);
+    --glass-iphone: 0 1px 2px rgba(0, 0, 0, 0.04), inset 0 1px rgba(255, 255, 255, 0.8);
+    --glass-blur: blur(24px);
+    --glass-saturate: saturate(180%);
+    --radius-xs: 6px;
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 18px;
+    --radius-xl: 24px;
+}
+
+html,
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+    color: var(--text-primary);
+    background: #f5f5f7;
+    letter-spacing: 0;
+}
+
+body {
+    background: radial-gradient(circle at 10% 0%, #ffffff 0, transparent 34%), radial-gradient(circle at 92% 95%, #dcecff 0, transparent 30%), #f5f5f7;
+}
+
+button,
+input,
+textarea,
+select {
+    font-family: inherit;
+}
+
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(60, 60, 67, 0.22);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(60, 60, 67, 0.34);
+}
+
+.auth-container {
+    background: radial-gradient(circle at 50% -10%, #ffffff 0, transparent 42%), linear-gradient(145deg, #eef5ff, #f5f5f7 48%, #eaf0f8);
+}
+
+.auth-container::before,
+.auth-card::before,
+.auth-card::after,
+.channels-sidebar::after,
+.chat-header::after {
+    display: none;
+}
+
+.auth-card {
+    width: min(420px, calc(100% - 32px));
+    padding: 36px;
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 26px;
+    background: rgba(255, 255, 255, 0.76);
+    box-shadow: 0 28px 80px rgba(49, 72, 102, 0.16), 0 2px 8px rgba(49, 72, 102, 0.08);
+    backdrop-filter: blur(34px) saturate(140%);
+    -webkit-backdrop-filter: blur(34px) saturate(140%);
+}
+
+.brand-title {
+    color: #1d1d1f;
+    font-size: 32px;
+}
+
+.auth-header p {
+    color: #86868b;
+}
+
+.auth-tabs {
+    padding: 4px;
+    border: 1px solid #e5e5ea;
+    border-radius: 10px;
+    background: #f2f2f7;
+}
+
+.tab-btn {
+    color: #6e6e73;
+}
+
+.tab-btn.active {
+    color: #1d1d1f;
+    background: #ffffff;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.08);
+}
+
+.form-group label,
+.auth-card .form-group label {
+    color: #515154;
+}
+
+.form-group input,
+.modal-input,
+.modal-textarea,
+.modal-select {
+    border: 1px solid #d2d2d7;
+    border-radius: 11px;
+    background: rgba(255, 255, 255, 0.88);
+    color: #1d1d1f;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.form-group input:focus,
+.modal-input:focus,
+.modal-textarea:focus,
+.modal-select:focus {
+    border-color: #007aff;
+    box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.14);
+}
+
+.btn-primary,
+.btn-secondary {
+    border-radius: 12px;
+}
+
+.btn-primary {
+    background: #007aff;
+    box-shadow: 0 8px 18px rgba(0, 122, 255, 0.22);
+}
+
+.btn-primary:hover {
+    background: #006ee6;
+    transform: translateY(-1px);
+}
+
+.app-container {
+    background: transparent;
+}
+
+.servers-sidebar {
+    display: none;
+}
+
+.main-container {
+    width: 100%;
+    background: transparent;
+}
+
+.channels-sidebar {
+    width: 348px;
+    background: rgba(255, 255, 255, 0.72);
+    border-right: 1px solid rgba(60, 60, 67, 0.14);
+    box-shadow: 10px 0 34px rgba(31, 35, 41, 0.05);
+    backdrop-filter: blur(28px) saturate(150%);
+    -webkit-backdrop-filter: blur(28px) saturate(150%);
+}
+
+.server-header,
+.chat-header {
+    background: rgba(255, 255, 255, 0.68);
+    border-color: rgba(60, 60, 67, 0.12);
+    box-shadow: 0 1px rgba(255, 255, 255, 0.8);
+}
+
+.server-header {
+    min-height: 64px;
+    padding: 14px 20px;
+}
+
+.server-header h2,
+.header-left h1 {
+    color: #1d1d1f;
+}
+
+.menu-button,
+.header-right button,
+.mobile-menu-button {
+    color: #6e6e73;
+}
+
+.menu-button:hover,
+.header-right button:hover,
+.mobile-menu-button:hover {
+    color: #007aff;
+    background: #eaf3ff;
+}
+
+.search-box {
+    min-height: 38px;
+    border: 1px solid rgba(60, 60, 67, 0.12);
+    border-radius: 12px;
+    background: rgba(118, 118, 128, 0.12);
+    box-shadow: none;
+}
+
+.search-box:focus-within {
+    border-color: rgba(0, 122, 255, 0.52);
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
+}
+
+.search-box input,
+.search-box i {
+    color: #515154;
+}
+
+.search-box input::placeholder {
+    color: #8e8e93;
+}
+
+.archive-chat-item,
+.contact-item,
+.channel-item {
+    border-color: rgba(60, 60, 67, 0.1);
+    color: #1d1d1f;
+}
+
+.archive-chat-item:hover,
+.contact-item:hover,
+.channel-item:hover {
+    background: rgba(0, 122, 255, 0.07);
+}
+
+.contact-item.active,
+.channel-item.active {
+    background: rgba(0, 122, 255, 0.12);
+    box-shadow: inset 3px 0 #007aff;
+}
+
+.archive-chat-avatar,
+.chat-list-avatar {
+    background: linear-gradient(145deg, #8bd3ff, #007aff);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.55), 0 3px 10px rgba(0, 122, 255, 0.18);
+}
+
+.archive-chat-copy strong,
+.contact-copy strong {
+    color: #1d1d1f;
+}
+
+.archive-chat-copy small,
+.contact-copy small,
+.contact-meta,
+.section-header,
+.calls-eyebrow,
+.sidebar-empty {
+    color: #86868b;
+}
+
+.channels-section .section-header button {
+    color: #6e6e73;
+}
+
+.left-profile-card {
+    border-top: 1px solid rgba(60, 60, 67, 0.12);
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.chat-container {
+    background: #f5f5f7;
+}
+
+.chat-header {
+    min-height: 68px;
+    border-bottom: 1px solid rgba(60, 60, 67, 0.12);
+}
+
+.header-left p {
+    color: #86868b;
+}
+
+.messages-area {
+    background: radial-gradient(circle at 70% 15%, rgba(255, 255, 255, 0.9), transparent 35%), #f5f5f7;
+}
+
+.chat-selection-placeholder {
+    color: #86868b;
+}
+
+.chat-selection-placeholder p {
+    background: rgba(118, 118, 128, 0.14);
+    color: #6e6e73;
+    font-weight: 500;
+}
+
+.chat-selection-placeholder small {
+    color: #86868b;
+}
+
+.message-content {
+    border: 1px solid rgba(60, 60, 67, 0.1);
+    background: rgba(255, 255, 255, 0.86);
+    box-shadow: 0 4px 14px rgba(31, 35, 41, 0.05);
+}
+
+.own-message .message-content {
+    background: #007aff;
+    color: white;
+}
+
+.input-wrapper {
+    border: 1px solid rgba(60, 60, 67, 0.14);
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: 0 8px 28px rgba(31, 35, 41, 0.08);
+}
+
+.message-input {
+    color: #1d1d1f;
+}
+
+.input-button {
+    color: #007aff;
+}
+
+.mobile-bottom-dock {
+    border: 1px solid rgba(60, 60, 67, 0.14);
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: 0 12px 32px rgba(31, 35, 41, 0.14);
+    backdrop-filter: blur(24px) saturate(150%);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+}
+
+.mobile-bottom-dock button {
+    color: #86868b;
+}
+
+.mobile-bottom-dock button.active {
+    border-color: transparent;
+    background: #eaf3ff;
+    color: #007aff;
+    box-shadow: none;
+}
+
+.app-modal {
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    background: rgba(255, 255, 255, 0.86);
+    box-shadow: 0 24px 80px rgba(31, 35, 41, 0.2);
+    backdrop-filter: blur(30px) saturate(140%);
+    -webkit-backdrop-filter: blur(30px) saturate(140%);
+}
+
+.app-modal h2,
+.app-modal h3,
+.app-modal label {
+    color: #1d1d1f;
+}
+
+.app-modal p,
+.app-modal small {
+    color: #6e6e73;
+}
+
+.voice-call-panel,
+.incoming-call-panel {
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.9);
+    color: #1d1d1f;
+    box-shadow: 0 24px 80px rgba(31, 35, 41, 0.22);
+    backdrop-filter: blur(30px) saturate(140%);
+    -webkit-backdrop-filter: blur(30px) saturate(140%);
+}
+
+@media (max-width: 768px) {
+    .channels-sidebar {
+        width: min(348px, 92vw);
+        background: rgba(255, 255, 255, 0.92);
+    }
+
+    .chat-header {
+        min-height: 60px;
+    }
+
+    .auth-card {
+        padding: 28px 22px;
     }
 }
 
