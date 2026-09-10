@@ -71,8 +71,8 @@
     <div id="app-screen" class="app-container hidden">
         <!-- Боковая панель серверов -->
         <div class="servers-sidebar">
-            <div class="server-icon active" data-server="home" title="Главная">
-                <i class="fas fa-home"></i>
+            <div class="server-icon active" data-server="home" title="Чаты">
+                <i class="fas fa-message"></i>
             </div>
             <div class="server-channels-list" id="server-channels-list"></div>
             <button class="server-create-button" id="server-create-channel-btn" title="Создать канал" type="button">
@@ -80,12 +80,12 @@
             </button>
         </div>
 
-        <!-- Главная контент область -->
+        <!-- Основная область приложения -->
         <div class="main-container">
             <!-- Боковая панель с каналами -->
             <div class="channels-sidebar">
                 <div class="server-header">
-                    <h2 id="server-name">Главная</h2>
+                    <h2 id="server-name">Чаты</h2>
                     <button class="menu-button"><i class="fas fa-chevron-down"></i></button>
                 </div>
 
@@ -96,7 +96,7 @@
 
                 <div class="channels-section">
                     <div class="section-header">
-                        <span>ГРУППЫ</span>
+                        <span>КАНАЛЫ И ГРУППЫ</span>
                         <button id="add-group-btn" title="Создать группу"><i class="fas fa-user-group"></i></button>
                     </div>
                     <div class="channels-list" id="groups-list"></div>
@@ -105,10 +105,30 @@
                 <div class="channels-section">
                     <div class="section-header">
                         <span>ЧАТЫ (<span id="contacts-count">0</span>)</span>
-                        <span class="section-actions"><button id="create-bot-btn" title="Создать бота"><i class="fas fa-robot"></i></button><button id="add-contact-btn" title="Добавить контакт"><i class="fas fa-plus"></i></button></span>
+                        <span class="section-actions"><button id="create-bot-btn" title="Создать бота"><i class="fas fa-robot"></i></button><button id="import-phone-contacts-btn" title="Импортировать контакты телефона"><i class="fas fa-address-book"></i></button><button id="add-contact-btn" title="Добавить контакт"><i class="fas fa-plus"></i></button></span>
                     </div>
                     <div class="contacts-list" id="contacts-list">
                         <p style="padding: 8px; color: var(--text-muted); font-size: 12px;">Нет контактов</p>
+                    </div>
+                </div>
+
+                <div class="channels-section phone-contacts-section hidden" id="phone-contacts-section">
+                    <div class="section-header">
+                        <span>КОНТАКТЫ ТЕЛЕФОНА</span>
+                    </div>
+                    <div class="contacts-list" id="phone-contacts-list"></div>
+                </div>
+
+                <div class="calls-view hidden" id="calls-view">
+                    <div class="calls-view-header">
+                        <div>
+                            <span class="calls-eyebrow">ИСТОРИЯ</span>
+                            <h3>Звонки</h3>
+                        </div>
+                        <button id="clear-call-history-btn" type="button" title="Очистить историю"><i class="fas fa-trash-can"></i></button>
+                    </div>
+                    <div class="calls-list" id="calls-list">
+                        <p class="sidebar-empty">Звонков пока нет</p>
                     </div>
                 </div>
 

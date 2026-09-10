@@ -50,6 +50,8 @@ let appState = {
     screenSharing: false,
     remoteStreams: new Map(),
     incomingCall: null,
+    callHistory: JSON.parse(localStorage.getItem('pulscord_call_history') || '[]'),
+    phoneContacts: JSON.parse(localStorage.getItem('pulscord_phone_contacts') || '[]'),
     mediaRecorder: null,
     mediaChunks: [],
     mediaRecordingType: null,
@@ -59,6 +61,73 @@ let appState = {
     pendingFile: null,
     replyTo: null
 };
+
+function saveCallHistory() {
+    localStorage.setItem('pulscord_call_history', JSON.stringify(appState.callHistory.slice(0, 50)));
+}
+
+function recordCall(username, direction, video = false) {
+    if (!username) return;
+    appState.callHistory.unshift({ username, direction, video, timestamp: Date.now() });
+    saveCallHistory();
+    renderCallHistory();
+}
+
+function renderCallHistory() {
+    const list = document.getElementById('calls-list');
+    if (!list) return;
+    if (!appState.callHistory.length) {
+        list.innerHTML = '<p class="sidebar-empty">Звонков пока нет</p>';
+        return;
+    }
+    list.innerHTML = appState.callHistory.map(call => {
+        const icon = call.direction === 'missed' ? 'phone-slash' : call.direction === 'incoming' ? 'phone-arrow-down-left' : 'phone-arrow-up-right';
+        const label = call.direction === 'missed' ? 'Пропущенный звонок' : call.direction === 'incoming' ? 'Входящий звонок' : 'Исходящий звонок';
+        const date = new Date(call.timestamp).toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+        return `<button class="call-history-item ${call.direction === 'missed' ? 'missed' : ''}" type="button" data-call-user="${escapeHtml(call.username)}"><span class="call-history-avatar">${escapeHtml(call.username[0]?.toUpperCase() || '?')}</span><span class="call-history-copy"><strong>${escapeHtml(call.username)}</strong><small><i class="fas fa-${icon}"></i> ${label} · ${date}</small></span><i class="fas fa-phone call-history-action"></i></button>`;
+    }).join('');
+    list.querySelectorAll('[data-call-user]').forEach(item => item.addEventListener('click', () => {
+        openDirectMessage(item.dataset.callUser);
+    }));
+}
+
+function showCallsView() {
+    document.getElementById('calls-view')?.classList.remove('hidden');
+    document.querySelectorAll('.channels-sidebar > .channels-section, .channels-sidebar > .left-profile-card').forEach(element => element.classList.add('calls-hidden'));
+    renderCallHistory();
+}
+
+function showChatsView() {
+    document.getElementById('calls-view')?.classList.add('hidden');
+    document.querySelectorAll('.channels-sidebar > .channels-section, .channels-sidebar > .left-profile-card').forEach(element => element.classList.remove('calls-hidden'));
+}
+
+async function importPhoneContacts() {
+    if (!('contacts' in navigator) || typeof navigator.contacts.select !== 'function') {
+        showToast('Контакты телефона доступны в приложении или Chrome на Android');
+        return;
+    }
+    try {
+        const contacts = await navigator.contacts.select(['name', 'tel'], { multiple: true });
+        appState.phoneContacts = contacts.map(contact => ({
+            name: contact.name?.[0] || 'Без имени',
+            phone: contact.tel?.[0] || ''
+        })).filter(contact => contact.phone || contact.name);
+        localStorage.setItem('pulscord_phone_contacts', JSON.stringify(appState.phoneContacts));
+        renderPhoneContacts();
+        showToast(`Импортировано контактов: ${appState.phoneContacts.length}`);
+    } catch (error) {
+        if (error.name !== 'AbortError') showToast('Не удалось получить доступ к контактам');
+    }
+}
+
+function renderPhoneContacts() {
+    const section = document.getElementById('phone-contacts-section');
+    const list = document.getElementById('phone-contacts-list');
+    if (!section || !list) return;
+    section.classList.toggle('hidden', appState.phoneContacts.length === 0);
+    list.innerHTML = appState.phoneContacts.map(contact => `<div class="phone-contact-item"><span class="contact-avatar">${escapeHtml(contact.name[0]?.toUpperCase() || '?')}</span><span><strong>${escapeHtml(contact.name)}</strong><small>${escapeHtml(contact.phone || 'Номер не указан')}</small></span></div>`).join('');
+}
 
 // ===== Инициализация =====
 document.addEventListener('DOMContentLoaded', () => {
@@ -70,6 +139,8 @@ document.addEventListener('DOMContentLoaded', () => {
     updateTime();
     setInterval(updateTime, 1000);
     restoreSession();
+    renderPhoneContacts();
+    renderCallHistory();
 });
 
 // ===== АУТЕНТИФИКАЦИЯ =====
@@ -908,6 +979,12 @@ function setupAppEvents() {
     document.querySelector('.input-wrapper .fa-paper-plane').parentElement.addEventListener('click', sendMessage);
     document.getElementById('logout-btn').addEventListener('click', logout);
     document.getElementById('add-contact-btn').addEventListener('click', openAddContactDialog);
+    document.getElementById('import-phone-contacts-btn').addEventListener('click', importPhoneContacts);
+    document.getElementById('clear-call-history-btn').addEventListener('click', () => {
+        appState.callHistory = [];
+        saveCallHistory();
+        renderCallHistory();
+    });
     document.getElementById('block-user-btn').addEventListener('click', toggleBlockCurrentUser);
     document.getElementById('create-bot-btn').addEventListener('click', createBot);
     document.getElementById('add-bot-block-btn').addEventListener('click', () => addBotBlock('reply'));
@@ -958,12 +1035,18 @@ function setupMobileDock() {
             document.querySelectorAll('[data-mobile-action]').forEach(item => item.classList.remove('active'));
             button.classList.add('active');
             const action = button.dataset.mobileAction;
-            if (action === 'contacts') document.querySelector('.channels-sidebar')?.classList.add('active');
-            if (action === 'calls') {
-                if (appState.currentDMUser) startVoiceCall();
-                else showToast('Откройте личный чат для звонка');
+            if (action === 'contacts') {
+                showChatsView();
+                document.querySelector('.channels-sidebar')?.classList.add('active');
             }
-            if (action === 'chats') document.querySelector('.channels-sidebar')?.classList.remove('active');
+            if (action === 'calls') {
+                showCallsView();
+                document.querySelector('.channels-sidebar')?.classList.add('active');
+            }
+            if (action === 'chats') {
+                showChatsView();
+                document.querySelector('.channels-sidebar')?.classList.remove('active');
+            }
             if (action === 'settings') openProfileDialog();
             if (action === 'search') {
                 document.querySelector('.channels-sidebar')?.classList.add('active');
@@ -1729,6 +1812,7 @@ async function startCall(video, roomOverride = null) {
         showToast('Откройте личный чат, чтобы позвонить собеседнику');
         return;
     }
+    if (!roomOverride) recordCall(appState.currentDMUser, 'outgoing', video);
     try {
         appState.voiceStream = await requestCallMedia(video);
         appState.cameraTrack = appState.voiceStream.getVideoTracks()[0] || null;
@@ -1801,6 +1885,7 @@ async function acceptIncomingCall() {
     if (!call) return;
     document.getElementById('incoming-call-panel').classList.add('hidden');
     appState.incomingCall = null;
+    recordCall(call.username, 'incoming', call.video);
     await startCall(call.video, call.room);
 }
 
@@ -1808,6 +1893,7 @@ function declineIncomingCall() {
     const call = appState.incomingCall;
     if (!call) return;
     socket.emit('voice-reject', { target: call.socketId, username: appState.currentUser?.username });
+    recordCall(call.username, 'missed', call.video);
     appState.incomingCall = null;
     document.getElementById('incoming-call-panel').classList.add('hidden');
 }
