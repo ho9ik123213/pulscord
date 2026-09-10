@@ -6295,6 +6295,36 @@ body > .app-container:not(#app-screen) {
     }
 }
 
+/* Auth screens must be standalone; the app never shows through them. */
+.app-container.hidden,
+.auth-container.hidden,
+.landing-screen.hidden {
+    display: none !important;
+}
+
+.auth-container {
+    position: fixed;
+    z-index: 1800;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    min-height: 0;
+    opacity: 1;
+    visibility: visible;
+}
+
+#register-screen {
+    background-color: #061020;
+}
+
+#auth-screen {
+    background-color: #061020;
+}
+
+.pulse-loading-screen {
+    z-index: 3000;
+}
+
 .app-container > .servers-sidebar {
     display: flex;
     width: 86px;
