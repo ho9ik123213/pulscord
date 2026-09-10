@@ -94,7 +94,13 @@
                     <input type="text" placeholder="Найти или начать разговор...">
                 </div>
 
-                <div class="channels-section">
+                <button class="archive-chat-item" id="archive-chat-item" type="button">
+                    <span class="archive-chat-avatar"><i class="fas fa-box-archive"></i></span>
+                    <span class="archive-chat-copy"><strong>Архив</strong><small>Скрытые чаты</small></span>
+                    <span class="archive-chat-count hidden" id="archive-chat-count">0</span>
+                </button>
+
+                <div class="channels-section" id="groups-section">
                     <div class="section-header">
                         <span>КАНАЛЫ И ГРУППЫ</span>
                         <button id="add-group-btn" title="Создать группу"><i class="fas fa-user-group"></i></button>
@@ -104,7 +110,7 @@
 
                 <div class="channels-section">
                     <div class="section-header">
-                        <span>ЧАТЫ (<span id="contacts-count">0</span>)</span>
+                        <span>ЧАТЫ <span class="sidebar-count" id="contacts-count">0</span></span>
                         <span class="section-actions"><button id="create-bot-btn" title="Создать бота"><i class="fas fa-robot"></i></button><button id="import-phone-contacts-btn" title="Импортировать контакты телефона"><i class="fas fa-address-book"></i></button><button id="add-contact-btn" title="Добавить контакт"><i class="fas fa-plus"></i></button></span>
                     </div>
                     <div class="contacts-list" id="contacts-list">
@@ -186,8 +192,8 @@
                 <div class="messages-area" id="messages-area">
                     <div style="padding: 40px 20px; text-align: center; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
                         <i style="font-size: 48px; opacity: 0.3; margin-bottom: 16px;" class="fas fa-comments"></i>
-                        <p style="font-size: 16px;">Добро пожаловать в Pulscord!</p>
-                        <p style="font-size: 13px; margin-top: 8px;">Начните разговор. Напишите первое сообщение ниже.</p>
+                        <p style="font-size: 16px;">Выберите, кому хотели бы написать</p>
+                        <p style="font-size: 13px; margin-top: 8px;">Ваши чаты и каналы появятся здесь.</p>
                     </div>
                 </div>
 

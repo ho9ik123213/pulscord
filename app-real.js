@@ -102,6 +102,17 @@ function showChatsView() {
     document.querySelectorAll('.channels-sidebar > .channels-section, .channels-sidebar > .left-profile-card').forEach(element => element.classList.remove('calls-hidden'));
 }
 
+function showChatSelectionState() {
+    appState.currentChannel = null;
+    appState.currentDMUser = null;
+    document.querySelectorAll('.channel-item, .contact-item').forEach(item => item.classList.remove('active'));
+    document.getElementById('channel-name').textContent = 'Выберите чат';
+    document.getElementById('channel-desc').textContent = 'Ваши сообщения появятся здесь';
+    document.getElementById('channel-avatar').className = 'fas fa-comments chat-icon';
+    document.getElementById('messages-area').innerHTML = '<div class="chat-selection-placeholder"><i class="fas fa-comments"></i><p>Выберите, кому хотели бы написать</p><small>Ваши чаты и каналы появятся здесь.</small></div>';
+    updateMessageInputState();
+}
+
 async function importPhoneContacts() {
     if (!('contacts' in navigator) || typeof navigator.contacts.select !== 'function') {
         showToast('Контакты телефона доступны в приложении или Chrome на Android');
@@ -263,7 +274,7 @@ function showApp() {
     loadRequests();
     loadStories();
     loadChannels().then(() => {
-        if (!appState.currentDMUser && appState.currentChannel) loadMessages(appState.currentChannel);
+        showChatSelectionState();
     });
 }
 
@@ -457,6 +468,7 @@ async function loadChannels() {
 
         const serverChannelsList = document.getElementById('server-channels-list');
         const groupsList = document.getElementById('groups-list');
+        const groupsSection = document.getElementById('groups-section');
         serverChannelsList.innerHTML = '';
         groupsList.innerHTML = '';
 
@@ -481,6 +493,7 @@ async function loadChannels() {
             channelItem.addEventListener('click', () => switchChannel(id));
             serverChannelsList.appendChild(channelItem);
         }
+        groupsSection?.classList.toggle('hidden', groupsList.children.length === 0);
         updateContainerActions(appState.currentChannel);
     } catch (error) {
         console.error('Ошибка загрузки каналов:', error);
@@ -499,7 +512,7 @@ async function loadContacts() {
         document.getElementById('contacts-count').textContent = contacts.length;
 
         if (contacts.length === 0) {
-            contactsList.innerHTML = '<p style="padding: 8px; color: var(--text-muted); font-size: 12px;">Нет контактов. Добавьте первый!</p>';
+            contactsList.innerHTML = '<p class="sidebar-empty">Нет чатов. Добавьте контакт, чтобы начать переписку.</p>';
             return;
         }
 
@@ -508,25 +521,14 @@ async function loadContacts() {
         contacts.forEach(contact => {
             const div = document.createElement('div');
             div.className = 'contact-item';
-            div.style.cssText = `
-                padding: 8px 12px;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                border-radius: 4px;
-                cursor: pointer;
-                transition: background 0.2s;
-            `;
-            div.onmouseover = () => div.style.backgroundColor = 'rgba(255,255,255,0.1)';
-            div.onmouseout = () => div.style.backgroundColor = 'transparent';
-
+            const displayName = contact.botName || contact.username;
+            const isOnline = appState.onlineUsers.has(contact.username);
             div.innerHTML = `
-                <div class="contact-avatar" style="width: 24px; height: 24px; flex: 0 0 24px; border-radius: 50%; background: linear-gradient(135deg, #5865f2, #4752c4); display: flex; align-items: center; justify-content: center; overflow: hidden; color: white; font-size: 12px; font-weight: bold;"></div>
-                <span style="font-size: 13px; flex: 1; color: var(--text-primary);">${escapeHtml(contact.botName || contact.username)}${renderRoleBadge(contact)}${renderVerifiedBadge(contact)}${contact.premium ? ' <span class="premium-crown" title="Pulscord Premium">★</span>' : ''}</span>
-                <span class="contact-status-dot" title="${appState.onlineUsers.has(contact.username) ? 'В сети' : 'Не в сети'}" style="width: 8px; height: 8px; background: ${appState.onlineUsers.has(contact.username) ? '#43b581' : '#72767d'}; border-radius: 50%; display: inline-block;"></span>
-                <button class="remove-contact-btn" type="button" title="Удалить друга" aria-label="Удалить друга"><i class="fas fa-user-minus"></i></button>
+                <div class="contact-avatar chat-list-avatar"></div>
+                <span class="contact-copy"><strong>${escapeHtml(displayName)}${renderRoleBadge(contact)}${renderVerifiedBadge(contact)}${contact.premium ? ' <span class="premium-crown" title="Pulscord Premium">★</span>' : ''}</strong><small>${isOnline ? 'В сети' : 'Нажмите, чтобы открыть чат'}</small></span>
+                <span class="contact-meta"><time>${isOnline ? 'сейчас' : ''}</time><i class="fas fa-thumbtack"></i><button class="remove-contact-btn" type="button" title="Удалить контакт" aria-label="Удалить контакт"><i class="fas fa-user-minus"></i></button></span>
             `;
-            applyAvatarToElement(div.querySelector('.contact-avatar'), contact.avatar, contact.username[0]);
+            applyAvatarToElement(div.querySelector('.contact-avatar'), contact.avatar, displayName[0]);
 
             div.addEventListener('click', () => openDirectMessage(contact.username));
             div.querySelector('.remove-contact-btn').addEventListener('click', event => {
