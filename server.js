@@ -68,6 +68,10 @@ const dbDir = path.resolve(process.env.DATA_DIR || path.join(__dirname, 'data'))
 if (!fs.existsSync(dbDir)) {
     fs.mkdirSync(dbDir, { recursive: true });
 }
+const backupDir = path.join(dbDir, '.backups');
+if (!fs.existsSync(backupDir)) {
+    fs.mkdirSync(backupDir, { recursive: true });
+}
 
 // Функции работы с БД
 function loadJSON(filename) {
@@ -76,12 +80,21 @@ function loadJSON(filename) {
         const contents = fs.readFileSync(filepath, 'utf8').replace(/^\uFEFF/, '');
         return JSON.parse(contents);
     } catch (e) {
-        return null;
+        try {
+            const backup = fs.readFileSync(path.join(backupDir, filename), 'utf8').replace(/^\uFEFF/, '');
+            console.warn(`Восстановление ${filename} из резервной копии`);
+            return JSON.parse(backup);
+        } catch {
+            return null;
+        }
     }
 }
 
 function saveJSON(filename, data) {
     const filepath = path.join(dbDir, filename);
+    if (fs.existsSync(filepath)) {
+        fs.copyFileSync(filepath, path.join(backupDir, filename));
+    }
     fs.writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf8');
 }
 
@@ -243,16 +256,6 @@ function initDatabase() {
             'random': { name: 'случайное', description: 'Случайные темы', created: new Date() },
             'events': { name: 'события', description: 'События', created: new Date() }
         });
-    }
-    const channels = loadJSON('channels.json') || {};
-    const messages = loadJSON('messages.json') || {};
-    if (channels.general) {
-        delete channels.general;
-        saveJSON('channels.json', channels);
-    }
-    if (messages.general) {
-        delete messages.general;
-        saveJSON('messages.json', messages);
     }
     if (!loadJSON('contacts.json')) {
         saveJSON('contacts.json', {});
