@@ -369,6 +369,73 @@ function sendAuthResponse(res, username, user, statusCode = 200) {
     });
 }
 
+const googleOAuthStates = new Map();
+
+function getGoogleOAuthConfig(req) {
+    const clientId = process.env.GOOGLE_CLIENT_ID;
+    const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+    const redirectUri = process.env.GOOGLE_REDIRECT_URI || `${req.protocol}://${req.get('host')}/api/auth/google/callback`;
+    return { clientId, clientSecret, redirectUri };
+}
+
+function requestGoogleJson(url, options = {}, body = '') {
+    return new Promise((resolve, reject) => {
+        const request = https.request(url, { method: options.method || 'GET', headers: options.headers || {} }, response => {
+            let raw = '';
+            response.setEncoding('utf8');
+            response.on('data', chunk => { raw += chunk; });
+            response.on('end', () => {
+                let data = {};
+                try { data = JSON.parse(raw); } catch { data = { raw }; }
+                if (response.statusCode >= 400) return reject(new Error(data.error_description || data.error || 'Google OAuth error'));
+                resolve(data);
+            });
+        });
+        request.on('error', reject);
+        if (body) request.write(body);
+        request.end();
+    });
+}
+
+app.get('/api/auth/google', (req, res) => {
+    const { clientId, redirectUri } = getGoogleOAuthConfig(req);
+    if (!clientId) return res.status(503).send('Google регистрация пока не настроена: добавьте GOOGLE_CLIENT_ID и GOOGLE_CLIENT_SECRET.');
+    const state = crypto.randomBytes(24).toString('hex');
+    googleOAuthStates.set(state, { createdAt: Date.now() });
+    const params = new URLSearchParams({ client_id: clientId, redirect_uri: redirectUri, response_type: 'code', scope: 'openid email profile', state, access_type: 'offline', prompt: 'select_account' });
+    res.redirect(`https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`);
+});
+
+app.get('/api/auth/google/callback', async (req, res) => {
+    const stateRecord = googleOAuthStates.get(req.query.state);
+    googleOAuthStates.delete(req.query.state);
+    if (!stateRecord || Date.now() - stateRecord.createdAt > 10 * 60 * 1000) return res.status(400).send('Недействительный OAuth state. Повторите попытку.');
+    if (req.query.error) return res.redirect('/?google_auth=cancelled');
+    const { clientId, clientSecret, redirectUri } = getGoogleOAuthConfig(req);
+    if (!clientId || !clientSecret || !req.query.code) return res.status(400).send('Google OAuth настроен неполностью.');
+    try {
+        const tokenBody = new URLSearchParams({ code: req.query.code, client_id: clientId, client_secret: clientSecret, redirect_uri: redirectUri, grant_type: 'authorization_code' }).toString();
+        const tokenData = await requestGoogleJson('https://oauth2.googleapis.com/token', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Content-Length': Buffer.byteLength(tokenBody) } }, tokenBody);
+        const profile = await requestGoogleJson('https://openidconnect.googleapis.com/v1/userinfo', { headers: { Authorization: `Bearer ${tokenData.access_token}` } });
+        if (!profile.email || profile.email_verified === false) return res.status(403).send('Google не подтвердил email аккаунта.');
+        const users = loadJSON('users.json') || {};
+        const baseUsername = String(profile.name || profile.email.split('@')[0]).replace(/[^a-zA-Zа-яА-Я0-9_-]/g, '').slice(0, 24) || 'pulse-user';
+        let username = baseUsername;
+        let suffix = 2;
+        while (users[username] && users[username].googleEmail !== profile.email) username = `${baseUsername}${suffix++}`;
+        if (!users[username]) {
+            users[username] = { password: hashPassword(crypto.randomBytes(32).toString('hex')), googleEmail: profile.email, email: profile.email, avatar: profile.picture || username[0].toUpperCase(), created: new Date(), role: 'user', status: 'online', money: 0, premium: false, developer: false, admin: false };
+            saveJSON('users.json', users);
+        }
+        const token = createSession(username);
+        setSessionCookie(res, token);
+        res.redirect(`/?google_auth=success&token=${encodeURIComponent(token)}`);
+    } catch (error) {
+        console.error('Google OAuth error:', error.message);
+        res.status(502).send('Не удалось завершить регистрацию через Google.');
+    }
+});
+
 function publicUser(username, user) {
     return {
         username,

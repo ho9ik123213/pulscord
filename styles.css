@@ -6325,6 +6325,83 @@ body > .app-container:not(#app-screen) {
     z-index: 3000;
 }
 
+#register-screen .auth-footer {
+    display: none;
+}
+
+#register-screen .auth-brand-panel small {
+    position: fixed;
+    right: auto;
+    bottom: 28px;
+    left: 40px;
+    margin: 0;
+    color: #7286ad;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+#register-screen .auth-brand-panel small span {
+    padding: 0 7px;
+    color: #748cff;
+}
+
+.auth-switch-copy .auth-open-login {
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: #78a8ff;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.auth-switch-copy .auth-open-login:hover {
+    color: #b0c9ff;
+    text-decoration: underline;
+}
+
+@media (min-width: 801px) {
+    #app-screen .rail-nav-item,
+    #app-screen .rail-nav-item:hover,
+    #app-screen .rail-nav-item:focus-visible {
+        display: flex !important;
+        width: 100% !important;
+        height: 42px !important;
+        min-height: 42px !important;
+        flex: 0 0 42px !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        padding: 0 14px !important;
+        border: 1px solid transparent !important;
+        border-radius: 12px !important;
+        background: transparent !important;
+        color: #91a5cb !important;
+        box-shadow: none !important;
+        transform: none !important;
+    }
+
+    #app-screen .rail-nav-item:hover,
+    #app-screen .rail-nav-item:focus-visible {
+        border-color: rgba(113, 135, 255, 0.32) !important;
+        background: linear-gradient(100deg, rgba(80, 93, 235, 0.72), rgba(54, 112, 239, 0.45)) !important;
+        color: #ffffff !important;
+    }
+
+    #app-screen .rail-nav-item i {
+        width: 20px;
+        text-align: center;
+    }
+
+    #app-screen .rail-nav-item span {
+        display: block !important;
+        color: inherit !important;
+        font-size: 13px !important;
+        white-space: nowrap !important;
+    }
+}
+
 .app-container > .servers-sidebar {
     display: flex;
     width: 86px;

@@ -165,6 +165,9 @@ function setupRegistrationScreen() {
         authScreen?.classList.remove('hidden');
         document.querySelector('#auth-screen [data-tab="login"]')?.click();
     });
+    document.querySelector('.auth-google-btn')?.addEventListener('click', () => {
+        window.location.assign(`${API_URL}/api/auth/google`);
+    });
 }
 
 function setupPulseLoadingScreen() {
