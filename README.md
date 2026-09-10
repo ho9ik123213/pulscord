@@ -79,6 +79,26 @@ npm run tauri:build
 
 Render Persistent Disk подключён в `render.yaml` по адресу `/var/data`, а сервер использует его через `DATA_DIR`. Это сохраняет пользователей, контакты и сообщения между перезапусками. Persistent Disk доступен на платных планах Render; на бесплатном плане файловое хранилище временное.
 
+### Google OAuth
+
+Кнопка «Продолжить с Google» использует реальный OAuth-поток. В Google Cloud Console создайте OAuth Client типа Web application и добавьте callback URL:
+
+```text
+http://localhost:3000/api/auth/google/callback
+https://ВАШ-ДОМЕН/api/auth/google/callback
+```
+
+Перед запуском сервера задайте credentials в окружении:
+
+```powershell
+$env:GOOGLE_CLIENT_ID = "ваш-client-id"
+$env:GOOGLE_CLIENT_SECRET = "ваш-client-secret"
+$env:GOOGLE_REDIRECT_URI = "http://localhost:3000/api/auth/google/callback"
+npm.cmd start
+```
+
+Для Render эти же значения добавляются в Environment Variables. Без Client ID и Client Secret Google не разрешает настоящий вход и сервер специально показывает понятную ошибку настройки.
+
 ### Быстрый запуск (без установки)
 
 1. Откройте папку `Pulscord` в VS Code
