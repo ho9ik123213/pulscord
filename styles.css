@@ -750,6 +750,281 @@
     .landing-feature-grid article { padding: 12px; }
 }
 
+.app-container {
+    display: flex;
+    min-width: 0;
+    background: var(--bg-primary);
+}
+
+.servers-sidebar {
+    width: 86px;
+    flex: 0 0 86px;
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 18px 10px;
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--glass-border);
+}
+
+.app-rail-brand {
+    display: grid;
+    width: 50px;
+    height: 50px;
+    margin-bottom: 8px;
+    place-items: center;
+    border-radius: 16px;
+    background: var(--primary-gradient);
+    color: white;
+    font-size: 20px;
+    box-shadow: 0 8px 24px rgba(108, 92, 231, 0.22);
+}
+
+.server-icon {
+    display: flex;
+    width: 56px;
+    height: 58px;
+    flex-direction: column;
+    gap: 5px;
+    border: 1px solid transparent;
+    border-radius: 16px;
+    background: transparent;
+    font-size: 18px;
+}
+
+.server-icon span {
+    display: block;
+    color: var(--text-muted);
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.server-icon.active,
+.server-icon:hover {
+    background: var(--bg-active);
+    color: var(--primary-color);
+    transform: none;
+}
+
+.server-icon.active span,
+.server-icon:hover span {
+    color: var(--primary-color);
+}
+
+.server-icon.active::before {
+    left: -11px;
+    width: 3px;
+    height: 30px;
+    background: var(--primary-color);
+    box-shadow: none;
+}
+
+.server-channels-list {
+    gap: 8px;
+}
+
+.server-channels-list .channel-server-icon {
+    width: 44px;
+    height: 44px;
+}
+
+.server-channels-list .channel-label {
+    display: none;
+}
+
+.server-create-button,
+.app-rail-footer {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    place-items: center;
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
+}
+
+.server-create-button:hover,
+.app-rail-footer:hover {
+    border-color: var(--primary-color);
+    background: var(--bg-active);
+    color: var(--primary-color);
+}
+
+.app-rail-footer {
+    margin-top: auto;
+}
+
+.main-container {
+    min-width: 0;
+    flex: 1;
+    background: var(--bg-primary);
+}
+
+.channels-sidebar {
+    width: 330px;
+    flex: 0 0 330px;
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--glass-border);
+    box-shadow: none;
+}
+
+.server-header {
+    min-height: 74px;
+    padding: 15px 18px;
+    background: var(--bg-secondary);
+}
+
+.sidebar-eyebrow {
+    display: block;
+    margin-bottom: 3px;
+    color: var(--text-muted);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.server-header h2 {
+    font-size: 20px;
+}
+
+.search-box {
+    margin: 14px 14px 10px;
+}
+
+.archive-chat-item,
+.contact-item,
+.channel-item {
+    min-height: 68px;
+    border-radius: 12px;
+}
+
+.channels-section {
+    margin-top: 12px;
+}
+
+.chat-container {
+    min-width: 0;
+    flex: 1;
+    background: var(--bg-primary);
+}
+
+.chat-header {
+    min-height: 74px;
+    padding: 13px 20px;
+    border-bottom: 1px solid var(--glass-border);
+    background: var(--bg-secondary);
+}
+
+.header-left {
+    min-width: 0;
+}
+
+.header-left h1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.header-right {
+    gap: 6px;
+}
+
+.header-right button {
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--glass-border);
+    background: var(--bg-tertiary);
+}
+
+.messages-area {
+    padding: 22px clamp(18px, 4vw, 72px);
+    background: var(--bg-primary);
+}
+
+.message-input-area {
+    padding: 12px 20px 18px;
+    background: var(--bg-primary);
+}
+
+.input-wrapper {
+    min-height: 50px;
+    border: 1px solid var(--glass-border);
+    background: var(--bg-secondary);
+}
+
+.user-sidebar {
+    width: 274px;
+    flex: 0 0 274px;
+    background: var(--bg-secondary);
+    border-left: 1px solid var(--glass-border);
+}
+
+.details-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 74px;
+    padding: 0 18px;
+    border-bottom: 1px solid var(--glass-border);
+    color: var(--text-muted);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+}
+
+.details-heading button {
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--glass-border);
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.user-profile {
+    padding: 28px 18px 22px;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.user-profile h3 {
+    margin-top: 12px;
+}
+
+.stats-section,
+.premium-panel {
+    margin: 16px;
+    padding: 0;
+    border: 0;
+}
+
+.stat-item {
+    padding: 10px 12px;
+    border: 1px solid var(--glass-border-light);
+    background: var(--bg-tertiary);
+}
+
+@media (max-width: 1180px) {
+    .user-sidebar {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .servers-sidebar {
+        display: none;
+    }
+
+    .channels-sidebar {
+        width: min(330px, 88vw);
+        flex-basis: auto;
+    }
+
+    .chat-header {
+        padding: 10px 12px;
+    }
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -4778,6 +5053,63 @@ body > .app-container:not(#app-screen) {
 
     #app-screen.mobile-chat-open .mobile-bottom-dock {
         display: none;
+    }
+}
+
+.app-container > .servers-sidebar {
+    display: flex;
+    width: 86px;
+    flex: 0 0 86px;
+}
+
+.app-container .main-container {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+}
+
+.app-container .channels-sidebar {
+    display: flex;
+    width: 330px;
+    flex: 0 0 330px;
+}
+
+.app-container .chat-container {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+}
+
+.app-container .user-sidebar {
+    display: block;
+    width: 274px;
+    flex: 0 0 274px;
+}
+
+.app-container .server-icon {
+    width: 56px;
+    height: 58px;
+    flex-direction: column;
+}
+
+.app-container .server-icon span {
+    display: block;
+}
+
+@media (max-width: 1180px) {
+    .app-container .user-sidebar {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .app-container > .servers-sidebar {
+        display: none;
+    }
+
+    .app-container .channels-sidebar {
+        width: min(330px, 88vw);
+        flex-basis: auto;
     }
 }
 
