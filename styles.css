@@ -6362,6 +6362,100 @@ body > .app-container:not(#app-screen) {
     text-decoration: underline;
 }
 
+@media (max-width: 760px) {
+    #register-screen.auth-container,
+    #auth-screen.auth-container {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        min-height: 100dvh;
+        padding: 72px 14px 58px;
+        overflow-y: auto;
+        background: radial-gradient(circle at 50% 0%, rgba(73, 91, 190, 0.34), transparent 34%), linear-gradient(155deg, #061329, #101d40 52%, #050c1d);
+    }
+
+    #register-screen .auth-top-nav,
+    #auth-screen .auth-top-nav,
+    #register-screen .auth-brand-panel,
+    #auth-screen .auth-brand-panel,
+    #register-screen > .auth-footer,
+    #auth-screen > .auth-footer {
+        display: none !important;
+    }
+
+    #register-screen .auth-scene,
+    #auth-screen .auth-scene {
+        display: block;
+        width: 100%;
+        max-width: 430px;
+        margin: auto;
+    }
+
+    #register-screen .auth-card,
+    #auth-screen .auth-card {
+        width: 100%;
+        max-height: none;
+        margin: 0;
+        padding: 28px 20px 22px;
+        border-radius: 22px;
+        background: linear-gradient(145deg, rgba(29, 54, 96, 0.94), rgba(7, 18, 39, 0.96));
+        box-shadow: 0 22px 60px rgba(0, 0, 0, 0.42), inset 0 1px rgba(255, 255, 255, 0.14);
+    }
+
+    #register-screen .auth-header,
+    #auth-screen .auth-header {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    #register-screen .brand-title,
+    #auth-screen .brand-title {
+        font-size: 27px;
+    }
+
+    #register-screen .auth-header p,
+    #auth-screen .auth-header p {
+        font-size: 12px;
+    }
+
+    #register-screen .auth-header p br,
+    #auth-screen .auth-header p br {
+        display: none;
+    }
+
+    #register-screen .form-group,
+    #auth-screen .form-group {
+        margin-bottom: 12px;
+    }
+
+    #register-screen .form-group input,
+    #auth-screen .form-group input,
+    #register-screen .btn-primary,
+    #auth-screen .btn-primary,
+    #register-screen .auth-google-btn,
+    #auth-screen .auth-google-btn {
+        width: 100%;
+        min-height: 48px;
+        font-size: 13px;
+    }
+
+    #register-screen .auth-divider,
+    #auth-screen .auth-divider {
+        margin: 18px 0 14px;
+    }
+
+    #register-screen .auth-switch-copy,
+    #auth-screen .auth-switch-copy {
+        margin-top: 18px;
+        font-size: 11px;
+    }
+
+    #register-screen .auth-card-orbit,
+    #auth-screen .auth-card-orbit {
+        opacity: 0.45;
+    }
+}
+
 @media (min-width: 801px) {
     #app-screen .rail-nav-item,
     #app-screen .rail-nav-item:hover,
